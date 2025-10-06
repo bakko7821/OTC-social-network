@@ -46,4 +46,8 @@ npm install -D typescript ts-node nodemon @types/node @types/express @types/cors
 # Frontend
 npm install
 npm install socket.io-client
+```
 
+# commit 1.1.2
+
+- Удален Docker
