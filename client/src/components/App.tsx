@@ -1,6 +1,12 @@
+import Header from "./Header"
+import Main from "./Main"
+
 function App() {
   return (
-    <p></p>
+    <>
+      <Header />
+      <Main />
+    </>
   )
 }
 

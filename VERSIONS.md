@@ -51,3 +51,19 @@ npm install socket.io-client
 # commit 1.1.2
 
 - Удален Docker
+
+# commt 2.2.2
+
+### Серверная часть
+
+- Создан **/middleware/authMiddleware.ts**
+- Создан **/modules/User.ts**
+- Создан **/routes/auth.ts** и **/routes/user.ts**
+
+### Клиентская часть
+
+- Создан скелет **/components/Header.tsx**
+- Создан скелет **/components/Main.tsx**
+- Создан скелет **/pages/HomePage.tsx**
+- Создан скелет **/pages/LoginPage.tsx**
+- Создан скелет **/pages/RegisterPage.tsx**
