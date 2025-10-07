@@ -68,7 +68,7 @@ npm install socket.io-client
 - Создан скелет **/pages/LoginPage.tsx**
 - Создан скелет **/pages/RegisterPage.tsx**
 
-# commt 3.3.2
+# commit 3.3.2
 
 ### Серверная часть
 
@@ -78,3 +78,9 @@ npm install socket.io-client
 
 - Создан компонент **/components/Header.tsx**
 - Заданы базовые стили и переменные в **index.css**
+
+# commit 3.4.2
+
+- Создан компонент **/components/UserCard.tsx** и добавлен в Header
+- Создан скелет **/components/skeletons/UserCardSkeleton.tsx** для компонента **/components/UserCard.tsx** и добавлен в Header
+- Создан кастомный HOOK **/hooks/useAuth.ts** через который мы можем передавать JWT состояние.

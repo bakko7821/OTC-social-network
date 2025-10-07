@@ -1,0 +1,47 @@
+
+.skeleton {
+  cursor: pointer;
+  border-radius: 12px;
+  padding: 8px;
+  transition: all 0.5s;
+  background-color: var(--background-hover-color);
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.skeleton-line,
+.skeleton-avatar {
+  animation: pulse 1.5s ease-in-out infinite;
+  background-color: var(--background-color);
+  border-radius: 4px;
+}
+
+.skeleton-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+}
+
+.skeleton-line {
+  height: 16px;
+  margin-bottom: 4px;
+  width: 120px;
+}
+
+.skeleton-line.short {
+  width: 80px;
+}
+
+.textBox {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 4px;
+}
