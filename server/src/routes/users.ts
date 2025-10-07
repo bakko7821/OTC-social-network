@@ -12,7 +12,7 @@ router.get("/me", authMiddleware, async (req: AuthRequest, res: Response) => {
     }
 
     const user = await User.findByPk(userId, {
-      attributes: ["id", "username", "email", "createdAt"]
+      attributes: ["firstname", "lastname", "id", "username", "email", "createdAt"]
     });
 
     if (!user) {

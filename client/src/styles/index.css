@@ -1,3 +1,112 @@
+/* FONTS */
+@font-face {
+  font-family: "SFProText";
+  font-weight: 300;
+  src: url(assets/fonts/SFProText-Light.ttf);
+}
+
+@font-face {
+  font-family: "SFProText";
+  font-weight: 400;
+  src: url(assets/fonts/SFProText-Regular.ttf);
+}
+
+@font-face {
+  font-family: "SFProText";
+  font-weight: 500;
+  src: url(assets/fonts/SFProText-Medium.ttf);
+}
+
+@font-face {
+  font-family: "SFProText";
+  font-weight: 600;
+  src: url(assets/fonts/SFProText-Semibold.ttf);
+}
+
+@font-face {
+  font-family: "SFProText";
+  font-weight: 700;
+  src: url(assets/fonts/SFProText-Bold.ttf);
+}
+
+@font-face {
+  font-family: "SFProText";
+  font-weight: 900;
+  src: url(assets/fonts/SFProText-Heavy.ttf);
+}
+
+:root {
+  --background-color: #ffffff;
+  --background-card-color: #f0f0f0;
+  --background-hover-color: #e1e1e1;
+  --active-color: #c4c4c4;
+  --text-color: #1e1e1e;
+  --second-text-color: #818181;
+  --main-color: #ff8000;
+  --main-hover-color: #ffa43c;
+  --shadow-color: rgba(0, 0, 0, 0.25);
+}
+
+#root {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.flex {
+  display: flex;
+}
+
+.column {
+  flex-direction: column;
+}
+
+.center {
+  align-items: center;
+  justify-content: center;
+}
+
+.between {
+  align-items: center;
+  justify-content: space-between;
+}
+
+.g8 {
+  gap: 8px;
+}
+
+.g16 {
+  gap: 16px;
+}
+
+.g32 {
+  gap: 32px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "SFProText", sans-serif;
+}
+
+svg {
+  width: 24px;
+  height: 24px;
+}
+
+svg.colorSvg {
+  color: var(--main-color);
+}
+
+svg.acentSvg {
+  color: var(--text-color);
+}
+
 body {
-  background-color: aqua;
+  width: 100vw;
+  height: auto;
+  background-color: var(--background-color);
 }

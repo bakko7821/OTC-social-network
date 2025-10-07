@@ -5,6 +5,7 @@ import dotenv from "dotenv";
 import cors from "cors";
 import { connectDB } from "./config/db";
 import authRouters from "./routes/auth"
+import usersRouters from "./routes/users"
 
 dotenv.config();
 
@@ -19,6 +20,7 @@ const io = new Server(server, {
 app.use(cors());
 app.use(express.json());
 app.use("/api/auth", authRouters);
+app.use("/api/users", usersRouters);
 
 io.on("connection", (socket) => {
   console.log("User connected:", socket.id);

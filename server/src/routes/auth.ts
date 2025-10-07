@@ -16,7 +16,7 @@ router.post(
     body("email").isEmail().withMessage("Некорректный email"),
     body("password").isLength({ min: 6 }).withMessage("Минимум 6 символов"),
   ],
-  async (req: Request, res: Response): Promise<void> => {
+  async (req: Request, res: Response) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       res.status(400).json({ errors: errors.array() });
@@ -50,7 +50,7 @@ router.post(
     body("email").isEmail(),
     body("password").notEmpty(),
   ],
-  async (req: Request, res: Response): Promise<void> => {
+  async (req: Request, res: Response) => {
     const { email, password } = req.body;
 
     try {
@@ -72,10 +72,22 @@ router.post(
         { expiresIn: "7d" }
       );
 
-      res.json({ token });
+      return res.json({
+        message: "Успешный вход",
+        token,
+        user: {
+          id: user.id,
+          username: user.username,
+          email: user.email
+        }
+      });
     } catch (error) {
-      console.error(error);
-      res.status(500).json({ message: "Ошибка сервера" });
+      console.error("Ошибка при авторизации:", error);
+
+      res.status(500).json({
+        message: error instanceof Error ? error.message : "Ошибка сервера",
+        stack: process.env.NODE_ENV === "development" ? error : undefined, // 👈 чтобы видеть стек при отладке
+      });
     }
   }
 );

@@ -1,0 +1,9 @@
+header {
+    align-items: center;
+    width: 100%;
+    padding: 0px 240px;
+    background-color: var(--background-card-color);
+    -webkit-box-shadow: 0px 4px 10px 0px var(--shadow-color);
+    -moz-box-shadow: 0px 4px 10px 0px var(--shadow-color);
+    box-shadow: 0px 4px 10px 0px var(--shadow-color);
+}

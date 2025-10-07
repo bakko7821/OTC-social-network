@@ -18,7 +18,13 @@ export default function LoginPage() : JSX.Element {
         email,
         password,
       });
+      
+      const {token, user} = res.data;
+      localStorage.setItem("token", token);
+      localStorage.setItem("userId", user.id.toString());
+
       setMessage(res.data.message || "Успешный вход!");
+      window.location.href = "/"
     } catch (err) {
       const error = err as AxiosError<ApiError>;
       setMessage(error.response?.data?.message || "Ошибка при авторизации");
