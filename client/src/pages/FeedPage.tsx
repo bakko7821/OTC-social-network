@@ -1,6 +1,6 @@
 import type { JSX } from "react";
 
-export default function Main() : JSX.Element {
+export default function FeedPage() : JSX.Element {
     return (
         <p>Основной контент</p>
     )

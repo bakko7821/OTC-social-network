@@ -84,3 +84,14 @@ npm install socket.io-client
 - Создан компонент **/components/UserCard.tsx** и добавлен в Header
 - Создан скелет **/components/skeletons/UserCardSkeleton.tsx** для компонента **/components/UserCard.tsx** и добавлен в Header
 - Создан кастомный HOOK **/hooks/useAuth.ts** через который мы можем передавать JWT состояние.
+
+# commit 4.4.2
+
+### Серверная часть
+
+- Убрано многое кол-во console.log и aletrs, чтобы не перегружать консоль
+
+### Клиентская часть
+
+- Изменены и добавленны некоторые svg
+- Почти доделан **Header.tsx** 

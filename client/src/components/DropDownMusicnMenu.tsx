@@ -5,17 +5,9 @@ interface DropDownMenuProps {
   onClose: () => void;
 }
 
-export default function DropDownMenu({ onClose } : DropDownMenuProps) {
+export default function DropDownMusicnMenu({ onClose } : DropDownMenuProps) {
     const menuRef = useRef<HTMLDivElement | null>(null);
     const navigate = useNavigate()
-
-    
-    const handleLogout = () => {
-        localStorage.removeItem("token");
-        localStorage.removeItem("userId");
-        navigate("/feed");
-        window.location.reload();
-    };
 
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
@@ -31,13 +23,8 @@ export default function DropDownMenu({ onClose } : DropDownMenuProps) {
     }, [onClose]);
 
     return (
-        <div className="dropDownMenu">
-            <p>1</p>
-            <p>2</p>
-            <p>3</p>
-            <p>4</p>
-            <p>5</p>
-            <button onClick={handleLogout}>Выйти</button>
+        <div className="dropDownMusicMenu">
+            <p className="nullMessage">Не можем загрузить вашу музыку</p>
         </div>
     )
 }

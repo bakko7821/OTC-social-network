@@ -1,16 +1,13 @@
 import server from "./app";
-import {sequelize} from "./config/db";
+import { sequelize } from "./config/db";
 import User from "./modules/User";
 
 (async () => {
   try {
-    await sequelize.authenticate();
-    console.log("Database connected");
-
-    await sequelize.sync({ alter: true });
+    await sequelize.sync();
     console.log("All models synchronized");
   } catch (error) {
-    console.error("Database connection failed:", error);
+    console.error("Database sync failed:", error);
   }
 })();
 

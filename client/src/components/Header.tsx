@@ -1,16 +1,21 @@
 import { useEffect, useState, type JSX } from "react";
-import { MenuIcon, MusicIcon, NotificationIcon, SearchIcon } from "../Icons/Icons";
+import { LogoIcon, MenuIcon, MusicIcon, NotificationIcon} from "../Icons/Icons";
 import { useNavigate } from "react-router-dom";
 import "../styles/Header.css"
 import DropDownMenu from "./DropDownMenu";
 import { useAuthValue } from "../hooks/useAuth";
 import { UserCard } from "./UserCard";
+import { SearchInput } from "./SearchInput";
+import DropDownNotificationMenu from "./DropDownNotificationMenu";
+import DropDownMusicnMenu from "./DropDownMusicnMenu";
 
 
 
 export default function Header(): JSX.Element {
   const { isAuth, setIsAuth } = useAuthValue();
   const [menuOpen, setMenuOpen] = useState(false);
+  const [NotificationMenuOpen, setNotificationMenuOpen] = useState(false);
+  const [MusicMenuOpen, setMusicMenuOpen] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -24,14 +29,17 @@ export default function Header(): JSX.Element {
       {isAuth ? (
         <>
           <div className="leftBox flex g16 center">
-            <p className="logo" onClick={()=> navigate("/feed")}>NAME</p>
-            <nav className="flex center g16">
-              <div className="searcInput">
-                <SearchIcon />
-                <input type="search" name="search" id="search" />
+            <a onClick={() => navigate("/feed")} className="logo">
+              <LogoIcon />
+            </a>
+            <nav className="flex center g8">
+              <SearchInput />
+              <div className="buttonsBox flex center g8">
+                <button className="notifcationButton" onClick={() => setNotificationMenuOpen(prev => !prev)}><NotificationIcon /></button>
+                <button className="musicButton" onClick={() => setMusicMenuOpen(prev => !prev)}><MusicIcon /></button>
+                {NotificationMenuOpen && <DropDownNotificationMenu onClose={() => setMenuOpen(false)} />}
+                {MusicMenuOpen && <DropDownMusicnMenu onClose={() => setMenuOpen(false)} />}
               </div>
-              <button className="notifcationButton"><NotificationIcon /></button>
-              <button className="musicButton"><MusicIcon /></button>
             </nav>
           </div>
 
@@ -48,7 +56,9 @@ export default function Header(): JSX.Element {
         </>
       ) : (
         <>
-            <p className="logo" onClick={()=> navigate("/feed")}>NAME</p>
+            <a onClick={() => navigate("/feed")} className="logo">
+              <LogoIcon />
+            </a>
             <div className="authBox flex center g8">
                 <button className="loginButton" onClick={() => navigate("/login")}>
                     Войти

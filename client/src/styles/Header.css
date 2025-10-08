@@ -10,10 +10,12 @@ header {
 
 .logo {
     cursor: pointer;
-    width: 132px;
-    font-size: clamp(1.5rem, 2vw, 2.25rem);
-    font-weight: 700;
-    color: var(--text-color);
+    text-decoration: none;
+}
+
+.logo svg {
+    width: auto;
+    height: 48px;
 }
 
 .authBox {
@@ -91,4 +93,60 @@ header {
     position: absolute;
     top: 64px;
     right: 0px;
+}
+
+header nav .buttonsBox {
+    position: relative;
+}
+
+header nav .nullMessage {
+    white-space: nowrap;
+    color: var(--second-text-color);
+    font-size: clamp(0.8rem, 2vw, 1rem);
+    font-weight: 500;
+}
+
+.dropDownNotificationMenu {
+    width: fit-content;
+    padding: 16px;
+    border-radius: 0px 0px 12px 12px;
+    background-color: var(--background-card-color);
+    position: absolute;
+    top: 104%;
+    left: 0px;
+}
+
+.dropDownMusicMenu {
+    padding: 16px;
+    border-radius: 0px 0px 12px 12px;
+    background-color: var(--background-card-color);
+    position: absolute;
+    top: 104%;
+    left: 0px;
+}
+
+.searchInput {
+    padding: 8px;
+    border-radius: 12px;
+    background-color: var(--background-hover-color);
+}
+
+.searchInput input {
+    outline: none;
+    border: none;
+    background-color: transparent;
+    font-size: clamp(0.8rem, 2vw, 1rem);
+    font-weight: 500;
+    line-height: 1.5;
+}
+
+nav button {
+    background-color: transparent;
+    padding: 8px;
+    border-radius: 12px;
+    transition: all 0.5s;
+}
+
+nav button:hover {
+    background-color: var(--background-hover-color);
 }
