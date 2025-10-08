@@ -1,5 +1,8 @@
 import { useState, type JSX } from "react";
 import axios, { AxiosError } from "axios";
+import "../styles/Auth.css"
+import { LogoIcon } from "../Icons/Icons";
+import { useNavigate } from "react-router-dom";
 
 interface ApiError {
   message?: string;
@@ -9,6 +12,7 @@ export default function LoginPage() : JSX.Element {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
+  const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -24,7 +28,7 @@ export default function LoginPage() : JSX.Element {
       localStorage.setItem("userId", user.id.toString());
 
       setMessage(res.data.message || "Успешный вход!");
-      window.location.href = "/"
+      window.location.href = "/feed"
     } catch (err) {
       const error = err as AxiosError<ApiError>;
       setMessage(error.response?.data?.message || "Ошибка при авторизации");
@@ -32,39 +36,39 @@ export default function LoginPage() : JSX.Element {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
-      <form
-        onSubmit={handleSubmit}
-        className="bg-white shadow-md rounded-2xl p-8 w-96"
-      >
-        <h2 className="text-2xl font-bold mb-4 text-center">Авторизация</h2>
-
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          className="border rounded w-full p-2 mb-3"
-          required
-        />
-        <input
+    <div className="loginCard flex column g16">
+      <LogoIcon />
+      <form onSubmit={handleSubmit} className="flex column g16">
+        <p className="titleText">Войти в аккаунт</p>
+        <div className="floating-input">
+          <input 
+          className="" 
+          type="email" 
+          id="email"
+          name="email"
+          placeholder="Электронная почта" 
+          value={email} 
+          onChange={(e => setEmail(e.target.value))}  
+          required/>
+          <label htmlFor="email">Электронная почта</label>
+        </div>
+        <div className="floating-input">
+          <input 
+          className="" 
           type="password"
-          placeholder="Пароль"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          className="border rounded w-full p-2 mb-3"
-          required
-        />
-
-        <button
-          type="submit"
-          className="bg-blue-500 text-white rounded w-full py-2 hover:bg-blue-600 transition"
-        >
-          Войти
-        </button>
+          id="password"
+          name="password"
+          placeholder="Пароль" 
+          value={password} 
+          onChange={(e => setPassword(e.target.value))}  />
+          <label htmlFor="password">Пароль</label>
+        </div>
+        
+        <button type="submit" className="authButton">Войти</button>
+        <button onClick={() => navigate("/register")} className="registerButton">Создать аккаунт</button>
 
         {message && (
-          <p className="mt-3 text-center text-sm text-gray-700">{message}</p>
+          <p className="message">{message}</p>
         )}
       </form>
     </div>

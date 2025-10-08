@@ -50,7 +50,6 @@
 
 #root {
   width: 100vw;
-  height: auto;
   min-height: 100vh;
   gap: 16px;
   display: flex;
@@ -96,6 +95,11 @@
   font-family: "SFProText", sans-serif;
 }
 
+a {
+  text-decoration: none;
+  cursor: pointer;
+}
+
 button {
   display: flex;
   align-items: center;
@@ -134,4 +138,69 @@ body {
 
 .animate-pulse {
   animation: pulse 1.5s ease-in-out infinite;
+}
+
+.floating-input {
+  position: relative;
+  width: 100%;
+  height: auto;
+}
+
+.floating-input input, .floating-input textarea {
+  width: 100%;
+  background-color: transparent;
+  border: 2px var(--main-color) solid;
+  padding: 16px;
+  font-size: clamp(1rem, 2vh, 1.5rem);
+  line-height: 1.2;
+  color: var(--text-color);
+  outline: none;
+  border-radius: 16px;
+}
+
+/* Прячем placeholder, чтобы не мешался */
+.floating-input input::placeholder, .floating-input textarea::placeholder {
+  color: transparent;
+}
+
+/* Лейбл */
+.floating-input label {
+  position: absolute;
+  left: 16px;
+  top: 16px;
+  font-size: clamp(1rem, 2vh, 1.5rem);
+  line-height: 1.2;
+  color: var(--text-color);
+  pointer-events: none;
+  padding: 0 4px;
+  border-radius: 4px;
+  transition: 0.2s ease all;
+}
+
+/* Когда поле пустое — label внутри */
+.floating-input input:placeholder-shown + label, .floating-input textarea:placeholder-shown + label {
+  top: 16px;
+  font-size: clamp(1rem, 2vh, 1.5rem);
+  line-height: 1.2;
+  color: var(--text-color);
+}
+
+/* Когда фокус или есть текст — label наверху */
+.floating-input input:focus + label,
+.floating-input input:not(:placeholder-shown) + label,
+.floating-input textarea:focus + label,
+.floating-input textarea:not(:placeholder-shown) +label {
+  display: flex;
+  align-items: center;
+  top: -16px;
+  left: 8px;
+  padding: 4px 8px;
+  background-color: var(--background-card-color);
+  font-size: clamp(0.8rem, 2vh, 1rem);
+  color: var(--second-text-color); /* синий при фокусе */
+}
+
+main {
+  flex: 2;
+  width: 1440px;
 }

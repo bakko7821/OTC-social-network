@@ -95,3 +95,8 @@ npm install socket.io-client
 
 - Изменены и добавленны некоторые svg
 - Почти доделан **Header.tsx** 
+
+# commit 4.5.2
+
+- Готова страница **LoginPage.tsx**
+- Готова страница **RegisterPage.tsx**
