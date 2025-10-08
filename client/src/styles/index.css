@@ -204,3 +204,21 @@ main {
   flex: 2;
   width: 1440px;
 }
+
+.app-layout {
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  height: 100vh;
+}
+
+.app-body {
+  display: flex;
+  width: 1440px;
+  flex: 1;
+}
+
+.app-main {
+  padding: 16px;
+  overflow-y: auto;
+}

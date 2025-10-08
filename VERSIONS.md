@@ -100,3 +100,7 @@ npm install socket.io-client
 
 - Готова страница **LoginPage.tsx**
 - Готова страница **RegisterPage.tsx**
+
+# commit 4.6.2
+
+- Создан и стилизован компонент **Navigation.tsx**

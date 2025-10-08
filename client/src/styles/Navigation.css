@@ -1,0 +1,22 @@
+.navigationMenu {
+    width: 170px;
+    padding: 16px 0px;
+    align-items: start;
+    justify-content: start;
+}
+
+.navigationMenu button {
+    gap: 8px;
+    font-size: clamp(0.8rem, 2vw, 1rem);
+    color: var(--text-color);
+    line-height: 1.5;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    width: 100%;
+}
+
+.goTo.active {
+  background-color: var(--main-color);
+}

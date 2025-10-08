@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
+import { ChangeThemeIcon, InfoIcon, LogOutIcon, SettingsIcon } from "../Icons/Icons";
 
 interface DropDownMenuProps {
   onClose: () => void;
@@ -31,13 +32,11 @@ export default function DropDownMenu({ onClose } : DropDownMenuProps) {
     }, [onClose]);
 
     return (
-        <div className="dropDownMenu">
-            <p>1</p>
-            <p>2</p>
-            <p>3</p>
-            <p>4</p>
-            <p>5</p>
-            <button onClick={handleLogout}>Выйти</button>
+        <div className="dropDownMenu flex column g8">
+            <button className="changeThemeButton flex g8"><ChangeThemeIcon /> Сменить тему</button>
+            <button className="settingsButton flex g8"><SettingsIcon /> Настройки</button>
+            <button className="helpButton flex g8"><InfoIcon /> Помощь</button>
+            <button onClick={handleLogout} className="logOutButton flex g8"><LogOutIcon /> Выйти</button>
         </div>
     )
 }

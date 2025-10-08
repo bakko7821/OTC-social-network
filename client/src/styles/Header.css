@@ -68,8 +68,20 @@ header {
     color: var(--second-text-color);
 }
 
-.dropDownMenuButton {
-    padding: 0;
+.dropDownMenu button {
+    align-items: center;
+    justify-content: start;
+    padding: 8px;
+    border-radius: 12px;
+    width: 100%;
+    font-size: clamp(0.8rem, 2vw, 1rem);
+    line-height: 1.5;
+    font-weight: 500;
+    transition: all 0.5s;
+}
+
+.dropDownMenu button:hover {
+    background-color: var(--background-hover-color);
 }
 
 .dropDownMenuButton:hover svg {
@@ -88,7 +100,7 @@ header {
 
 .dropDownMenu {
     padding: 16px;
-    border-radius: 0px 0px 12px 12px;
+    border-radius: 0px 0px 28px 28px;
     background-color: var(--background-card-color);
     position: absolute;
     top: 64px;
