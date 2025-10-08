@@ -104,3 +104,8 @@ npm install socket.io-client
 # commit 4.6.2
 
 - Создан и стилизован компонент **Navigation.tsx**
+
+# commit 4.7.2
+
+- Создан скелет **ProfilePage.tsx**
+- Создан скелет **UserProfileCard.tsx**

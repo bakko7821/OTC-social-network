@@ -5,6 +5,7 @@ import RegisterPage from "../pages/RegisterPage";
 import LoginPage from "../pages/LoginPage";
 import FeedPage from "../pages/FeedPage";
 import type { ReactNode } from "react";
+import ProfilePage from "../pages/ProfilePage";
 
 interface LayoutProps {
   children: ReactNode;
@@ -14,7 +15,7 @@ function Layout({ children } : LayoutProps) {
   return (
     <div className="app-layout center">
       <Header />
-      <div className="app-body">
+      <div className="app-body g16">
         <Navigation />
         <main className="app-main g16">{children}</main>
       </div>
@@ -39,6 +40,8 @@ function AppContent() {
         <Layout>
           <Routes>
             <Route path="/feed" element={<FeedPage />} />
+            <Route path="/profile/:id" element={<ProfilePage />} />
+            <Route path="/profile/me" element={<ProfilePage />} />
           </Routes>
         </Layout>
       )}
