@@ -1,5 +1,7 @@
-import { DataTypes, Model } from "sequelize";
+import { DataTypes, Model, HasManyAddAssociationMixin } from "sequelize";
 import { sequelize } from "../config/db";
+import Playlist from "./Playlist";
+import Music from "./Music";
 
 class User extends Model {
   public id!: number;
@@ -8,62 +10,33 @@ class User extends Model {
   public username!: string;
   public email!: string;
   public password!: string;
+  public location!: string;
+  public description!: string;
+  public headImage!: string;
+  public avatarImage!: string;
+  public playlists?: Playlist[];
+  public music?: Music[];
+
+  public addPlaylist!: HasManyAddAssociationMixin<Playlist, number>;
 }
 
 User.init(
   {
-    id: {
-      type: DataTypes.INTEGER,
-      autoIncrement: true,
-      primaryKey: true,
-    },
-    firstname: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      unique: true,
-    },
-    lastname: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      unique: true,
-    },
-    location: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      defaultValue: "",
-    },
-    description: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      defaultValue: "",
-    },
-    headImage: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      defaultValue: "",
-    },
-    avatarImage: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      defaultValue: "",
-    },
-    username: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      unique: true,
-    },
+    id: { type: DataTypes.INTEGER, autoIncrement: true, primaryKey: true },
+    firstname: { type: DataTypes.STRING, allowNull: false },
+    lastname: { type: DataTypes.STRING, allowNull: false },
+    location: { type: DataTypes.STRING, allowNull: false, defaultValue: "" },
+    description: { type: DataTypes.STRING, allowNull: false, defaultValue: "" },
+    headImage: { type: DataTypes.STRING, allowNull: false, defaultValue: "" },
+    avatarImage: { type: DataTypes.STRING, allowNull: false, defaultValue: "" },
+    username: { type: DataTypes.STRING, allowNull: false, unique: true },
     email: {
       type: DataTypes.STRING,
       allowNull: false,
       unique: true,
-      validate: {
-        isEmail: true,
-      },
+      validate: { isEmail: true },
     },
-    password: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
+    password: { type: DataTypes.STRING, allowNull: false },
   },
   {
     sequelize,

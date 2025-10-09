@@ -124,3 +124,18 @@ npm install socket.io-client
 # commit 5.9.2
 
 - На компоненте **UserProfileCard.tsx** реализованна ленивая загрузка чере компонент **/skeletons/UserProfileCardSkeleton.tsx**
+
+# commit 6.10.2
+
+### Серверная часть.
+
+- Созданы модули **/modules/Music.ts**, **/modules/Playlist.ts**, **/modules/index.ts**
+- Установленна библиотека **multer** и добавлен запрос на загрузку музыки **/routes/music.ts**
+- В **/routes/user.ts** созданны 2 GET запроса на получние плейлистов и музыки по id.
+
+### Клиентская часть
+
+- Создан компонент **/component/NavigationSection.tsx**
+- Создан компонент **/component/MusicSection.tsx**
+- Создан компонент **/component/VideoSection.tsx**
+- Создан компонент **/component/PhotosSection.tsx**

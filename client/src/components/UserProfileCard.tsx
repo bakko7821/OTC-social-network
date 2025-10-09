@@ -1,5 +1,4 @@
 import { useNavigate, useParams } from "react-router-dom";
-import { useAuthValue } from "../hooks/useAuth";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { ArrowDownIcon, ChangeThemeIcon, InfoIcon, LocationIcon, MonkeyIcon, SetImageIcon } from "../Icons/Icons";

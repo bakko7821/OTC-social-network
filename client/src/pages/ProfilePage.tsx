@@ -2,18 +2,24 @@ import { useParams } from "react-router-dom";
 import { UserProfileCard } from "../components/UserProfileCard";
 import "../styles/Profile.css"
 import type { JSX } from "react";
+import { NavigateSection } from "../components/NavigateSection";
 
 export default function ProfilePage() : JSX.Element {
     const { id } = useParams<{ id: string }>();
-    console.log(id)
     const isMe = id === "me";
     return (
         <>
             {isMe ? (
                 <p>Мой профиль</p>
             ) : (
-                <div className="profilePage flex colum g16">
+                <div className="profilePage flex column g16">
                     <UserProfileCard />
+                    <div className="bottomBox flex g16">
+                        <div className="leftBox flex column g16">
+                            <NavigateSection />
+                        </div>
+                        <div className="rightBox flex column g16"></div>
+                    </div>
                 </div>
             )}
         </>

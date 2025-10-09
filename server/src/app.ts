@@ -1,4 +1,5 @@
 import express from "express";
+import path from "path";
 import http from "http";
 import { Server } from "socket.io";
 import dotenv from "dotenv";
@@ -21,6 +22,7 @@ app.use(cors());
 app.use(express.json());
 app.use("/api/auth", authRouters);
 app.use("/api/users", usersRouters);
+app.use("/api/music", express.static(path.join(__dirname, "utils/music")));
 
 io.on("connection", (socket) => {
   console.log("User connected:", socket.id);

@@ -1,10 +1,10 @@
 import server from "./app";
 import { sequelize } from "./config/db";
-import User from "./modules/User";
+import "./modules"; // важная строчка — создаёт связи
 
 (async () => {
   try {
-    await sequelize.sync( {alter: true} );
+    await sequelize.sync({ alter: true });
     console.log("All models synchronized");
   } catch (error) {
     console.error("Database sync failed:", error);
