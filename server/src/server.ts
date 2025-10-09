@@ -4,7 +4,7 @@ import User from "./modules/User";
 
 (async () => {
   try {
-    await sequelize.sync();
+    await sequelize.sync( {alter: true} );
     console.log("All models synchronized");
   } catch (error) {
     console.error("Database sync failed:", error);

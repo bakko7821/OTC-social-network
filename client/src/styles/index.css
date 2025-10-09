@@ -46,6 +46,9 @@
   --main-color: #ff8000;
   --main-hover-color: #ffa43c;
   --shadow-color: rgba(0, 0, 0, 0.25);
+  --rem1: clamp(0.8rem, 2vw, 1rem);
+  --rem1-5: clamp(1.2rem, 2vw, 1.5rem);
+  --rem0-875: clamp(0.6rem, 2vw, 0.875rem);
 }
 
 #root {

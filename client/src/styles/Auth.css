@@ -23,7 +23,7 @@
 
 .loginCard form button, .registerCard form button {
     background-color: transparent;
-    font-size: clamp(0.8rem, 2vw, 1rem);
+    font-size: var(--rem1);
     font-weight: 600;
     border-radius: 12px;
     width: 100%;

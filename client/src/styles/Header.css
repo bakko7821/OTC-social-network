@@ -25,7 +25,7 @@ header {
 .authBox button {
     border-radius: 12px;
     border: 2px var(--text-color) solid;
-    font-size: clamp(0.8rem, 2vw, 1rem);
+    font-size: var(--rem1);
     line-height: 1.5;
     font-weight: 500;
     color: var(--text-color);
@@ -49,20 +49,21 @@ header {
 }
 
 .userCard .userAvatar {
+    background-color: var(--text-color);
     width: 48px;
     height: 48px;
     border-radius: 100%;
 }
 
 .userCard .fullNameUser {
-    font-size: clamp(0.8rem, 2vw, 1rem);
+    font-size: var(--rem1);
     font-weight: 500;
     line-height: 1.5;
     color: var(--text-color);
 }
 
 .userCard .userName {
-    font-size: clamp(0.6rem, 2vw, 0.875rem);
+    font-size: var(--rem0_875);
     line-height: 1.5;
     font-weight: 500;
     color: var(--second-text-color);
@@ -74,7 +75,7 @@ header {
     padding: 8px;
     border-radius: 12px;
     width: 100%;
-    font-size: clamp(0.8rem, 2vw, 1rem);
+    font-size: var(--rem1);
     line-height: 1.5;
     font-weight: 500;
     transition: all 0.5s;
@@ -114,7 +115,7 @@ header nav .buttonsBox {
 header nav .nullMessage {
     white-space: nowrap;
     color: var(--second-text-color);
-    font-size: clamp(0.8rem, 2vw, 1rem);
+    font-size: var(--rem1);
     font-weight: 500;
 }
 
@@ -147,7 +148,7 @@ header nav .nullMessage {
     outline: none;
     border: none;
     background-color: transparent;
-    font-size: clamp(0.8rem, 2vw, 1rem);
+    font-size: var(--rem1);
     font-weight: 500;
     line-height: 1.5;
 }

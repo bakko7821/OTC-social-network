@@ -3,6 +3,7 @@ import { useAuthValue } from "../hooks/useAuth";
 import axios from "axios";
 import { UserCardSkeleton } from "./skeletons/UserCardSkeleton";
 import { useNavigate } from "react-router-dom";
+import { MonkeyIcon } from "../Icons/Icons";
 
 interface User {
   id: number;
@@ -10,6 +11,7 @@ interface User {
   lastname: string;
   username: string;
   email: string;
+  avatarImage: string;
   createdAt: string;
 }
 
@@ -38,13 +40,19 @@ export const UserCard = () => {
     if (!user) return <UserCardSkeleton />;
 
     return (
-        <div className="userCard flex center g8" onClick={() => navigate(`/profile/${user?.id}`)}>
-            <div className="userAvatar"></div>
+        <div className="userCard flex center g8" onClick={() => navigate(`/profile/me`)}>
+            <div className="userAvatar flex center">
+                {user?.avatarImage ? (
+                    <img src={user?.avatarImage} alt="" />
+                ) : (
+                    <MonkeyIcon />
+                )}
+            </div>
             <div className="textBox flex column">
                 <p className="fullNameUser">
                 {user?.firstname} {user?.lastname}
                 </p>
-                <p className="userName">us/{user?.username}</p>
+                <p className="userName">@{user?.username}</p>
             </div>
         </div>
     );

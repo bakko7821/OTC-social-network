@@ -1,4 +1,4 @@
-import express, { Response } from "express";
+import express, { Request, Response } from "express";
 import authMiddleware, { AuthRequest } from "../middleware/authMiddleware";
 import User from "../modules/User";
 
@@ -11,9 +11,7 @@ router.get("/me", authMiddleware, async (req: AuthRequest, res: Response) => {
       return res.status(400).json({ message: "Некорректный токен" });
     }
 
-    const user = await User.findByPk(userId, {
-      attributes: ["firstname", "lastname", "id", "username", "email", "createdAt"]
-    });
+    const user = await User.findByPk(userId)
 
     if (!user) {
       return res.status(404).json({ message: "Пользователь не найден" });
@@ -25,5 +23,25 @@ router.get("/me", authMiddleware, async (req: AuthRequest, res: Response) => {
     res.status(500).json({ message: "Ошибка сервера" });
   }
 });
+
+router.get("/:id", async (req: Request, res: Response) => {
+  try {
+    const {id} = req.params;
+      if (!id) {
+        return res.status(400).json({ message: `Неверно переданный параметр. ID: ${id}`})
+      }
+
+    const user = await User.findByPk(id)
+
+    if (!user) {
+      return res.status(404).json({ message: "Пользователь не найден" });
+    }
+
+    res.json(user)
+  } catch (error) {
+    console.error(error)
+    res.status(500).json({ message: "Ошибка сервера" });
+  }
+})
 
 export default router;

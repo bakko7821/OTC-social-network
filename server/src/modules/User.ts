@@ -27,6 +27,26 @@ User.init(
       allowNull: false,
       unique: true,
     },
+    location: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      defaultValue: "",
+    },
+    description: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      defaultValue: "",
+    },
+    headImage: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      defaultValue: "",
+    },
+    avatarImage: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      defaultValue: "",
+    },
     username: {
       type: DataTypes.STRING,
       allowNull: false,

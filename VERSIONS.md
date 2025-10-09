@@ -109,3 +109,14 @@ npm install socket.io-client
 
 - Создан скелет **ProfilePage.tsx**
 - Создан скелет **UserProfileCard.tsx**
+
+# commit 5.8.2
+
+### Серверная часть
+
+- В модель **/modules/User.ts** добавленны параметры [location, description, headImage, avatarImage]
+- В **routes/users.ts** добавлен роут получения юзера по id
+
+### Клиентская часть
+
+- Готов компонент **UserProfileCard.tsx**

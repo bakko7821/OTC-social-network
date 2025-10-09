@@ -1,11 +1,11 @@
-import axios from "axios";
-import { useEffect, useState, type JSX } from "react";
 import { useParams } from "react-router-dom";
-import { useAuthValue } from "../hooks/useAuth";
 import { UserProfileCard } from "../components/UserProfileCard";
+import "../styles/Profile.css"
+import type { JSX } from "react";
 
 export default function ProfilePage() : JSX.Element {
     const { id } = useParams<{ id: string }>();
+    console.log(id)
     const isMe = id === "me";
     return (
         <>
