@@ -7,6 +7,7 @@ import cors from "cors";
 import { connectDB } from "./config/db";
 import authRouters from "./routes/auth"
 import usersRouters from "./routes/users"
+import musicUploadRouter from "./routes/music";
 
 dotenv.config();
 
@@ -22,7 +23,9 @@ app.use(cors());
 app.use(express.json());
 app.use("/api/auth", authRouters);
 app.use("/api/users", usersRouters);
-app.use("/api/music", express.static(path.join(__dirname, "utils/music")));
+app.use("/api/music", musicUploadRouter);
+app.use("/music", express.static(path.join(__dirname, "utils/music")));
+
 
 io.on("connection", (socket) => {
   console.log("User connected:", socket.id);

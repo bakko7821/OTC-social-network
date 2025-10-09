@@ -139,3 +139,7 @@ npm install socket.io-client
 - Создан компонент **/component/MusicSection.tsx**
 - Создан компонент **/component/VideoSection.tsx**
 - Создан компонент **/component/PhotosSection.tsx**
+
+# commit 6.10.3
+
+- Проверенна возможность добавления трека.
