@@ -43,7 +43,6 @@
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.5s, visibility 0.5s;
-    transition: all 0.5s;
     z-index: 10;
     position: absolute;
     top: 50%;
@@ -75,15 +74,43 @@
 }
 
 .userProfileCard .userInfo .userAvatar {
+    position: relative;
+    transition: all 0.5s;
     background-color: var(--text-color);
     width: 128px;
     height: 128px;
     border-radius: 100%;
 }
 
+.userProfileCard .userInfo .userAvatar .editAvatarBox a{
+    visibility: hidden;
+    padding: 8px;
+    opacity: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+    pointer-events: none;
+    transition: opacity 0.5s, visibility 0.5s;
+}
+
+.userProfileCard .userInfo .userAvatar:hover .editAvatarBox a{
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto; /* теперь можно кликать */
+    backdrop-filter: blur(10px);
+    border-radius: 12px;
+}
+
 .userProfileCard .userInfo .userAvatar svg {
     width: 64px;
     height: 64px;
+}
+
+.userProfileCard .userInfo .userAvatar a svg {
+    width: 36px;
+    height: 36px;
 }
 
 .userProfileCard .userInfo .textBox .usernameBox {

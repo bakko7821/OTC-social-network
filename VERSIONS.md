@@ -120,3 +120,7 @@ npm install socket.io-client
 ### Клиентская часть
 
 - Готов компонент **UserProfileCard.tsx**
+
+# commit 5.9.2
+
+- На компоненте **UserProfileCard.tsx** реализованна ленивая загрузка чере компонент **/skeletons/UserProfileCardSkeleton.tsx**

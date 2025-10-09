@@ -2,7 +2,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useAuthValue } from "../hooks/useAuth";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { ArrowDownIcon, ChangeThemeIcon, InfoIcon, LocationIcon, MonkeyIcon } from "../Icons/Icons";
+import { ArrowDownIcon, ChangeThemeIcon, InfoIcon, LocationIcon, MonkeyIcon, SetImageIcon } from "../Icons/Icons";
+import { UserProfileCardSkeleton } from "./skeletons/UserProfileCardSkeleton";
 
 interface User {
   id: number;
@@ -57,32 +58,45 @@ export const UserProfileCard = () => {
         fetchUser();
     }, [id, token]);
 
-    // if (!user) return <UserProfileCardSkeleton />;
+    if (!user) return <UserProfileCardSkeleton />;
 
     return (
         <div className="userProfileCard flex column">
             <div className="headImageBox flex center">
-                {user?.headImage ? (
-                    <img src="" alt="" className="headImage" />
-                ) : (isMe ? (
+                {isMe ? (
                     <div className="editImagebox">
                         <a onClick={() => navigate("/me/edit-profile")} className="setImage link flex center g8">
                             <ChangeThemeIcon />
                             Изменить изображение
                         </a>
-                        <img src="../../public/images/stockBackground.jpg" alt="" className="headImage" />
+                        <img src={user?.headImage || "../../public/images/stockBackground.jpg"} alt="" className="headImage" />
                     </div>
                 ) : (
-                    <img src="../../public/images/stockBackground.jpg" alt="" className="headImage" />
-                ))}
+                    <img src={user?.headImage || "../../public/images/stockBackground.jpg"} alt="" className="headImage" />
+                )}
             </div>
             <div className="userInfo flex between">
                 <div className="userInfoCard flex g8">
                     <div className="userAvatar flex center">
-                        {user?.avatarImage ? (
-                            <img src={user?.avatarImage} alt="" />
+                        {isMe ? (
+                            <>
+                                <div className="editAvatarBox">
+                                    <a onClick={() => navigate("/me/edit-profile")}><SetImageIcon /></a>
+                                </div>
+                                {user?.avatarImage ? (
+                                    <img src={user.avatarImage} alt="Аватар" />
+                                ) : (
+                                    <MonkeyIcon />
+                                )}
+                            </>
                         ) : (
-                            <MonkeyIcon />
+                            <>
+                                {user?.avatarImage ? (
+                                    <img src={user.avatarImage} alt="Аватар" />
+                                ) : (
+                                    <MonkeyIcon />
+                                )}
+                            </>
                         )}
                     </div>
                     <div className="textBox flex column g16">

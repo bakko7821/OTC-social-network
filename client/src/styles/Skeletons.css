@@ -44,3 +44,83 @@
   flex-direction: column;
   justify-content: center;
 }
+
+/* UserProfileCardSkeleton.tsx */
+
+.skeleton-profile {
+  transition: all 0.5s;
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  border-radius: 28px;
+  background-color: var(--background-hover-color);
+}
+
+.skeleton-profile .skeleton-head-image {
+  animation: pulse 1.5s ease-in-out infinite;
+  width: 100%;
+  height: 220px;
+  background-color: var(--background-card-color);
+}
+
+.skeleton-profile .skeleton-user-info {
+  padding: 8px;
+  align-items: start;
+}
+
+.skeleton-profile .skeleton-user-info .skeleton-user-info-card {
+  padding: 8px;
+  background-color: var(--background-card-color);
+  border-radius: 20px;
+}
+
+.skeleton-profile .skeleton-user-info .skeleton-user-info-card .userAvatar {
+  animation: pulse 1.5s ease-in-out infinite;
+  background-color: var(--background-color);
+  width: 128px;
+  height: 128px;
+  border-radius: 100%;
+}
+
+.skeleton-profile .skeleton-user-info .skeleton-user-info-card .textBox p {
+  animation: pulse 1.5s ease-in-out infinite;
+  background-color: var(--background-hover-color);
+  border-radius: 12px;
+  height: 24px;
+  width: 120px;
+}
+
+.skeleton-profile .skeleton-user-info .skeleton-user-info-card .textBox .usernameBox {
+  align-items: center;
+}
+
+.skeleton-profile .skeleton-user-info .skeleton-user-info-card .textBox .fullNameUser {
+  height: 34px;
+  width: 184px;
+}
+
+.skeleton-profile .skeleton-user-info .skeleton-user-info-card .textBox .description {
+  width: 100%;
+  height: 48px;
+}
+
+.skeleton-buttons-box {
+  padding: 8px;
+  background-color: var(--background-card-color);
+  border-radius: 20px;
+}
+
+.skeleton-buttons-box button {
+  animation: pulse 1.5s ease-in-out infinite;
+  background-color: var(--background-hover-color);
+  border-radius: 12px;
+  height: 50px;
+}
+
+.skeleton-buttons-box button:nth-child(1) {
+  width: 250px;
+}
+
+.skeleton-buttons-box button:nth-child(2) {
+  width: 120px;
+}
