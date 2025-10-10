@@ -54,9 +54,19 @@ export const MusicSection = () => {
 
   return (
     <div className="section music flex column g16">
-      <div className="playlistsBox">
+      <div className="playlistsBox flex g8">
         {playlists.map(p => (
-          <div key={p.id}>{p.title}</div>
+          <div className="playlistCard flex column g8" key={p.id}>
+            <div className="playlistAvatar flex center">
+              <button className="playButton"><PlayIcon /></button>
+              {p.image ? (
+                  <img src={p.image} alt="" className="musicImage" />
+              ) : (
+                  <div className="musicImage"></div>
+              )}
+            </div>
+            <p className="playlistName">{p.title}</p>
+          </div>
         ))}
       </div>
 

@@ -127,6 +127,7 @@ svg.acentSvg {
 }
 
 body {
+  overflow-x: hidden;
   background-color: var(--background-color);
 }
 
@@ -212,7 +213,8 @@ main {
   display: flex;
   flex-direction: column;
   width: 100vw;
-  height: 100vh;
+  height: auto;
+  min-height: 100vh;
 }
 
 .app-body {

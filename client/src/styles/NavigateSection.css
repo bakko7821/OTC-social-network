@@ -23,7 +23,7 @@
 }
 
 .section .playlistsBox {
-    border: 2px green solid;
+    width: 100%;
 }
 
 .section .line {
@@ -118,4 +118,35 @@
 
 .section .seeAllMusicButton:hover {
     background-color: var(--active-color);
+}
+
+.playlistCard {
+    width: calc(128px + 16px);
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    padding: 8px;
+    border-radius: 12px;
+    transition: all 0.5s;
+}
+
+.playlistCard .playlistName {
+    width: 100%;
+    text-align: start;
+    font-weight: 500;
+    font-size: var(--rem0-875);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.playlistCard .playlistAvatar {
+    border-radius: 12px;
+    width: 128px;
+    height: 128px;
+    background-color: var(--text-color);
+}
+
+.playlistCard:hover {
+    background-color: var(--background-hover-color);
 }
