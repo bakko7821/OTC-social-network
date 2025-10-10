@@ -1,6 +1,7 @@
 import { useEffect, useState, ChangeEvent } from "react";
 import "../styles/NavigateSection.css"
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { PlayIcon } from "../Icons/Icons";
 
 interface MusicItem {
   id: number;
@@ -20,6 +21,7 @@ export const MusicSection = () => {
   const { id } = useParams<{ id: string }>();
   const currentUserId = localStorage.getItem("userId");
   const userId = id === undefined ? currentUserId : id;
+  const navigate = useNavigate()
 
   const [playlists, setPlaylists] = useState<PlaylistItem[]>([]);
   const [music, setMusic] = useState<MusicItem[]>([]);
@@ -62,18 +64,24 @@ export const MusicSection = () => {
 
       <div className="musicBox">
         {music.map(m => (
-          <div key={m.id}>
-            {m.image ? (
-                <img src={m.image} alt="" className="musicAvatar" />
-            ) : (
-                <div className="musicAvatar"></div>
-            )}
-            {m.title} — {m.author} 
+          <div className="musicCard flex g8" key={m.id}>
+            <div className="musicAvatar flex center">
+              <button className="playButton"><PlayIcon /></button>
+              {m.image ? (
+                  <img src={m.image} alt="" className="musicImage" />
+              ) : (
+                  <div className="musicImage"></div>
+              )}
+            </div>
+            <div className="textBox flex column">
+              <p className="musicName">{m.title}</p> 
+              <p className="musicAuthor">{m.author}</p>
+            </div>
             {m.file && <audio controls src={`http://localhost:5000${m.file}`}></audio>}
           </div>
         ))}
       </div>
-      <button className="seeAllMusic">Показать всё</button>
+      <button className="seeAllMusicButton" onClick={() => navigate("/me/music")}>Показать всё</button>
     </div>
   )
 }

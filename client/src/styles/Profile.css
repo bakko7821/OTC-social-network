@@ -201,3 +201,11 @@
     background-color: var(--background-hover-color);
     color: var(--text-color);
 }
+
+.bottomBox .leftBox {
+    flex: 2;
+}
+
+.bottomBox .rightBox {
+    flex: 1;
+}

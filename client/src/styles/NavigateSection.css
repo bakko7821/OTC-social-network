@@ -1,3 +1,5 @@
+
+
 .navigateSection {
     background-color: var(--background-card-color);
     padding: 16px;
@@ -14,5 +16,106 @@
 }
 
 .sectionNavButton.active {
+    background-color: var(--active-color);
+}
+
+.section {
+}
+
+.section .playlistsBox {
+    border: 2px green solid;
+}
+
+.section .line {
+    width: 100%;
+    height: 1px;
+    background-color: var(--text-color);
+}
+
+.section .musicBox {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-width: 0;
+    gap: 8px;
+}
+
+.section .musicBox .musicCard {
+    cursor: pointer;
+    width: 100%;
+    min-width: 0;
+    border-radius: 12px;
+    padding: 8px;
+    background-color: transparent;
+    transition: all 0.5s;
+}
+
+.section .musicBox .musicCard .musicAvatar {
+    background-color: var(--text-color);
+    min-width: 48px;
+    min-height: 48px;
+    max-width: 48px;
+    max-height: 48px;
+    border-radius: 4px;
+}
+
+.section .musicBox .musicCard .musicAvatar img {
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+}
+
+.section .musicBox .musicCard .musicAvatar:hover .playButton {
+    padding: 4px;
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto; /* теперь можно кликать */
+    backdrop-filter: blur(10px);
+    border-radius: 12px;
+}
+
+.section .musicBox .musicCard .musicAvatar .playButton {
+    z-index: 10;
+    opacity: 0;
+}
+
+.section .musicBox .musicCard:hover {
+    background-color: var(--background-hover-color);
+}
+
+.section .musicBox .musicCard audio {
+    display: none;
+}
+
+.section .musicBox .musicCard .textBox {
+    min-width: 0;
+}
+
+.section .musicBox .musicCard .textBox .musicName {
+    color: var(--text-color);
+    font-size: var(--rem1);
+    font-weight: 500;
+}
+
+.section .musicBox .musicCard .textBox .musicAuthor {
+    color: var(--second-text-color);
+    font-size: var(--rem1);
+    font-weight: 500;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.section .seeAllMusicButton {
+    width: 100%;
+    padding: 8px;
+    font-size: var(--rem1);
+    font-weight: 500;
+    color: var(--text-color);
+    border-radius: 12px;
+    background-color: var(--background-hover-color);
+    transition: all 0.5s;
+}
+
+.section .seeAllMusicButton:hover {
     background-color: var(--active-color);
 }
