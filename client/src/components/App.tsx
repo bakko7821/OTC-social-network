@@ -6,6 +6,7 @@ import LoginPage from "../pages/LoginPage";
 import FeedPage from "../pages/FeedPage";
 import type { ReactNode } from "react";
 import ProfilePage from "../pages/ProfilePage";
+import "../socket"
 
 interface LayoutProps {
   children: ReactNode;

@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { MovieIcon, MusicIcon, PhotoIcon } from "../Icons/Icons"
-import "../styles/NavigateSection.css"
+import "../styles/Sections.css"
 import { MusicSection } from "./MusicSection"
 import { PhotosSection } from "./PhotosSection"
 import { VideosSection } from "./VideosSection"

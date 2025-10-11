@@ -1,6 +1,7 @@
 import User from "./User";
 import Playlist from "./Playlist";
 import Music from "./Music";
+import Friends from "./Friends";
 
 User.hasMany(Playlist, { foreignKey: "userId", as: "playlists" });
 Playlist.belongsTo(User, { foreignKey: "userId", as: "user" });
@@ -28,4 +29,11 @@ Music.belongsToMany(User, {
   foreignKey: "musicId",
 });
 
-export { User, Playlist, Music };
+User.belongsToMany(User, {
+  through: Friends,
+  as: "friends",
+  foreignKey: "userId",
+  otherKey: "friendId",
+});
+
+export { User, Playlist, Music, Friends };

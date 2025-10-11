@@ -1,5 +1,5 @@
-import { useEffect, useState, ChangeEvent } from "react";
-import "../styles/NavigateSection.css"
+import { useEffect, useState} from "react";
+import "../styles/Sections.css"
 import { useNavigate, useParams } from "react-router-dom";
 import { PlayIcon } from "../Icons/Icons";
 

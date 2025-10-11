@@ -150,3 +150,9 @@
 .playlistCard:hover {
     background-color: var(--background-hover-color);
 }
+
+.friendsSection {
+    padding: 16px;
+    background-color: var(--background-card-color);
+    border-radius: 28px;
+}

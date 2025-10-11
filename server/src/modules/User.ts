@@ -2,9 +2,11 @@ import { DataTypes, Model, HasManyAddAssociationMixin } from "sequelize";
 import { sequelize } from "../config/db";
 import Playlist from "./Playlist";
 import Music from "./Music";
+import Friends from "./Friends";
 
 class User extends Model {
   public id!: number;
+  public online!: boolean;
   public firstname!: string;
   public lastname!: string;
   public username!: string;
@@ -16,6 +18,7 @@ class User extends Model {
   public avatarImage!: string;
   public playlists?: Playlist[];
   public music?: Music[];
+  public friends?: Friends[]; 
 
   public addPlaylist!: HasManyAddAssociationMixin<Playlist, number>;
 }
@@ -23,6 +26,7 @@ class User extends Model {
 User.init(
   {
     id: { type: DataTypes.INTEGER, autoIncrement: true, primaryKey: true },
+    online: {type: DataTypes.BOOLEAN, allowNull: false, defaultValue: false},
     firstname: { type: DataTypes.STRING, allowNull: false },
     lastname: { type: DataTypes.STRING, allowNull: false },
     location: { type: DataTypes.STRING, allowNull: false, defaultValue: "" },

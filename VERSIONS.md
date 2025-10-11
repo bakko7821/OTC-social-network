@@ -151,3 +151,7 @@ npm install socket.io-client
 # commit 6.11.4
 
 - Добавленны небольшие изменения в стилях
+
+# commit 7.12.4 (NOT WORKED)
+
+- Изменить модель **Friends.ts**

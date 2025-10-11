@@ -100,5 +100,43 @@ router.get("/:id/music", async (req: Request, res: Response) => {
   }
 });
 
+router.get("/:id/friends", async (req: Request, res: Response) => {
+  try {
+    const {id} = req.params
+
+    if (!id) {
+      return res.status(400).json({ message: `Неверно переданный параметр. ID: ${id}` });
+    }
+
+    const user = await User.findByPk(id, {
+    include: [
+        {
+          association: "friends",
+          attributes: ["id"], // id из таблицы friends
+          include: [
+            {
+              model: User, // модель друга
+              as: "owner", // или как у тебя названо в Friends.belongsTo(User)
+              attributes: ["id", "firstname", "lastname", "avatarImage"],
+            },
+          ],
+        },
+      ],
+    });
+
+
+    if (!user) {
+      return res.status(404).json({ message: "Пользователь не найден" });
+    }
+
+    console.log(user.friends)
+    res.json(user.friends || []);
+
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Ошибка сервера" });
+  }
+})
+
 
 export default router;
