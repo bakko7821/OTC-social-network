@@ -21,6 +21,7 @@ export const UserProfileCard = () => {
     const {id} = useParams()
     const navigate = useNavigate()
     const [user, setUser] = useState<User | null>(null);
+    const [loading, setLoading] = useState(false)
     const [isMe, setIsMe] = useState(false);
     const token = localStorage.getItem("token")
 
@@ -49,6 +50,8 @@ export const UserProfileCard = () => {
                 const payload = JSON.parse(atob(token.split(".")[1]));
                 setIsMe(payload.id === res.data.id);
                 } else setIsMe(false);
+
+                setLoading(true)
             } catch (err) {
                 console.error("Ошибка при получении пользователя:", err);
             }
@@ -57,7 +60,7 @@ export const UserProfileCard = () => {
         fetchUser();
     }, [id, token]);
 
-    if (!user) return <UserProfileCardSkeleton />;
+    if (!loading) return <UserProfileCardSkeleton />;
 
     return (
         <div className="userProfileCard flex column">

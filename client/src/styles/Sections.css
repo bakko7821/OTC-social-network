@@ -19,9 +19,6 @@
     background-color: var(--active-color);
 }
 
-.section {
-}
-
 .section .playlistsBox {
     width: 100%;
 }
@@ -155,4 +152,55 @@
     padding: 16px;
     background-color: var(--background-card-color);
     border-radius: 28px;
+}
+
+.friendsSection .headingText {
+    padding-left: 8px;
+    align-items: center;
+}
+
+.friendsSection .headingText .titleText {
+    font-size: var(--rem1);
+    font-weight: 500;
+    color: var(--text-color);
+}
+
+.friendsSection .headingText .circle {
+    border-radius: 100%;
+    width: 4px;
+    height: 4px;
+    background-color: var(--second-text-color);
+}
+
+.friendsSection .headingText .countText {
+    font-size: var(--rem0-875);
+    font-weight: 500;
+    color: var(--second-text-color);
+}
+
+.allFriendsBox .friendItem {
+    border-radius: 12px;
+    align-items: center;
+    cursor: pointer;
+    gap: 4px;
+    padding: 8px;
+    background-color: transparent;
+    transition: all 0.5s;
+}
+
+.allFriendsBox .friendItem:hover {
+    background-color: var(--background-hover-color);
+}
+
+.allFriendsBox .friendItem .userAvatar {
+    width: 48px;
+    height: 48px;
+    background-color: var(--text-color);
+    border-radius: 100%;
+}
+
+.allFriendsBox .friendItem .friendName {
+    font-size: var(--rem1);
+    font-weight: 500;
+    color: var(--text-color);
 }

@@ -19,6 +19,7 @@ export const UserCard = () => {
     const {setIsAuth } = useAuthValue();
     const navigate = useNavigate()
     const [user, setUser] = useState<User | null>(null);
+    const [loading, setLoading] = useState(false)
     const token = localStorage.getItem("token")
 
     useEffect(() => {
@@ -28,6 +29,7 @@ export const UserCard = () => {
             })
             .then((res) => {
             setUser(res.data);
+            setLoading(true)
             })
             .catch((err) => {
             console.error("Ошибка при получении пользователя:", err);
@@ -37,7 +39,7 @@ export const UserCard = () => {
             });
     }, []);
 
-    if (!user) return <UserCardSkeleton />;
+    if (!loading) return <UserCardSkeleton />;
 
     return (
         <div className="userCard flex center g8" onClick={() => navigate(`/profile/me`)}>

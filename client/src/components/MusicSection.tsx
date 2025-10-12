@@ -2,6 +2,7 @@ import { useEffect, useState} from "react";
 import "../styles/Sections.css"
 import { useNavigate, useParams } from "react-router-dom";
 import { PlayIcon } from "../Icons/Icons";
+import { MusicSectionSkeleton } from "./skeletons/MusicSectionSkeleton";
 
 interface MusicItem {
   id: number;
@@ -25,7 +26,7 @@ export const MusicSection = () => {
 
   const [playlists, setPlaylists] = useState<PlaylistItem[]>([]);
   const [music, setMusic] = useState<MusicItem[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -43,14 +44,14 @@ export const MusicSection = () => {
       } catch (error) {
         console.error("Ошибка при загрузке данных:", error);
       } finally {
-        setLoading(false);
+        setLoading(true);
       }
     };
 
     fetchData();
   }, [userId]);
 
-  if (loading) return <p>Загрузка...</p>;
+  if (!loading) return <MusicSectionSkeleton />;
 
   return (
     <div className="section music flex column g16">

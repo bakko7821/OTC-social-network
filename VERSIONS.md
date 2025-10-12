@@ -160,3 +160,7 @@ npm install socket.io-client
 
 - Модель **/modules/Friend.ts** - изменена (передаются: avatarImage, firstname, lastname, status)
 - Добавлен роут **/routes/friends.ts** - в нем мы взаимодействуем с заявками из **/modules/FriendRequest.ts**
+
+# commit 8.13.4
+
+- Добавлена ленивая загрузка для компонентов **Navigation.tsx**, **MusicSection.tsx**, **FriendsSection.tsx**

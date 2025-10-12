@@ -7,7 +7,7 @@ interface DropDownMenuProps {
 
 export default function DropDownNotificationMenu({ onClose } : DropDownMenuProps) {
     const menuRef = useRef<HTMLDivElement | null>(null);
-    const navigate = useNavigate()
+    // const navigate = useNavigate()
 
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
