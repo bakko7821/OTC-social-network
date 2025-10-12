@@ -227,3 +227,14 @@ main {
   padding: 16px;
   overflow-y: auto;
 }
+
+body::-webkit-scrollbar {
+  width: 8px;               /* ширина scrollbar */
+}
+body::-webkit-scrollbar-track {
+  background: transparent;        /* цвет дорожки */
+}
+body::-webkit-scrollbar-thumb {
+  background-color: var(--main-color);
+  border-radius: 20px;
+}

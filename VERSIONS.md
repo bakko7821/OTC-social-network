@@ -164,3 +164,7 @@ npm install socket.io-client
 # commit 8.13.4
 
 - Добавлена ленивая загрузка для компонентов **Navigation.tsx**, **MusicSection.tsx**, **FriendsSection.tsx**
+
+# commit 8.13.5 
+
+- Добавлена стилизация скролла на странице
