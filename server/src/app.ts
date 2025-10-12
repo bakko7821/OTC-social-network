@@ -8,6 +8,7 @@ import { connectDB } from "./config/db";
 import authRouters from "./routes/auth"
 import usersRouters from "./routes/users"
 import musicUploadRouter from "./routes/music";
+import friendRequest from "./routes/friends";
 
 dotenv.config();
 
@@ -25,6 +26,7 @@ app.use("/api/auth", authRouters);
 app.use("/api/users", usersRouters);
 app.use("/api/music", musicUploadRouter);
 app.use("/music", express.static(path.join(__dirname, "utils/music")));
+app.use("/friends", friendRequest)
 
 
 io.on("connection", (socket) => {

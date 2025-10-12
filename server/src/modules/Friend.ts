@@ -1,17 +1,25 @@
 import { DataTypes, Model } from "sequelize";
 import { sequelize } from "../config/db";
 
-class Friends extends Model {
+class Friend extends Model {
   public id!: number;
   public userId!: number;
   public friendId!: number;
+  public friendFirstname!: string;
+  public friendLastname!: string;
+  public friendAvatar!: string | null;
+  public friendOnline!: boolean;
 }
 
-Friends.init(
+Friend.init(
   {
     id: { type: DataTypes.INTEGER, autoIncrement: true, primaryKey: true },
     userId: { type: DataTypes.INTEGER, allowNull: false },
     friendId: { type: DataTypes.INTEGER, allowNull: false },
+    friendFirstname: { type: DataTypes.STRING, allowNull: false },
+    friendLastname: { type: DataTypes.STRING, allowNull: false },
+    friendAvatar: { type: DataTypes.STRING },
+    friendOnline: { type: DataTypes.BOOLEAN, defaultValue: false },
   },
   {
     sequelize,
@@ -21,4 +29,4 @@ Friends.init(
   }
 );
 
-export default Friends;
+export default Friend;

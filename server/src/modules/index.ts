@@ -1,7 +1,7 @@
 import User from "./User";
 import Playlist from "./Playlist";
 import Music from "./Music";
-import Friends from "./Friends";
+import Friend from "./Friend";
 
 User.hasMany(Playlist, { foreignKey: "userId", as: "playlists" });
 Playlist.belongsTo(User, { foreignKey: "userId", as: "user" });
@@ -30,10 +30,10 @@ Music.belongsToMany(User, {
 });
 
 User.belongsToMany(User, {
-  through: Friends,
+  through: Friend,
   as: "friends",
   foreignKey: "userId",
   otherKey: "friendId",
 });
 
-export { User, Playlist, Music, Friends };
+export { User, Playlist, Music, Friend };

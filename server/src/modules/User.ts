@@ -2,7 +2,7 @@ import { DataTypes, Model, HasManyAddAssociationMixin } from "sequelize";
 import { sequelize } from "../config/db";
 import Playlist from "./Playlist";
 import Music from "./Music";
-import Friends from "./Friends";
+import Friend from "./Friend";
 
 class User extends Model {
   public id!: number;
@@ -18,7 +18,7 @@ class User extends Model {
   public avatarImage!: string;
   public playlists?: Playlist[];
   public music?: Music[];
-  public friends?: Friends[]; 
+  public friends?: Friend[]; 
 
   public addPlaylist!: HasManyAddAssociationMixin<Playlist, number>;
 }

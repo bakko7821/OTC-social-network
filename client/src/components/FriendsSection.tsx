@@ -3,7 +3,11 @@ import "../styles/Sections.css"
 import { useEffect, useState } from "react"
 
 interface FriendItem {
-  id: number;
+  friendId: number;
+  friendFirstname: string;
+  friendLastname: string;
+  friendAvatar: string;
+  friendOnline: boolean;
 }
 
 export const FriendsSection = () => {
@@ -17,7 +21,12 @@ export const FriendsSection = () => {
     useEffect(() => {
     const fetchFriends = async () => {
         try {
-        const response = await fetch(`http://localhost:5000/api/users/${userId}/friends`);
+        const token = localStorage.getItem("token");
+        const response = await fetch(`http://localhost:5000/api/users/${userId}/friends`, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
         if (!response.ok) throw new Error("Ошибка при получении друзей");
         const data: FriendItem[] = await response.json();
         setFriends(data);
@@ -26,6 +35,7 @@ export const FriendsSection = () => {
         }
     };
 
+    console.log(friends)
     fetchFriends();
     }, [userId]); 
 
@@ -48,8 +58,8 @@ export const FriendsSection = () => {
             </div>
             <div className="allFriendsBox">
                 {friends && friends.map((friend) => (
-                    <div className="friendItem" key={friend.id}>
-                        <p>{friend.id}</p>
+                    <div className="friendItem" key={friend.friendId}>
+                        <p>{friend.friendFirstname}</p>
                     </div>
                 ))}
             </div>

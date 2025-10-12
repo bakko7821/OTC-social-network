@@ -155,3 +155,8 @@ npm install socket.io-client
 # commit 7.12.4 (NOT WORKED)
 
 - Изменить модель **Friends.ts**
+
+# commit 8.12.4
+
+- Модель **/modules/Friend.ts** - изменена (передаются: avatarImage, firstname, lastname, status)
+- Добавлен роут **/routes/friends.ts** - в нем мы взаимодействуем с заявками из **/modules/FriendRequest.ts**

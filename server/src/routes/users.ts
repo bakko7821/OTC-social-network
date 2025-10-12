@@ -1,6 +1,7 @@
 import express, { Request, Response } from "express";
 import authMiddleware, { AuthRequest } from "../middleware/authMiddleware";
 import User from "../modules/User";
+import { Friend } from "../modules";
 
 const router = express.Router();
 
@@ -102,41 +103,50 @@ router.get("/:id/music", async (req: Request, res: Response) => {
 
 router.get("/:id/friends", async (req: Request, res: Response) => {
   try {
-    const {id} = req.params
-
-    if (!id) {
-      return res.status(400).json({ message: `Неверно переданный параметр. ID: ${id}` });
-    }
-
-    const user = await User.findByPk(id, {
-    include: [
-        {
-          association: "friends",
-          attributes: ["id"], // id из таблицы friends
-          include: [
-            {
-              model: User, // модель друга
-              as: "owner", // или как у тебя названо в Friends.belongsTo(User)
-              attributes: ["id", "firstname", "lastname", "avatarImage"],
-            },
-          ],
-        },
+    const { id } = req.params;
+    const friends = await Friend.findAll({
+      where: { userId: id },
+      attributes: [
+        "friendId",
+        "friendFirstname",
+        "friendLastname",
+        "friendAvatar",
+        "friendOnline"
       ],
     });
+    res.json(friends);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Ошибка при получении друзей" });
+  }
+});
 
+router.post("/:id/add-friend", authMiddleware, async (req: AuthRequest, res: Response) => {
+  try {
+     const userId = req.user?.id
+    if (!userId) return res.status(401).json({ message: "Не авторизован" });
 
-    if (!user) {
-      return res.status(404).json({ message: "Пользователь не найден" });
-    }
+    const { id } = req.params;
+    const friendUser = await User.findByPk(id);
+    if (!friendUser) return res.status(404).json({ message: "Пользователь не найден" });
 
-    console.log(user.friends)
-    res.json(user.friends || []);
+    await Friend.create({
+      userId,
+      friendId: friendUser.id,
+      friendFirstname: friendUser.firstname,
+      friendLastname: friendUser.lastname,
+      friendAvatar: friendUser.avatarImage,
+      friendOnline: friendUser.online,
+    });
 
-  } catch (error) {
-    console.error(error);
+    res.json({ message: "Друг добавлен" });
+  } catch (err) {
+    console.error(err);
     res.status(500).json({ message: "Ошибка сервера" });
   }
-})
+});
+
+
 
 
 export default router;
