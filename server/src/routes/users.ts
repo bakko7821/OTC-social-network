@@ -1,7 +1,7 @@
 import express, { Request, Response } from "express";
 import authMiddleware, { AuthRequest } from "../middleware/authMiddleware";
 import User from "../modules/User";
-import { Friend } from "../modules";
+import { Friend, Gift } from "../modules";
 
 const router = express.Router();
 
@@ -115,8 +115,8 @@ router.get("/:id/friends", async (req: Request, res: Response) => {
       ],
     });
     res.json(friends);
-  } catch (err) {
-    console.error(err);
+  } catch (error) {
+    console.error(error);
     res.status(500).json({ message: "Ошибка при получении друзей" });
   }
 });
@@ -140,12 +140,34 @@ router.post("/:id/add-friend", authMiddleware, async (req: AuthRequest, res: Res
     });
 
     res.json({ message: "Друг добавлен" });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: "Ошибка сервера" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Ошибка сервера"});
   }
 });
 
+router.get("/:id/gifts", async (req: Request, res: Response) => {
+  try {
+
+    const { id } = req.params;
+    const gifts = await Gift.findAll({
+      where: { userId: id },
+      attributes: [
+        "id",
+        "giftImage",
+        "friendId",
+        "friendFirstname",
+        "friendLastname",
+        "friendAvatar",
+      ],
+    });
+    res.json(gifts);
+
+  } catch (error) {
+    console.error(error)
+    res.status(500).json({message: "Ошибка сервера"})
+  }
+})
 
 
 

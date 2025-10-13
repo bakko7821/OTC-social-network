@@ -26,6 +26,7 @@ app.use("/api/auth", authRouters);
 app.use("/api/users", usersRouters);
 app.use("/api/music", musicUploadRouter);
 app.use("/music", express.static(path.join(__dirname, "utils/music")));
+app.use("/upload", express.static(path.join(__dirname, "utils/upload")));
 app.use("/friends", friendRequest)
 
 

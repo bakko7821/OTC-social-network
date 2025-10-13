@@ -49,10 +49,10 @@ export const FriendsSection = () => {
             <div className="headingText flex g8">
                 <p className="titleText">Друзья</p>
                 <span className="circle"></span>
-                <p className="countText">182</p>
+                <p className="countText">{friends.length}</p>
             </div>
             <div className="allFriendsBox flex g8">
-                {friends && friends.slice(0, 5).map((friend) => (
+                {friends && friends.slice(-5).map((friend) => (
                 <div
                     className="friendItem flex column"
                     key={friend.friendId}

@@ -168,3 +168,15 @@ npm install socket.io-client
 # commit 8.13.5 
 
 - Добавлена стилизация скролла на странице
+
+# commit 9.14.5
+
+### Серверная часть
+
+- Создан **modules/Gift.ts**
+- В **routes/users.ts** создан GET запрос на получение подарков пользователя
+- Создана папка **src/utils/upload**
+
+### Клиентская часть
+
+- Создан компонент **components/GiftsSection.tsx** и добавлен в **pages/ProfilePage.tsx**

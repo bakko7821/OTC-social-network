@@ -148,31 +148,31 @@
     background-color: var(--background-hover-color);
 }
 
-.friendsSection {
+.friendsSection, .giftsSection {
     padding: 16px;
     background-color: var(--background-card-color);
     border-radius: 28px;
 }
 
-.friendsSection .headingText {
+.friendsSection .headingText, .giftsSection .headingText {
     padding-left: 8px;
     align-items: center;
 }
 
-.friendsSection .headingText .titleText {
+.friendsSection .headingText .titleText, .giftsSection .headingText .titleText {
     font-size: var(--rem1);
     font-weight: 500;
     color: var(--text-color);
 }
 
-.friendsSection .headingText .circle {
+.friendsSection .headingText .circle, .giftsSection .headingText .circle {
     border-radius: 100%;
     width: 4px;
     height: 4px;
     background-color: var(--second-text-color);
 }
 
-.friendsSection .headingText .countText {
+.friendsSection .headingText .countText, .giftsSection .headingText .countText {
     font-size: var(--rem0-875);
     font-weight: 500;
     color: var(--second-text-color);
@@ -203,4 +203,11 @@
     font-size: var(--rem1);
     font-weight: 500;
     color: var(--text-color);
+}
+
+.giftsSection .allGiftsBox img {
+    cursor: pointer;
+    border-radius: 12px;
+    width: 64px;
+    height: 64px;
 }

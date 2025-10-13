@@ -3,6 +3,7 @@ import { UserProfileCard } from "../components/UserProfileCard";
 import "../styles/Profile.css";
 import { NavigateSection } from "../components/NavigateSection";
 import { FriendsSection } from "../components/FriendsSection";
+import { GiftsSeciton } from "../components/GiftsSection";
 
 export default function ProfilePage() {
     const { id } = useParams<{ id: string }>();
@@ -23,6 +24,7 @@ export default function ProfilePage() {
                 </div>
                 <div className="rightBox flex column g16">
                     <FriendsSection />
+                    <GiftsSeciton />
                 </div>
             </div>
         </div>
