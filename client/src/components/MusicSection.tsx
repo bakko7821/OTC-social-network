@@ -55,44 +55,52 @@ export const MusicSection = () => {
 
   return (
     <div className="section music flex column g16">
-      <div className="playlistsBox flex g8">
-        {playlists.map(p => (
-          <div className="playlistCard flex column g8" key={p.id}>
-            <div className="playlistAvatar flex center">
-              <button className="playButton"><PlayIcon /></button>
-              {p.image ? (
-                  <img src={p.image} alt="" className="musicImage" />
-              ) : (
-                  <div className="musicImage"></div>
-              )}
+      {playlists && playlists.length > 0 ? (
+        <div className="playlistsBox flex g8">
+          {playlists.map(p => (
+            <div className="playlistCard flex column g8" key={p.id}>
+              <div className="playlistAvatar flex center">
+                <button className="playButton"><PlayIcon /></button>
+                {p.image ? (
+                    <img src={p.image} alt="" className="musicImage" />
+                ) : (
+                    <div className="musicImage"></div>
+                )}
+              </div>
+              <p className="playlistName">{p.title}</p>
             </div>
-            <p className="playlistName">{p.title}</p>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      ) : (
+        <p className="nullMessage">Пользователь еще не добавлял плейлистов.</p>
+      )}
 
       <span className="line"></span>
 
-      <div className="musicBox">
-        {music.map(m => (
-          <div className="musicCard flex g8" key={m.id}>
-            <div className="musicAvatar flex center">
-              <button className="playButton"><PlayIcon /></button>
-              {m.image ? (
-                  <img src={m.image} alt="" className="musicImage" />
-              ) : (
-                  <div className="musicImage"></div>
-              )}
+      {music && music.length > 0 ? (
+        <div className="musicBox">
+          {music.map(m => (
+            <div className="musicCard flex g8" key={m.id}>
+              <div className="musicAvatar flex center">
+                <button className="playButton"><PlayIcon /></button>
+                {m.image ? (
+                    <img src={m.image} alt="" className="musicImage" />
+                ) : (
+                    <div className="musicImage"></div>
+                )}
+              </div>
+              <div className="textBox flex column">
+                <p className="musicName">{m.title}</p> 
+                <p className="musicAuthor">{m.author}</p>
+              </div>
+              {m.file && <audio controls src={`http://localhost:5000${m.file}`}></audio>}
             </div>
-            <div className="textBox flex column">
-              <p className="musicName">{m.title}</p> 
-              <p className="musicAuthor">{m.author}</p>
-            </div>
-            {m.file && <audio controls src={`http://localhost:5000${m.file}`}></audio>}
-          </div>
-        ))}
-      </div>
-      <button className="seeAllMusicButton" onClick={() => navigate("/me/music")}>Показать всё</button>
+          ))}
+        </div>
+      ) : (
+        <p className="nullMessage">Пользователь еще не добавлял музыку.</p>
+      )}
+      <button className="seeAllMusicButton" onClick={() => navigate(`/${id}/music`)}>Показать всё</button>
     </div>
   )
 }

@@ -1,6 +1,7 @@
 import express, { Request, Response } from "express";
 import FriendRequest from "../modules/FriendRequests";
 import { Friend } from "../modules";
+import io from "socket.io-client";
 
 const router = express.Router();
 
@@ -19,7 +20,15 @@ router.post("/request", async (req, res) => {
     return res.status(400).json({ message: "Заявка уже отправлена" });
   }
 
-  await FriendRequest.create({ senderId, receiverId });
+  const request = await FriendRequest.create({ senderId, receiverId });
+
+  // --- отправляем уведомление получателю ---
+  // io.to(`user_${receiverId}`).emit("friend_request", {
+  //   requestId: request.id,
+  //   senderId,
+  //   message: "Вам отправили заявку в друзья",
+  // });
+
   res.status(201).json({ message: "Заявка отправлена" });
 });
 

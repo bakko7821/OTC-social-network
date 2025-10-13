@@ -180,3 +180,8 @@ npm install socket.io-client
 ### Клиентская часть
 
 - Создан компонент **components/GiftsSection.tsx** и добавлен в **pages/ProfilePage.tsx**
+
+# commit 9.15.6
+
+- Создан скелет для **GiftSection.tsx**
+- Добавленны nullMessage, в местах где контента может не быть

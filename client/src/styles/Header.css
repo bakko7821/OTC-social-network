@@ -113,7 +113,7 @@ header nav .buttonsBox {
     position: relative;
 }
 
-header nav .nullMessage {
+.nullMessage {
     white-space: nowrap;
     color: var(--second-text-color);
     font-size: var(--rem1);

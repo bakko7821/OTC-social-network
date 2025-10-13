@@ -51,24 +51,28 @@ export const FriendsSection = () => {
                 <span className="circle"></span>
                 <p className="countText">{friends.length}</p>
             </div>
-            <div className="allFriendsBox flex g8">
-                {friends && friends.slice(-5).map((friend) => (
-                <div
-                    className="friendItem flex column"
-                    key={friend.friendId}
-                    onClick={() => navigate(`/profile/${friend.friendId}`)}
-                >
-                    <div className="userAvatar flex center">
-                    {friend?.friendAvatar ? (
-                        <img src={friend?.friendAvatar} alt="" />
-                    ) : (
-                        <MonkeyIcon />
-                    )}
+            {friends && friends.length > 0 ? (
+                <div className="allFriendsBox flex g8">
+                    {friends.slice(-5).map((friend) => (
+                    <div
+                        className="friendItem flex column"
+                        key={friend.friendId}
+                        onClick={() => navigate(`/profile/${friend.friendId}`)}
+                    >
+                        <div className="userAvatar flex center">
+                        {friend?.friendAvatar ? (
+                            <img src={friend.friendAvatar} alt="" />
+                        ) : (
+                            <MonkeyIcon />
+                        )}
+                        </div>
+                        <p className="friendName">{friend.friendFirstname}</p>
                     </div>
-                    <p className="friendName">{friend.friendFirstname}</p>
+                    ))}
                 </div>
-                ))}
-            </div>
+            ) : (
+                <p className="nullMessage">У пользователя нет друзей</p>
+            )}
         </div>
     )
 }
