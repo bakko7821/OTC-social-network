@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom"
 import { GroupIcon } from "../Icons/Icons";
 import "../styles/Sections.css"
+import { GroupSectionSkeleton } from "./skeletons/GroupsSectionSkeleton";
 
 interface GroupItem {
   id: number;
@@ -39,7 +40,7 @@ export const GroupSection = () => {
     fetchFriends();
     }, [userId]); 
 
-    if (!loading) return <p>Загрузка...</p>
+    if (!loading) return <GroupSectionSkeleton />
 
     return (
         <div className="groupSection flex column g8">

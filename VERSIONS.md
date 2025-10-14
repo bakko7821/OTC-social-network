@@ -196,3 +196,7 @@ npm install socket.io-client
 ### Клиентская часть
 
 - Создан компонент **components/GroupsSection.tsx** и добавлен в **pages/ProfilePage.tsx**
+
+# commit 10.17.6
+
+- Создан скелет для **GiftSection.tsx**

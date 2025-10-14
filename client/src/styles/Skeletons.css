@@ -220,23 +220,28 @@
 }
 
 
-.friendsSection-skeleton {
+.friendsSection-skeleton,
+.giftsSection-skeleton, 
+.groupSection-skeleton {
   padding: 16px;
   background-color: var(--background-card-color);
   border-radius: 28px;
 }
 
-.friendsSection-skeleton .headingText {
+.friendsSection-skeleton .headingText,
+.giftsSection-skeleton .headingText,
+.groupSection-skeleton .headingText {
   animation: pulse 1.5s ease-in-out infinite;
   background-color: var(--background-hover-color);
   width: 100%;
-  height: 32px;
+  height: 20px;
   border-radius: 12px;
   padding-left: 8px;
   align-items: center;
 }
 
-.friendsSection-skeleton .allFriendsBox .friendItem-skeleton {
+.friendsSection-skeleton .allFriendsBox .friendItem-skeleton,
+.giftsSection-skeleton .allGiftsBox .giftItem-skeleton {
   animation: pulse 1.5s ease-in-out infinite;
   background-color: var(--background-hover-color);
   border-radius: 12px;
@@ -244,26 +249,13 @@
   height: 87px;
 }
 
-.giftsSection-skeleton {
-  background-color: var(--background-card-color);
-  border-radius: 28px;
-  padding: 16px;
-}
-
-.giftsSection-skeleton .headingText {
-  animation: pulse 1.5s ease-in-out infinite;
-  background-color: var(--background-hover-color);
-  width: 100%;
-  height: 32px;
-  border-radius: 12px;
-  padding-left: 8px;
-  align-items: center;
-}
-
 .giftsSection-skeleton .allGiftsBox .giftItem-skeleton {
-  animation: pulse 1.5s ease-in-out infinite;
-  background-color: var(--background-hover-color);
-  border-radius: 12px;
-  width: 100%;
   height: 64px;
+}
+
+.groupSection-skeleton .allGroupsBox .groupItem-skeleton {
+  width: 100%;
+  border-radius: 12px;
+  background-color: var(--background-hover-color);
+  height: 56px;
 }
