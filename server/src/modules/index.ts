@@ -3,9 +3,15 @@ import Playlist from "./Playlist";
 import Music from "./Music";
 import Friend from "./Friend";
 import Gift from "./Gift";
+import Group from "./Group";
 
-User.hasMany(Playlist, { foreignKey: "userId", as: "playlists" });
-Playlist.belongsTo(User, { foreignKey: "userId", as: "user" });
+User.hasMany(Playlist, { 
+  foreignKey: "userId", 
+  as: "playlists" });
+
+Playlist.belongsTo(User, { 
+  foreignKey: "userId", 
+  as: "user" });
 
 Playlist.belongsToMany(Music, {
   through: "playlist_music",
@@ -18,7 +24,6 @@ Music.belongsToMany(Playlist, {
   foreignKey: "musicId",
 });
 
-// новая связь для избранного
 User.belongsToMany(Music, {
   through: "user_music",
   as: "music",
@@ -53,5 +58,14 @@ Gift.belongsTo(User, {
   foreignKey: "friendId", 
   as: "receiver" });
 
+User.hasMany(Group, {
+  foreignKey: "userId",
+  as: "groups",
+});
 
-export { User, Playlist, Music, Friend, Gift };
+Group.belongsTo(User, {
+  foreignKey: "userId",
+  as: "user",
+});
+
+export { User, Playlist, Music, Friend, Gift, Group };

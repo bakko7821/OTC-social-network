@@ -1,7 +1,7 @@
 import express, { Request, Response } from "express";
 import authMiddleware, { AuthRequest } from "../middleware/authMiddleware";
 import User from "../modules/User";
-import { Friend, Gift } from "../modules";
+import { Friend, Gift, Group } from "../modules";
 
 const router = express.Router();
 
@@ -169,6 +169,26 @@ router.get("/:id/gifts", async (req: Request, res: Response) => {
   }
 })
 
+router.get("/:id/groups", async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params
+    const groups = await Group.findAll({
+      where: {userId: id},
+      attributes: [
+        "id",
+        "groupName",
+        "groupUsername",
+        "groupAvatar",
+        "groupSubs",
+      ]
+    })
+
+    res.json(groups)
+  } catch (error) {
+    console.error(error)
+    res.status(500).json({message: "Ошибка сервера"})
+  }
+})
 
 
 export default router;

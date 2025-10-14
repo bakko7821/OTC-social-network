@@ -148,31 +148,31 @@
     background-color: var(--background-hover-color);
 }
 
-.friendsSection, .giftsSection {
+.friendsSection, .giftsSection, .groupSection {
     padding: 16px;
     background-color: var(--background-card-color);
     border-radius: 28px;
 }
 
-.friendsSection .headingText, .giftsSection .headingText {
+.friendsSection .headingText, .giftsSection .headingText, .groupSection .headingText {
     padding-left: 8px;
     align-items: center;
 }
 
-.friendsSection .headingText .titleText, .giftsSection .headingText .titleText {
+.friendsSection .headingText .titleText, .giftsSection .headingText .titleText, .groupSection .headingText .titleText {
     font-size: var(--rem1);
     font-weight: 500;
     color: var(--text-color);
 }
 
-.friendsSection .headingText .circle, .giftsSection .headingText .circle {
+.friendsSection .headingText .circle, .giftsSection .headingText .circle, .groupSection .headingText .circle {
     border-radius: 100%;
     width: 4px;
     height: 4px;
     background-color: var(--second-text-color);
 }
 
-.friendsSection .headingText .countText, .giftsSection .headingText .countText {
+.friendsSection .headingText .countText, .giftsSection .headingText .countText, .groupSection .headingText .countText {
     font-size: var(--rem0-875);
     font-weight: 500;
     color: var(--second-text-color);
@@ -214,4 +214,33 @@
 
 .friendsSection .nullMessage, .giftsSection .nullMessage {
     padding-left: 8px;
+}
+
+.allGroupsBox .groupItem {
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 12px;
+    transition: all 0.5s;
+}
+
+.allGroupsBox .groupItem:hover {
+    background-color: var(--background-hover-color);
+}
+
+.allGroupsBox .groupItem .groupAvatar {
+    background-color: var(--text-color);
+    padding: 8px;
+    border-radius: 100%;
+}
+
+.allGroupsBox .groupItem .textBox .groupName {
+    font-weight: 500;
+    color: var(--text-color);
+    font-size: var(--rem1);
+}
+
+.allGroupsBox .groupItem .textBox .groupUsername {
+    font-weight: 500;
+    color: var(--second-text-color);
+    font-size: var(--rem0-875);
 }

@@ -4,6 +4,7 @@ import "../styles/Profile.css";
 import { NavigateSection } from "../components/NavigateSection";
 import { FriendsSection } from "../components/FriendsSection";
 import { GiftsSeciton } from "../components/GiftsSection";
+import { GroupSection } from "../components/GroupsSection";
 
 export default function ProfilePage() {
     const { id } = useParams<{ id: string }>();
@@ -25,6 +26,7 @@ export default function ProfilePage() {
                 <div className="rightBox flex column g16">
                     <FriendsSection />
                     <GiftsSeciton />
+                    <GroupSection />
                 </div>
             </div>
         </div>

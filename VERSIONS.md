@@ -185,3 +185,14 @@ npm install socket.io-client
 
 - Создан скелет для **GiftSection.tsx**
 - Добавленны nullMessage, в местах где контента может не быть
+
+# commit 10.16.6
+
+### Серверная часть
+
+- Создан **modules/Group.ts**
+- В **routes/users.ts** создан GET запрос на получение подарков пользователя
+
+### Клиентская часть
+
+- Создан компонент **components/GroupsSection.tsx** и добавлен в **pages/ProfilePage.tsx**
