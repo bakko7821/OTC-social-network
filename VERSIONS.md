@@ -200,3 +200,7 @@ npm install socket.io-client
 # commit 10.17.6
 
 - Создан скелет для **GiftSection.tsx**
+
+# commit 10.17.7
+
+- Небольшие изменения

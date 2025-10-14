@@ -212,7 +212,7 @@
     height: 64px;
 }
 
-.friendsSection .nullMessage, .giftsSection .nullMessage {
+.friendsSection .nullMessage, .giftsSection .nullMessage, .groupSection .nullMessage {
     padding-left: 8px;
 }
 

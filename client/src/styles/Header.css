@@ -142,6 +142,7 @@ header nav .buttonsBox {
 }
 
 .searchInput {
+    margin-left: 8px;
     padding: 8px;
     border-radius: 12px;
     background-color: var(--background-hover-color);
