@@ -259,3 +259,26 @@
   background-color: var(--background-hover-color);
   height: 56px;
 }
+
+.storiesSection-skeleton {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+}
+
+.storiesSection-skeleton .storyItem {
+  animation: pulse 1.5s ease-in-out infinite;
+  padding: 8px;
+  justify-content: end;
+  width: 150px;
+  height: 220px;
+  background-color: var(--background-card-color);
+  border-radius: 20px;
+}
+
+.storiesSection-skeleton .storyItem .button-skeleton {
+  background-color: var(--background-hover-color);
+  width: 100%;
+  height: 32px;
+  border-radius: 12px;
+}

@@ -217,3 +217,9 @@ npm install socket.io-client
 
 - Небольшие изменения в **FeedPage.tsx**
 - Создан компонент **SectionsStory.tsx**
+
+# commit 11.19.7
+
+- Добавлен **StoriesSectionSkeleton.tsx**
+- Добавлен **PostSection.tsx**
+- Добавлен **LikelyFriendsSection.tsx**

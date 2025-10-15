@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import "../styles/Feed.css";
 import { useParams } from "react-router-dom";
 import { MonkeyIcon } from "../Icons/Icons";
+import { StoriesSectionSkeleton } from "./skeletons/StoriesSectionSkeleton";
 
 interface OwnerInfo {
   id: number;
@@ -35,13 +36,16 @@ export const StoriesSection = () => {
 
   const [stories, setStories] = useState<StorieItem[]>([]);
   const [friends, setFriends] = useState<FriendItem[]>([]);
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     const fetchFriends = async () => {
       try {
         const response = await fetch(`http://localhost:5000/api/users/${userId}/friends`);
+
         if (!response.ok) throw new Error("Ошибка при получении друзей");
         const data: FriendItem[] = await response.json();
+
         setFriends(data);
       } catch (error) {
         console.log(error);
@@ -60,7 +64,6 @@ export const StoriesSection = () => {
             if (!res.ok) throw new Error("Ошибка при получении историй");
             const data: StorieItem[] = await res.json();
 
-            // добавляем информацию о владельце к каждой истории
             return data.map((story) => ({
                 ...story,
                 owner: {
@@ -75,7 +78,9 @@ export const StoriesSection = () => {
         );
 
         const mergedStories = results.flat();
+
         setStories(mergedStories);
+        setLoading(true)
         } catch (error) {
         console.log(error);
         }
@@ -83,6 +88,8 @@ export const StoriesSection = () => {
 
     if (friends.length > 0) fetchStories();
     }, [friends]);
+
+  if (!loading) return <StoriesSectionSkeleton />
 
   return (
     <div className="storiesSection flex g8">
@@ -93,7 +100,7 @@ export const StoriesSection = () => {
         {stories.length > 0 ? (
             stories.map((story) => (
                 <div key={story.id} className="storyItem flex column between">
-                    {story.image && <img src={story.image} alt="story" />}
+                    <img src={story.image} alt="" className="storyImage" />
                     {story.text && <p>{story.text}</p>}
                     <div className="storyHeader flex center g8">
                         <div className="userCard flex center g8">
