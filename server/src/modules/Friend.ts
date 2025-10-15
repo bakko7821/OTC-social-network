@@ -1,5 +1,6 @@
 import { DataTypes, Model } from "sequelize";
 import { sequelize } from "../config/db";
+import Storie from "./Storie";
 
 class Friend extends Model {
   public id!: number;
@@ -9,6 +10,7 @@ class Friend extends Model {
   public friendLastname!: string;
   public friendAvatar!: string | null;
   public friendOnline!: boolean;
+  public stories!: Storie[];
 }
 
 Friend.init(

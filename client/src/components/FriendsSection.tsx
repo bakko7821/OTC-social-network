@@ -30,6 +30,7 @@ export const FriendsSection = () => {
                     Authorization: `Bearer ${token}`,
                 },
             });
+            
             if (!response.ok) throw new Error("Ошибка при получении друзей");
             const data: FriendItem[] = await response.json();
             setFriends(data);
