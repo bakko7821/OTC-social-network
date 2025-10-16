@@ -5,6 +5,7 @@ import Friend from "./Friend";
 import Gift from "./Gift";
 import Group from "./Group";
 import Storie from "./Storie";
+import Post from "./Post";
 
 User.hasMany(Playlist, { 
   foreignKey: "userId", 
@@ -69,8 +70,18 @@ Group.belongsTo(User, {
   as: "user",
 });
 
-User.hasMany(Storie, { foreignKey: "userId", as: "stories" });
-Storie.belongsTo(User, { foreignKey: "userId", as: "user" });
+User.hasMany(Storie, { 
+  foreignKey: "userId", 
+  as: "stories" });
+Storie.belongsTo(User, { 
+  foreignKey: "userId", 
+  as: "user" });
 
+User.hasMany(Post, { 
+  foreignKey: "ownerId", 
+  as: "posts" });
+Post.belongsTo(User, { 
+  foreignKey: "ownerId", 
+  as: "owner" });
 
-export { User, Playlist, Music, Friend, Gift, Group, Storie };
+export { User, Playlist, Music, Friend, Gift, Group, Storie, Post };

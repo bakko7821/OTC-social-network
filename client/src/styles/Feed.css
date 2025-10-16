@@ -149,3 +149,7 @@
 .postsSection .postInfoBox {
     padding: 16px 24px;
 }
+
+.postsSection .postItem .postContent p {
+    padding-left: 24px;
+}
