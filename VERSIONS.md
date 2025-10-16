@@ -221,5 +221,9 @@ npm install socket.io-client
 # commit 11.19.7
 
 - Добавлен **StoriesSectionSkeleton.tsx**
-- Добавлен **PostSection.tsx**
+- Добавлен **PostsSection.tsx**
 - Добавлен **LikelyFriendsSection.tsx**
+
+# commit 11.20.7
+
+- Добавлен макет поста в **PostsSection.tsx**
