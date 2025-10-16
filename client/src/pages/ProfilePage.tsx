@@ -5,6 +5,7 @@ import { NavigateSection } from "../components/NavigateSection";
 import { FriendsSection } from "../components/FriendsSection";
 import { GiftsSeciton } from "../components/GiftsSection";
 import { GroupSection } from "../components/GroupsSection";
+import { ProfilePostSection } from "../components/ProfilePostsSection";
 
 export default function ProfilePage() {
     const { id } = useParams<{ id: string }>();
@@ -22,6 +23,7 @@ export default function ProfilePage() {
             <div className="bottomBox flex g16">
                 <div className="leftBox flex column g16">
                     <NavigateSection />
+                    <ProfilePostSection />
                 </div>
                 <div className="rightBox flex column g16">
                     <FriendsSection />
