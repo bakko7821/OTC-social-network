@@ -244,3 +244,7 @@ npm install socket.io-client
 
 - Создана страница **ProfilePostsSection.tsx**
 - Страница получает все посты данного пользователя по ID
+
+# commit 12.23.8
+
+- Создан скелет для **ProfilePostsSection.tsx** и **PostSection.tsx**

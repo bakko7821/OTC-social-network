@@ -2,6 +2,7 @@ import { useParams } from "react-router-dom";
 import { CommentIcon, LikeIcon, MonkeyIcon, MoreIcon, SendIcon } from "../Icons/Icons"
 import "../styles/Feed.css"
 import { useEffect, useState } from "react";
+import { ProfilePostSectionSkeleton } from "./skeletons/ProfileSectionPostSkeleton";
 
 interface OwnerInfo {
   id: number;
@@ -92,7 +93,7 @@ export const PostsSection = () => {
     }, [friends]);
     
     console.log(posts)
-    if (!loading) return <p>Загрузка...</p>
+    if (!loading) return <ProfilePostSectionSkeleton />
 
     return (
         <div className="postsSection flex column g8">
