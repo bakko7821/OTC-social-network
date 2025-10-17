@@ -248,3 +248,7 @@ npm install socket.io-client
 # commit 12.23.8
 
 - Создан скелет для **ProfilePostsSection.tsx** и **PostSection.tsx**
+
+# commit 12.24.8
+
+- Создан кастомный хук **hooks/useToggleTheme.ts**

@@ -49,7 +49,6 @@ export const ProfilePostSection = () => {
         fetchPosts()
     }, [userId])
     
-    console.log(posts)
     if (!loading) return <ProfilePostSectionSkeleton />
 
     return (

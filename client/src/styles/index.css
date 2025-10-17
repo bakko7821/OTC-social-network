@@ -59,6 +59,7 @@
   align-items: center;
   justify-content: center;
   flex-direction: column;
+  color: var(--text-color);
 }
 
 .flex {
@@ -111,6 +112,7 @@ button {
   cursor: pointer;
   border: none;
   padding: 8px 16px;
+  color: var(--text-color);
 }
 
 svg {
