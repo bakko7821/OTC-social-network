@@ -252,3 +252,10 @@ npm install socket.io-client
 # commit 12.24.8
 
 - Создан кастомный хук **hooks/useToggleTheme.ts**
+
+# commit 13.24.8 (BASIC)
+
+- Добавлена модель сообщений
+- Добвлен роут для получения сообщений
+- В server.ts добавлена возможность отправки сообщений через socket.IO
+

@@ -3,6 +3,7 @@ import { sequelize } from "./config/db";
 import "./modules";
 import { Server } from "socket.io";
 import User from "./modules/User";
+import Message from "./modules/Message";
 
 (async () => {
   try {
@@ -30,6 +31,37 @@ io.on("connection", async (socket) => {
 
   try {
     console.log("Socket connected:", socket.id, "userId:", userId);
+    socket.on("join_room", (roomId: string) => {
+      socket.join(roomId);
+      console.log(`user ${userId} joined room ${roomId}`);
+    });
+
+    // --- отправка сообщения ---
+    socket.on("send_message", async (data) => {
+      // data: { senderId, receiverId, roomId, content }
+
+      try {
+        const newMessage = await Message.create({
+          senderId: data.senderId,
+          receiverId: data.receiverId,
+          roomId: data.roomId,
+          content: data.content,
+        });
+
+        // рассылаем всем, кто в этой комнате
+        io.to(data.roomId).emit("receive_message", {
+          id: newMessage.id,
+          senderId: newMessage.senderId,
+          receiverId: newMessage.receiverId,
+          roomId: newMessage.roomId,
+          content: newMessage.content,
+          createdAt: newMessage.createdAt,
+        });
+      } catch (err) {
+        console.error("Ошибка при сохранении сообщения:", err);
+      }
+    });
+    
     await User.update({ online: true }, { where: { id: userId } });
     io.emit("user_online", { userId });
     console.log(`Пользователь ${userId} онлайн`);
