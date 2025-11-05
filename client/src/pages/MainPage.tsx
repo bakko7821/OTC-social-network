@@ -1,5 +1,5 @@
 import { useRef, useState, useEffect } from "react";
-import { Chats } from "../components/Chats";
+import { Chats } from "../components/Chats/Chats";
 import { Messages } from "../components/Messages";
 import "../styles/index.scss";
 import "../styles/main_page.scss";
@@ -64,7 +64,7 @@ export const MainPage = () => {
     <div ref={containerRef} className="page flex">
       <div
         ref={leftPanelRef}
-        className="chats"
+        className="chats flex column"
         style={{ width: chatWidth }}
       >
         <Chats />

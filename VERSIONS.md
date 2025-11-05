@@ -353,3 +353,8 @@ client\src\styles\Skeletons.css
 - Создана страница MainPage.tsx.
 - Созданы компоненты Chats.tsx, Messages.tsx
 - Создана механика резайзера
+
+# commit 14.27.8
+
+- Создан компонент **DropDownMenu.tsx**
+- Создан компонент **SwitchTheme.tsx**

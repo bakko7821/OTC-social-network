@@ -1,6 +1,5 @@
 import { useState, type JSX } from "react";
 import axios, { AxiosError } from "axios";
-import { LogoIcon } from "../Icons/Icons";
 import { useNavigate } from "react-router-dom";
 import '../styles/auth_page.scss'
 
@@ -38,7 +37,6 @@ export default function RegisterPage() : JSX.Element {
 
   return (
     <div className="registerCard flex column g16">
-      <LogoIcon />
       <form onSubmit={handleSubmit} className="flex column g16">
         <p className="titleText">Регистрация</p>
         <div className="fullNameBox flex center g16">

@@ -1,10 +1,57 @@
 @use "scss-reset";
 @import './variables';
 
+@font-face {
+  font-family: "SFProText";
+  font-weight: 300;
+  src: url(../assets/fonts/SFProText-Light.ttf);
+}
+
+@font-face {
+  font-family: "SFProText";
+  font-weight: 400;
+  src: url(../assets/fonts/SFProText-Regular.ttf);
+}
+
+@font-face {
+  font-family: "SFProText";
+  font-weight: 500;
+  src: url(../assets/fonts/SFProText-Medium.ttf);
+}
+
+@font-face {
+  font-family: "SFProText";
+  font-weight: 600;
+  src: url(../assets/fonts/SFProText-Semibold.ttf);
+}
+
+@font-face {
+  font-family: "SFProText";
+  font-weight: 700;
+  src: url(../assets/fonts/SFProText-Bold.ttf);
+}
+
+@font-face {
+  font-family: "SFProText";
+  font-weight: 900;
+  src: url(../assets/fonts/SFProText-Heavy.ttf);
+}
+
+* {
+  font-family: "SFProText", sans-serif !important;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 #root {
     width: 100vw;
     height: 100dvh;
     overflow: hidden;
+}
+
+body {
+    background-color: $background-color;
 }
 
 .page {
@@ -23,4 +70,14 @@
 
 .column {
     flex-direction: column;
+}
+
+.between {
+    justify-content: space-between;
+}
+
+@for $i from 1 through 100 {
+  .g#{$i} {
+    gap: #{$i}px;
+  }
 }

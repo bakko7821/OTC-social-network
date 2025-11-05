@@ -1,7 +1,6 @@
 import { useState, type JSX } from "react";
 import axios, { AxiosError } from "axios";
 import "../styles/auth_page.scss"
-import { LogoIcon } from "../Icons/Icons";
 import { useNavigate } from "react-router-dom";
 
 interface ApiError {
@@ -37,7 +36,6 @@ export default function LoginPage() : JSX.Element {
 
   return (
     <div className="loginCard flex column g16">
-      <LogoIcon />
       <form onSubmit={handleSubmit} className="flex column g16">
         <p className="titleText">Войти в аккаунт</p>
         <div className="floating-input">

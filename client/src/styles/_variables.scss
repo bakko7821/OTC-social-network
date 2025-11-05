@@ -1,5 +1,29 @@
+// базовые значения для fallback
 $background-color: #ffffff;
+$background-card-color: #f0f0f0;
+$background-card-hover-color: #e1e1e1;
 $main-color: #2d62ff;
+$text-color: #1e1e1e;
+$second-text-color: #818181;
+$second-text-hover-color: #979797;
+
+:root {
+  --background-color: #{$background-color};
+  --background-card-color: #{$background-card-color};
+  --background-card-hover-color: #{$background-card-hover-color};
+  --main-color: #{$main-color};
+  --text-color: #{$text-color};
+  --second-text-color: #{$second-text-color};
+  --second-text-hover-color: #{$second-text-hover-color};
+}
+
+$background-color: var(--background-color);
+$background-card-color: var(--background-card-color);
+$background-card-hover-color: var(--background-card-hover-color);
+$main-color: var(--main-color);
+$text-color: var(--text-color);
+$second-text-color: var(--second-text-color);
+$second-text-hover-color: var(--second-text-hover-color);
 
 $rem0_875: clamp(0.6rem, 2vh, 0.875rem);
 $rem1: clamp(0.8rem, 2vh, 1rem);
