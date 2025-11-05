@@ -41,16 +41,68 @@
         top: 0px;
         background-color: $background-card-color;
         width: 100%;
+        min-width: 280px;
 
         .profileBox {
             padding: 16px;
             align-items: start;
-            height: 120px;
 
             .user {
                 height: 100%;
                 width: 100%;
-                background-color: $background-color;
+
+                .userHeader {
+                    align-items: center;
+
+                    .userAvatar {
+                        width: 48px;
+                        height: 48px;
+                        border-radius: 50%;
+                    }
+
+                    .textBox {
+                        color: $text-color;
+                        
+                        .fullname {
+                            font-size: $rem1;
+                            font-weight: 500;
+                        }
+
+                        .username {
+                            font-size: $rem0_875;
+                            font-weight: 500;
+                            color: $second-text-color;
+                        }
+                    }
+                }
+
+               .description {
+                    width: 100%;
+                    font-size: $rem0_875;
+                    color: $second-text-color; 
+                    font-weight: 500;
+                    line-height: 1.5;
+
+                    display: -webkit-box;
+                    -webkit-box-orient: vertical;
+                    -webkit-line-clamp: 3;
+
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+
+                    white-space: normal;
+                    word-break: break-word;
+                }
+
+                .setDescriptionButton {
+                    text-align: start;
+                    color: $main-color;
+                    transition: all 0.4s;
+
+                    &:hover {
+                        color: $main-hover-color;
+                    }
+                }
             }
 
             .closeButton {
@@ -64,6 +116,9 @@
 
         nav {
             a {
+                display: flex;
+                gap: 8px;
+                align-items: center;
                 font-size: $rem1;
                 font-weight: 500;
                 line-height: 1.5;
@@ -75,6 +130,11 @@
 
                 &:hover {
                     background-color: $background-card-hover-color;
+                }
+
+                svg {
+                    width: 24px;
+                    height: 24px;
                 }
             }
         }
@@ -127,10 +187,31 @@
                 font-weight: 500;
                 line-height: 1.5;
                 color: $text-color;
+
+                svg {
+                    width: 24px;
+                    height: 24px;
+                }
             }
-            }
+        }
     }
   }
+}
+
+.chats.collapsed {
+
+    .chatsHeader {
+        position: static;
+        .searchInput {
+            display: none;
+        }
+
+        .dropDownMenu {
+            z-index: 2;
+            width: 280px;
+            height: 100%;
+        }
+    }
 }
 
 .resizer {

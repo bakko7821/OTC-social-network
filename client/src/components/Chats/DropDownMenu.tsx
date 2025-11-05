@@ -1,31 +1,106 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { SwitchTheme } from "./SwitchTheme";
-import { CrossIcon } from "../../assets/Icons";
+import { CrossIcon, GroupIcon, LogOutIcon, PhoneIcon, ProfileIcon, SavedIcon, SettingIcon, UserIcon } from "../../assets/Icons";
+import { useEffect, useState } from "react";
+import axios, { AxiosError } from "axios";
+import defaultAvatar from "../../assets/images/58e8ff52eb97430e819064cf.png"
 
 interface DropDownMenuProps {
   onClose: () => void;
 }
 
-export const DropDownMenu = ({ onClose }: DropDownMenuProps) => {
-  return (
-    <div className="dropDownMenu flex column">
-      <div className="profileBox flex between g8">
-        <div className="user"></div>
-        <button className="closeButton" onClick={onClose}>
-          <CrossIcon />
-        </button>
-      </div>
+export interface User {
+    id: number;
+    firstname: string;
+    lastname: string;
+    username: string;
+    email: string;
+    description: string;
+    headImage: string;
+    avatarImage: string;
+    online: boolean;
+}
 
-      <nav className="flex column">
-        <Link to={""}>My Profile</Link>
-        <Link to={""}>New Group</Link>
-        <Link to={""}>New Channel</Link>
-        <Link to={""}>Contacts</Link>
-        <Link to={""}>Calls</Link>
-        <Link to={""}>Saved Message</Link>
-        <Link to={""}>Settings</Link>
-        <SwitchTheme />
-      </nav>
-    </div>
-  );
+export const DropDownMenu = ({ onClose }: DropDownMenuProps) => {
+    const [user, setUser] = useState<User | null>(null);
+    const navigate = useNavigate();
+
+    useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+        navigate("/login");
+        return;
+    }
+
+    const fetchUser = async () => {
+        try {
+            const res = await axios.get<User>("http://localhost:5000/api/users/me", {
+                headers: {
+                Authorization: `Bearer ${token}`,
+                },
+            });
+
+            setUser(res.data);
+        } catch (err) {
+            const error = err as AxiosError<{ message?: string }>;
+            console.error(error.response?.data?.message || "Ошибка при получении данных пользователя");
+            navigate("/login"); // редирект, если токен невалидный
+        }
+    };
+
+    fetchUser();
+    }, [navigate]);
+
+    if (!user) return 
+        <div className="loader">
+            <div className="inner one"></div>
+            <div className="inner two"></div>
+            <div className="inner three"></div>
+        </div>;
+
+    function handleLogOut() {
+        localStorage.removeItem("token")
+        window.location.reload()
+        navigate("/")
+    }
+
+    return (
+        <div className="dropDownMenu flex column">
+            <div className="profileBox flex between g8">
+                <div className="user flex column g8">
+                    <div className="userHeader flex g8">
+                        <div className="userAvatar flex center">
+                            <img
+                                src={user.avatarImage ? `http://localhost:5000/${user.avatarImage}` : defaultAvatar}
+                                alt={user.username || "Avatar"}
+                            />
+                        </div>
+                        <div className="textBox flex column">
+                            <p className="fullname">{user.firstname} {user.lastname}</p>
+                            <p className="username">@{user.username}</p>
+                        </div>
+                    </div>
+                    {user.description ? (
+                        <p className="description">{user.description}</p>
+                    ) : (
+                        <button className="setDescriptionButton">Set Description</button>
+                    )}
+                </div>
+                <button className="closeButton" onClick={onClose}>
+                    <CrossIcon />
+                </button>
+            </div>
+
+            <nav className="flex column">
+            <Link to={""}><ProfileIcon /> My Profile</Link>
+            <Link to={""}><GroupIcon /> New Group</Link>
+            <Link to={""}><UserIcon /> Contacts</Link>
+            <Link to={""}><PhoneIcon /> Calls</Link>
+            <Link to={""}><SavedIcon /> Saved Message</Link>
+            <Link to={""}><SettingIcon /> Settings</Link>
+            <Link to={""} onClick={handleLogOut}><LogOutIcon /> Log Out</Link>
+            <SwitchTheme />
+            </nav>
+        </div>
+    );
 };

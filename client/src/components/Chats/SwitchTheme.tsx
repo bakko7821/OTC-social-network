@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import "../../styles/index.scss";
 import "../../styles/main_page.scss";
+import { DayIcon, NightIcon } from "../../assets/Icons";
 
 export const SwitchTheme = () => {
   const [isDark, setIsDark] = useState(() => {
@@ -40,7 +41,17 @@ export const SwitchTheme = () => {
 
   return (
     <label className="theme-toggle between">
-        <span className="mode-text">{isDark ? "Night Mode" : "Day Mode"}</span>
+        <span className="mode-text flex center g8">
+        {isDark ? (
+            <>
+            <NightIcon /> Night Mode
+            </>
+        ) : (
+            <>
+            <DayIcon /> Day Mode
+            </>
+        )}
+        </span>
         <input
             type="checkbox"
             checked={isDark}

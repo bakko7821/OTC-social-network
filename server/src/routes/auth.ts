@@ -6,7 +6,6 @@ import User from "../models/User";
 
 const router = express.Router();
 
-// Регистрация
 router.post(
   "/register",
   [
@@ -43,18 +42,17 @@ router.post(
   }
 );
 
-// Авторизация
 router.post(
   "/login",
   [
-    body("email").isEmail(),
+    body("username").isEmail(),
     body("password").notEmpty(),
   ],
   async (req: Request, res: Response) => {
-    const { email, password } = req.body;
+    const { username, password } = req.body;
 
     try {
-      const user = await User.findOne({ where: { email } });
+      const user = await User.findOne({ where: { username } });
       if (!user) {
         res.status(400).json({ message: "Неверный email или пароль" });
         return;
@@ -86,7 +84,7 @@ router.post(
 
       res.status(500).json({
         message: error instanceof Error ? error.message : "Ошибка сервера",
-        stack: process.env.NODE_ENV === "development" ? error : undefined, // 👈 чтобы видеть стек при отладке
+        stack: process.env.NODE_ENV === "development" ? error : undefined,
       });
     }
   }

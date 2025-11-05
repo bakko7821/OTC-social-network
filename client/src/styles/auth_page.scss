@@ -1,1 +1,41 @@
 @import './variables';
+
+form {
+    border-radius: 28px;
+    padding: 16px;
+    background-color: $background-card-color;
+
+    .titleText {
+        text-transform: uppercase;
+        font-weight: 700;
+        font-size: $rem2;
+    }
+
+    button {
+        font-size: $rem1_5;
+        font-weight: 500;
+        width: 100%;
+        padding: 8px;
+        border-radius: 12px;
+        transition: all 0.4s;
+    }
+
+    .authButton {
+        background-color: $main-color;
+        color: $button-text-color;
+
+        &:hover {
+            background-color: $main-hover-color;
+        }
+    }
+
+    .registerButton {
+        border: 2px $main-color solid;
+        background-color: transparent;
+        
+        &:hover {
+            color: $button-text-color;
+            background-color: $main-color;
+        }
+    }
+}

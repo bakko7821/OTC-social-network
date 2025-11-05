@@ -358,3 +358,12 @@ client\src\styles\Skeletons.css
 
 - Создан компонент **DropDownMenu.tsx**
 - Создан компонент **SwitchTheme.tsx**
+
+# commit 14.28.8
+
+- Создан компонент PrivateRoute.tsx
+- Создан хук **/hooks/useAuthValue.ts**
+- Создан **/providers/AuthContext.ts**
+
+- Создана страница **RegisterPage.tsx**
+- Создана страница **LoginPage.tsx**
