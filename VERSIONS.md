@@ -347,3 +347,9 @@ client\src\styles\Skeletons.css
 ## Репозиторий переиминован с OTC-social-network на OTC-messanger
 
 - Установлен SASS
+
+# commit 14.26.8
+
+- Создана страница MainPage.tsx.
+- Созданы компоненты Chats.tsx, Messages.tsx
+- Создана механика резайзера
