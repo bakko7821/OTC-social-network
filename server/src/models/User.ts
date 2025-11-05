@@ -1,9 +1,5 @@
 import { DataTypes, Model, HasManyAddAssociationMixin } from "sequelize";
 import { sequelize } from "../config/db";
-import Playlist from "./Playlist";
-import Music from "./Music";
-import Friend from "./Friend";
-import Storie from "./Storie";
 
 class User extends Model {
   public id!: number;
@@ -17,12 +13,6 @@ class User extends Model {
   public description!: string;
   public headImage!: string;
   public avatarImage!: string;
-  public playlists?: Playlist[];
-  public music?: Music[];
-  public friends?: Friend[]; 
-  public stories?: Storie[];
-
-  public addPlaylist!: HasManyAddAssociationMixin<Playlist, number>;
 }
 
 User.init(

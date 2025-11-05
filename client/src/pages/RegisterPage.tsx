@@ -2,6 +2,7 @@ import { useState, type JSX } from "react";
 import axios, { AxiosError } from "axios";
 import { LogoIcon } from "../Icons/Icons";
 import { useNavigate } from "react-router-dom";
+import '../styles/auth_page.scss'
 
 interface ApiError {
   message?: string;

@@ -1,0 +1,8 @@
+@use "scss-reset";
+@import './variables';
+
+#root {
+    width: 100vw;
+    height: 100dvh;
+    overflow: hidden;
+}

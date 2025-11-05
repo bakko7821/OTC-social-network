@@ -259,3 +259,91 @@ npm install socket.io-client
 - Добвлен роут для получения сообщений
 - В server.ts добавлена возможность отправки сообщений через socket.IO
 
+# commit 14.25.8 (REWORK)
+
+### Серверная часть
+
+- Удалены модели
+```
+server/src/models/Friend.ts
+server/src/models/FriendRequests.ts
+server/src/models/Gifts.ts
+server/src/models/Groups.ts
+server/src/models/index.ts
+server/src/models/Message.ts
+server/src/models/Music.ts
+server/src/models/Playlist.ts
+server/src/models/Post.ts
+server/src/models/Storie.ts
+```
+
+- Удалены роуты
+```
+server/src/routes/friends.ts
+server/src/routes/messages.ts
+server/src/routes/music.ts
+server/src/routes/posts.ts
+server/src/routes/stories.ts
+```
+
+### Клиентская часть
+
+- Удалены компоненты
+```
+client\src\components\DropDownMenu.tsx
+client\src\components\App.tsx
+client\src\components\DropDownMenuMusic.tsx
+client\src\components\DropDownNotificationMenu.tsx
+client\src\components\FriendsSection.tsx
+client\src\components\GiftsSection.tsx
+client\src\components\GroupSection.tsx
+client\src\components\Header.tsx
+client\src\components\LikelyFriendsSection.tsx
+client\src\components\MusicSection.tsx
+client\src\components\NavigateSection.tsx
+client\src\components\Navigation.tsx
+client\src\components\PhotosSection.tsx
+client\src\components\PostsSection.tsx
+client\src\components\ProfilePostsSection.tsx
+client\src\components\SearchInput.tsx
+client\src\components\SearchInput.tsx
+client\src\components\StoriesSection.tsx
+client\src\components\UserCard.tsx
+client\src\components\UserPostsCard.tsx
+client\src\components\VideosSection.tsx
+```
+
+- Удалены скелеты компонентов
+```
+client\src\components\skeletons\FriendsSectionSkeleton.tsx
+client\src\components\skeletons\GiftsSectionSkeleton.tsx
+client\src\components\skeletons\GroupsSectionSkeleton.tsx
+client\src\components\skeletons\MusicSectionSkeleton.tsx
+client\src\components\skeletons\NavigationSkeleton.tsx
+client\src\components\skeletons\ProfileSectionPostSkeleton.tsx
+client\src\components\skeletons\StoriesSectionSkeleton.tsx
+client\src\components\skeletons\UserCardSkeleton.tsx
+client\src\components\skeletons\UserProfileCardSkeleton.tsx
+```
+
+- Удалены страницы
+```
+client\src\pages\FeedPage.tsx
+client\src\pages\HomePage.tsx
+```
+
+- Удалены стили
+```
+client\src\styles\Auth.css
+client\src\styles\Feed.css
+client\src\styles\Header.css
+client\src\styles\index.css
+client\src\styles\Navigation.css
+client\src\styles\Profile.css
+client\src\styles\Sections.css
+client\src\styles\Skeletons.css
+```
+
+## Репозиторий переиминован с OTC-social-network на OTC-messanger
+
+- Установлен SASS

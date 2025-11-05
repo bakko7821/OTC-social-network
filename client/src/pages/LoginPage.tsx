@@ -1,6 +1,6 @@
 import { useState, type JSX } from "react";
 import axios, { AxiosError } from "axios";
-import "../styles/Auth.css"
+import "../styles/auth_page.scss"
 import { LogoIcon } from "../Icons/Icons";
 import { useNavigate } from "react-router-dom";
 
