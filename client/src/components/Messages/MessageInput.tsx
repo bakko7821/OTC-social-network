@@ -1,19 +1,24 @@
-import { useState } from "react";
-import { sendMessage } from "../../api/messages";
+import React, { useRef, useState } from "react";
 import { socket } from "../../socket";
+import { sendMessage } from "../../api/messages";
+import { SendIcon } from "../../assets/Icons";
 
-export default function MessageInput({ receiverId }: { receiverId: number }) {
+function MessageInputComponent({ receiverId }: { receiverId: number }) {
+  console.log("MessageInput mounted");
   const [content, setContent] = useState("");
+  const isSendingRef = useRef(false);
 
   const handleSend = async () => {
-    if (!content.trim()) return;
-
-    const message = await sendMessage(receiverId, content.trim());
-    if (message) {
-      socket.emit("private_message", message);
+    if (isSendingRef.current || !content.trim()) return;
+    isSendingRef.current = true;
+    try {
+      const message = await sendMessage(receiverId, content.trim());
+      console.log("EMIT", message);
+      if (message) socket.emit("private_message", message);
+    } finally {
+      setContent("");
+      isSendingRef.current = false;
     }
-
-    setContent("");
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -24,35 +29,19 @@ export default function MessageInput({ receiverId }: { receiverId: number }) {
   };
 
   return (
-    <div style={{ display: "flex", padding: "10px", borderTop: "1px solid #ddd" }}>
+    <div className="messageInput flex between g8">
       <input
         type="text"
         value={content}
         onChange={(e) => setContent(e.target.value)}
         onKeyDown={handleKeyDown}
         placeholder="Напишите сообщение..."
-        style={{
-          flex: 1,
-          border: "1px solid #ccc",
-          borderRadius: "8px",
-          padding: "8px 12px",
-          outline: "none",
-        }}
       />
-      <button
-        onClick={handleSend}
-        style={{
-          marginLeft: "8px",
-          padding: "8px 14px",
-          backgroundColor: "#007bff",
-          color: "#fff",
-          border: "none",
-          borderRadius: "8px",
-          cursor: "pointer",
-        }}
-      >
-        ➤
+      <button className="sendMessageButton flex center" onClick={handleSend}>
+        <SendIcon />
       </button>
     </div>
   );
 }
+
+export default React.memo(MessageInputComponent);

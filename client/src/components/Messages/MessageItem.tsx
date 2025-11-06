@@ -1,4 +1,5 @@
 import React from "react";
+import dayjs from "dayjs";
 
 interface MessageItemProps {
   message: {
@@ -11,24 +12,29 @@ interface MessageItemProps {
 }
 
 export const MessageItem: React.FC<MessageItemProps> = ({ message, isOwn }) => {
+  const time = dayjs(`${message.createdAt}`).format("HH:mm");
+  
   return (
     <div
-      className="flex"
+      className="messageItem flex g16"
       style={{
         justifyContent: isOwn ? "flex-end" : "flex-start",
         marginBottom: "6px",
       }}
     >
-      <div
+      <span
         style={{
-          background: isOwn ? "#d2f2ff" : "#eee",
+          background: isOwn ? "#7799ff" : "var(--background-card-color)",
+          color: "var(--text-color)",
           padding: "8px 12px",
-          borderRadius: "14px",
+          borderRadius: isOwn ? "12px 0px 12px 12px" : "0px 12px 12px 12px",
           maxWidth: "60%",
         }}
       >
         {message.content}
-      </div>
+      </span>
+      <span className="messageTime">{time}</span>
+      <span className="messageStatus"></span>
     </div>
   );
 };

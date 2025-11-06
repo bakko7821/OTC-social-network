@@ -17,6 +17,7 @@ $second-text-hover-color: #979797;
   --text-color: #{$text-color};
   --second-text-color: #{$second-text-color};
   --second-text-hover-color: #{$second-text-hover-color};
+  --button-text-color: #{$button-text-color};
 }
 
 $background-color: var(--background-color);
@@ -26,6 +27,7 @@ $main-color: var(--main-color);
 $text-color: var(--text-color);
 $second-text-color: var(--second-text-color);
 $second-text-hover-color: var(--second-text-hover-color);
+$button-text-color: var(--button-text-color);
 
 $rem0_875: clamp(0.6rem, 2vh, 0.875rem);
 $rem1: clamp(0.8rem, 2vh, 1rem);

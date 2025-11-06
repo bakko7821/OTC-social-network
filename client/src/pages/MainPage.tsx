@@ -5,6 +5,7 @@ import Chats from "../components/Chats/Chats";
 import Messages from "../components/Messages/Messages";
 
 export const MainPage = () => {
+  console.log("Messages function called");
   const [selectedUserId, setSelectedUserId] = useState<number | null>(null);
 
   const [chatWidth, setChatWidth] = useState(() => {
@@ -80,6 +81,8 @@ export const MainPage = () => {
     };
   }, []);
 
+  console.log("MainPage render, selectedUserId:", selectedUserId);
+
   return (
     <div ref={containerRef} className="page flex">
       <div
@@ -92,15 +95,14 @@ export const MainPage = () => {
 
       <div ref={resizerRef} className="resizer"></div>
 
-      <div className="messages flex column" style={{ flex: 1 }}>
+      <div className="messages flex column">
         {selectedUserId ? (
           <Messages receiverId={selectedUserId} />
         ) : (
-          <div className="flex center" style={{ flex: 1, color: "#888" }}>
-            Выбери чат, чтобы начать разговор
-          </div>
+          <div>Выбери чат</div>
         )}
       </div>
     </div>
   );
 };
+

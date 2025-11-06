@@ -72,25 +72,24 @@ export default function Chats({ onSelect }: { onSelect: (userId: number) => void
     }, []);
 
   return (
-    <div style={{ overflowY: "auto", height: "100%" }}>
+    <div>
         <ChatsHeader />
         {dialogs.map((d) => (
-        <div key={d.userId} onClick={() => onSelect(d.userId)} className="flex g10" style={{ padding: 10, borderBottom: "1px solid #eee" }}>
+        <div key={d.userId} onClick={() => onSelect(d.userId)} className="chatCard flex g8">
             <img
-            src={d.avatarImage || defaultAvatar}
-            alt=""
-            style={{ width: 40, height: 40, borderRadius: "50%" }}
+                src={d.avatarImage || defaultAvatar}
+                alt={d.username || "Пользователь"}
             />
-            <div className="flex column between" style={{ flex: 1 }}>
-            <div className="flex between">
-                <span style={{ fontWeight: 600 }}>{d.username || "Без имени"}</span>
-                <span style={{ fontSize: 12, color: "#999" }}>
-                {d.lastMessageTime ? new Date(d.lastMessageTime).toLocaleTimeString() : ""}
+            <div className="chatCardInfo flex center column g4">
+                <div className="chatCardInfoHeader flex between">
+                    <span className="fullname">{d.username || "Без имени"}</span>
+                    <span className="lastMessageDate">
+                        {d.lastMessageTime ? new Date(d.lastMessageTime).toLocaleTimeString() : ""}
+                    </span>
+                </div>
+                <span className="chatCardInfoContent">
+                    {d.lastMessage ? (d.lastMessage.length > 30 ? d.lastMessage.slice(0, 30) + "..." : d.lastMessage) : ""}
                 </span>
-            </div>
-            <span style={{ fontSize: 14, color: "#666" }}>
-                {d.lastMessage ? (d.lastMessage.length > 30 ? d.lastMessage.slice(0, 30) + "..." : d.lastMessage) : ""}
-            </span>
             </div>
         </div>
         ))}

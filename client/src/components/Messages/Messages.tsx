@@ -2,60 +2,64 @@ import { useEffect, useState } from "react";
 import MessageInput from "./MessageInput";
 import { socket } from "../../socket";
 import { MessageItem } from "./MessageItem";
-import { getMessages } from "../../api/messages";
 import type { MessageRecord } from "../../types";
+import { getMessages } from "../../api/messages";
 
 export default function Messages({ receiverId }: { receiverId: number }) {
+    console.log("Messages mounted")
     const [messages, setMessages] = useState<MessageRecord[]>([]);
 
     useEffect(() => {
         if (!receiverId) return;
 
+        let isMounted = true;
+
         const loadMessages = async () => {
+        try {
             const data = await getMessages(receiverId);
-            setMessages(data);
+            if (isMounted) setMessages(data);
+        } catch (err) {
+            console.error("Ошибка загрузки сообщений:", err);
+        }
         };
+
         loadMessages();
 
         const handleMessage = (msg: MessageRecord) => {
-            if (msg.senderId === receiverId || msg.receiverId === receiverId) {
-            setMessages((prev) => [...prev, msg]);
-            }
+        // Показываем только если сообщение относится к этому чату
+        if (msg.senderId === receiverId || msg.receiverId === receiverId) {
+            setMessages((prev) => {
+            if (prev.some((m) => m.id === msg.id)) return prev; // защита от дублей
+            return [...prev, msg];
+            });
+        }
         };
 
+        console.log("Добавляем слушатель для private_message");
         socket.on("private_message", handleMessage);
 
         return () => {
-            socket.off("private_message", handleMessage);
+        isMounted = false;
+        console.log("Удаляем слушатель");
+        socket.off("private_message", handleMessage);
         };
     }, [receiverId]);
+
+    console.log("Messages render, receiverId:", receiverId);
+
+    useEffect(() => {
+        console.log("Messages useEffect executed");
+        return () => console.log("Messages unmounted");
+    }, []);
 
     const currentUserId = Number(localStorage.getItem("userId"));
 
     return (
-        <div className="flex column" style={{ flex: 1 }}>
-            <div style={{ flex: 1, overflowY: "auto", padding: "10px" }}>
-            {messages.map((m) => (
-                <div
-                key={m.id}
-                className="flex"
-                style={{
-                    justifyContent: m.senderId === currentUserId ? "flex-end" : "flex-start",
-                    marginBottom: "6px",
-                }}
-                >
-                <div
-                    style={{
-                    background: m.senderId === currentUserId ? "#d2f2ff" : "#eee",
-                    padding: "8px 12px",
-                    borderRadius: "14px",
-                    maxWidth: "60%",
-                    }}
-                >
+        <div className="messagesBox flex column ">
+            <div className="messagesContent flex column">
+                {messages.map((m) => (
                     <MessageItem key={m.id} message={m} isOwn={m.senderId === currentUserId} />
-                </div>
-                </div>
-            ))}
+                ))}
             </div>
             <MessageInput receiverId={receiverId} />
         </div>

@@ -62,12 +62,22 @@ router.post("/", authMiddleware, async (req: AuthRequest, res: Response) => {
     const { receiverId, content } = req.body;
     const senderId = req.user?.id;
 
-    if (!senderId) {
-      return res.status(401).json({ message: "Unauthorized" });
-    }
-
-    if (!receiverId || !content) {
+    if (!senderId) return res.status(401).json({ message: "Unauthorized" });
+    if (!receiverId || !content)
       return res.status(400).json({ message: "receiverId и content обязательны" });
+
+    // Проверка на дубликат за последние 5 секунд
+    const recent = await Message.findOne({
+      where: {
+        senderId,
+        receiverId,
+        content,
+        createdAt: { [Op.gte]: new Date(Date.now() - 5000) }, // 5 секунд
+      },
+    });
+
+    if (recent) {
+      return res.status(409).json({ message: "Duplicate message detected" });
     }
 
     const message = await Message.create({
@@ -82,8 +92,6 @@ router.post("/", authMiddleware, async (req: AuthRequest, res: Response) => {
     res.status(500).json({ message: "Ошибка сервера" });
   }
 });
-
-
 
 router.get("/:userId/:receiverId", async (req: Request, res: Response) => {
   const { userId, receiverId } = req.params;
