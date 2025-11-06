@@ -387,3 +387,6 @@ client\src\styles\Skeletons.css
 /api/messages.ts
 /api/users.ts
 ```
+# commit 15.30.8 (FIXED)
+
+- При следующем коммите нужно починить вывод информации о собеседнике.

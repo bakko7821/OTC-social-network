@@ -1,21 +1,21 @@
-
 export interface UserShort {
-    id: number;
-    username?: string;
-    avatarImage?: string;
+  id: number;
+  username?: string;
+  avatarImage?: string;
 }
 
 export interface MessageRecord {
-    id: number;
-    senderId: number;
-    receiverId: number;
-    content: string;
-    createdAt: string;
-    read?: boolean;
+  id: number;
+  senderId: number;
+  receiverId: number;
+  content: string;
+  createdAt: string;
+  read?: boolean;
 }
 
 export interface SocketMessage extends MessageRecord {
-    sender?: UserShort;
+  sender?: UserShort;
+  receiver?: UserShort;
 }
 
 export interface Dialog {

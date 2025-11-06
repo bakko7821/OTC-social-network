@@ -19,11 +19,12 @@ export const getDialogs = async (): Promise<Dialog[]> => {
 
 export const getMessages = async (receiverId: number) => {
   const token = localStorage.getItem("token");
+  const currentUserId = localStorage.getItem("userId")
   if (!token) return [];
 
   try {
-    const res = await axios.get(`http://localhost:5000/api/messages/dialogs/${receiverId}`, {
-      headers: { Authorization: `Bearer ${token}` },
+    const res = await axios.get(`http://localhost:5000/api/messages/${currentUserId}/${receiverId}`, {
+        headers: { Authorization: `Bearer ${token}` },
     });
     return res.data;
   } catch (err) {

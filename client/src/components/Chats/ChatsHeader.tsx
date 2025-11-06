@@ -18,7 +18,6 @@ export const ChatsHeader = () => {
         className="dropDownMenuButton flex center"
         onClick={() => {
           setDropDownStatus((prev) => !prev);
-          console.log("dropDownStatus:", !dropDownStatus);
         }}
       >
         <BurgerMenuIcon />

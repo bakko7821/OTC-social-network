@@ -57,7 +57,6 @@ router.get("/dialogs/me", authMiddleware, async (req: AuthRequest, res: Response
     }
 });
 
-// routes/messages.ts
 router.post("/", authMiddleware, async (req: AuthRequest, res: Response) => {
   try {
     const { receiverId, content } = req.body;
@@ -108,27 +107,28 @@ router.get("/:userId/:receiverId", async (req: Request, res: Response) => {
 });
 
 router.get("/dialogs/:receiverId", authMiddleware, async (req: AuthRequest, res) => {
-  const userId = req.user?.id;
-  const receiverId = Number(req.params.receiverId);
+    const userId = req.user?.id;
+    const receiverId = Number(req.params.receiverId);
+    if (isNaN(receiverId)) return res.status(400).json({ message: "Invalid receiverId" });
 
-  if (!userId) return res.status(401).json({ message: "Unauthorized" });
+    if (!userId) return res.status(401).json({ message: "Unauthorized" });
 
-  try {
+    try {
     const messages = await Message.findAll({
-      where: {
+        where: {
         [Op.or]: [
-          { senderId: userId, receiverId },
-          { senderId: receiverId, receiverId: userId },
+            { senderId: userId, receiverId },
+            { senderId: receiverId, receiverId: userId },
         ],
-      },
-      order: [["createdAt", "ASC"]],
+        },
+        order: [["createdAt", "ASC"]],
     });
 
     res.json(messages);
-  } catch (error) {
+    } catch (error) {
     console.error("Ошибка при получении сообщений:", error);
     res.status(500).json({ message: "Ошибка сервера" });
-  }
+    }
 });
 
 
