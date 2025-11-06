@@ -44,4 +44,14 @@ router.get("/:id", async (req: Request, res: Response) => {
   }
 })
 
+router.get("/", async (req, res) => {
+  try {
+    const users = await User.findAll();
+
+    res.json(users);
+  } catch (err) {
+    res.status(500).json({ message: "Ошибка при получении пользователей" });
+  }
+});
+
 export default router;

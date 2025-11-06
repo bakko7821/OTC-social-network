@@ -16,10 +16,14 @@ export const ChatsHeader = () => {
     <div className="chatsHeader flex g8">
       <button
         className="dropDownMenuButton flex center"
-        onClick={() => setDropDownStatus((prev) => !prev)}
+        onClick={() => {
+          setDropDownStatus((prev) => !prev);
+          console.log("dropDownStatus:", !dropDownStatus);
+        }}
       >
         <BurgerMenuIcon />
       </button>
+
 
       <SearchInput />
 

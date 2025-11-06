@@ -5,28 +5,28 @@ import { Server } from "socket.io";
 import dotenv from "dotenv";
 import cors from "cors";
 import { connectDB } from "./config/db";
-import authRouters from "./routes/auth"
-import usersRouters from "./routes/users"
+import authRouters from "./routes/auth";
+import usersRouters from "./routes/users";
+import messagesRouters from "./routes/messages";
 
 dotenv.config();
 
 const app = express();
 const server = http.createServer(app);
-const io = new Server(server, {
-  cors: {
-    origin: "*",
-  },
+
+export const io = new Server(server, {
+  cors: { origin: "*" },
 });
 
 app.use(cors());
 app.use(express.json());
 app.use("/api/auth", authRouters);
 app.use("/api/users", usersRouters);
+app.use("/api/messages", messagesRouters);
 app.use("/music", express.static(path.join(__dirname, "utils/music")));
 app.use("/upload", express.static(path.join(__dirname, "utils/upload")));
 
-
-
+// Socket.IO обработчик
 io.on("connection", (socket) => {
   console.log("User connected:", socket.id);
   socket.on("message", (data) => {
@@ -36,4 +36,4 @@ io.on("connection", (socket) => {
 
 connectDB();
 
-export default server;
+export { app, server };

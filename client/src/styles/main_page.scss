@@ -37,11 +37,15 @@
 
     .dropDownMenu {
         position: absolute;
-        left: 0px;
-        top: 0px;
+        top: 0;
+        left: 0;
         background-color: $background-card-color;
+        min-width: 300px;
         width: 100%;
-        min-width: 280px;
+        height: 100vh;
+        padding: 8px 0;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 
         .profileBox {
             padding: 16px;
@@ -55,15 +59,21 @@
                     align-items: center;
 
                     .userAvatar {
+                        max-width: none;
                         width: 48px;
                         height: 48px;
                         border-radius: 50%;
+
+                        img {
+                            width: 100%;
+                        }
                     }
 
                     .textBox {
                         color: $text-color;
                         
                         .fullname {
+                            white-space: nowrap;
                             font-size: $rem1;
                             font-weight: 500;
                         }
@@ -107,6 +117,7 @@
 
             .closeButton {
                 svg {
+                    max-width: none;
                     color: $text-color;
                     width: 36px;
                     height: 36px;
@@ -208,7 +219,7 @@
 
         .dropDownMenu {
             z-index: 2;
-            width: 280px;
+            width: 300px;
             height: 100%;
         }
     }

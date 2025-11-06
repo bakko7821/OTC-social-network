@@ -1,7 +1,8 @@
-import server from "./app";
+import { io, server } from "./app";
 import { sequelize } from "./config/db";
-import { Server } from "socket.io";
 import User from "./models/User";
+import Message from "./models/Message";
+import { Server } from "socket.io";
 
 (async () => {
   try {
@@ -14,40 +15,31 @@ import User from "./models/User";
 
 const PORT = process.env.PORT || 5000;
 
-const io = new Server(server, {
-  cors: {
-    origin: "*",
-    credentials: true,
-  },
-});
-
-io.on("connection", async (socket) => {
+io.on("connection", (socket) => {
   const userId = socket.handshake.auth?.userId;
   if (!userId) return;
 
-  try {
-    console.log("Socket connected:", socket.id, "userId:", userId);
-    socket.on("join_room", (roomId: string) => {
-      socket.join(roomId);
-      console.log(`user ${userId} joined room ${roomId}`);
-    });
+  console.log(`Пользователь ${userId} подключился`);
 
-    await User.update({ online: true }, { where: { id: userId } });
-    io.emit("user_online", { userId });
-    console.log(`Пользователь ${userId} онлайн`);
-  } catch (err) {
-    console.error("Ошибка при обновлении online:", err);
-  }
+  socket.join(userId.toString());
 
-  socket.on("disconnect", async () => {
+  socket.on("private_message", async ({ receiverId, content }) => {
     try {
-      console.log("Socket connected:", socket.id, "userId:", userId);
-      await User.update({ online: false }, { where: { id: userId } });
-      io.emit("user_offline", { userId });
-      console.log(`Пользователь ${userId} оффлайн`);
+      const message = await Message.create({
+        senderId: userId,
+        receiverId,
+        content,
+      });
+
+      io.to(receiverId.toString()).emit("private_message", message);
+      io.to(userId.toString()).emit("private_message", message);
     } catch (err) {
-      console.error("Ошибка при обновлении offline:", err);
+      console.error("Ошибка при отправке сообщения:", err);
     }
+  });
+
+  socket.on("disconnect", () => {
+    console.log(`Пользователь ${userId} отключился`);
   });
 });
 

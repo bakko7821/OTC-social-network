@@ -51,12 +51,14 @@ export const DropDownMenu = ({ onClose }: DropDownMenuProps) => {
     fetchUser();
     }, [navigate]);
 
-    if (!user) return 
+    if (!user) return (
         <div className="loader">
             <div className="inner one"></div>
             <div className="inner two"></div>
             <div className="inner three"></div>
-        </div>;
+        </div>
+    );
+
 
     function handleLogOut() {
         localStorage.removeItem("token")

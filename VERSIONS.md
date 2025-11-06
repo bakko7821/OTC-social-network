@@ -367,3 +367,23 @@ client\src\styles\Skeletons.css
 
 - Создана страница **RegisterPage.tsx**
 - Создана страница **LoginPage.tsx**
+
+# commit 15.29.8
+
+### Серверная часть
+- Создана модель сообщений /models/Message.ts
+- Создан роут сообщений /routes/message.ts
+- Настроен Socket.IO
+
+### Клиентская часть
+- Созданы компоненты в папке /components/Messages
+```
+/components/Messages/Messages.tsx
+/components/Messages/MessageInput.tsx
+/components/Messages/MessageItem.tsx
+```
+- Созданы файлы в папке /api
+```
+/api/messages.ts
+/api/users.ts
+```

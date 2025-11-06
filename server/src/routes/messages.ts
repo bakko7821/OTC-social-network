@@ -1,0 +1,175 @@
+import { Router } from "express";
+import Message from "../models/Message";
+import express, { Request, Response } from "express";
+import User from "../models/User";
+import { Op } from "sequelize";
+import authMiddleware, { AuthRequest } from "../middleware/authMiddleware";
+
+interface MessageWithSender extends Message {
+  sender?: {
+    id: number;
+    username: string;
+    avatarImage: string;
+  };
+}
+
+const router = express.Router();
+
+
+router.get("/dialogs/me", authMiddleware, async (req: AuthRequest, res: Response) => {
+    const userId = (req.user as any)?.id;
+    if (!userId) return res.status(401).json({ message: "Unauthorized" });
+
+    try {
+        const dialogs = await Message.findAll({
+            where: {
+                [Op.or]: [
+                    { senderId: userId },
+                    { receiverId: userId },
+                ],
+            },
+            order: [["createdAt", "DESC"]],
+            include: [{ model: User, as: "sender", attributes: ["id", "username", "avatarImage"] }],
+    });
+
+    const typedDialogs = dialogs as unknown as MessageWithSender[];
+
+    const uniqueChats: Record<number, any> = {};
+
+    for (const msg of typedDialogs) {
+        const otherId = msg.senderId === Number(userId) ? msg.receiverId : msg.senderId;
+
+        if (!uniqueChats[otherId]) {
+            uniqueChats[otherId] = {
+                userId: otherId,
+                username: msg.sender?.username || `user_${otherId}`,
+                avatarImage: msg.sender?.avatarImage || "",
+                lastMessage: msg.content,
+                lastMessageTime: msg.createdAt,
+            };
+        }
+    }
+
+    res.json(Object.values(uniqueChats));
+    } catch (error) {
+        console.error("Ошибка при получении диалогов:", error);
+        res.status(500).json({ message: "Ошибка сервера" });
+    }
+});
+
+// routes/messages.ts
+router.post("/", authMiddleware, async (req: AuthRequest, res: Response) => {
+  try {
+    const { receiverId, content } = req.body;
+    const senderId = req.user?.id;
+
+    if (!senderId) {
+      return res.status(401).json({ message: "Unauthorized" });
+    }
+
+    if (!receiverId || !content) {
+      return res.status(400).json({ message: "receiverId и content обязательны" });
+    }
+
+    const message = await Message.create({
+      senderId,
+      receiverId,
+      content,
+    });
+
+    res.json(message);
+  } catch (error) {
+    console.error("Ошибка при отправке сообщения:", error);
+    res.status(500).json({ message: "Ошибка сервера" });
+  }
+});
+
+
+
+router.get("/:userId/:receiverId", async (req: Request, res: Response) => {
+  const { userId, receiverId } = req.params;
+
+  try {
+    const messages = await Message.findAll({
+    where: {
+        [Op.or]: [
+            { senderId: userId, receiverId },
+            { senderId: receiverId, receiverId: userId },
+        ],
+    },
+      order: [["createdAt", "ASC"]],
+    });
+
+    res.json(messages);
+  } catch (error) {
+    console.error("Ошибка при получении сообщений:", error);
+    res.status(500).json({ message: "Ошибка сервера" });
+  }
+});
+
+router.get("/dialogs/:receiverId", authMiddleware, async (req: AuthRequest, res) => {
+  const userId = req.user?.id;
+  const receiverId = Number(req.params.receiverId);
+
+  if (!userId) return res.status(401).json({ message: "Unauthorized" });
+
+  try {
+    const messages = await Message.findAll({
+      where: {
+        [Op.or]: [
+          { senderId: userId, receiverId },
+          { senderId: receiverId, receiverId: userId },
+        ],
+      },
+      order: [["createdAt", "ASC"]],
+    });
+
+    res.json(messages);
+  } catch (error) {
+    console.error("Ошибка при получении сообщений:", error);
+    res.status(500).json({ message: "Ошибка сервера" });
+  }
+});
+
+
+router.get("/dialogs/:userId", async (req: Request, res: Response) => {
+  const { userId } = req.params;
+
+  try {
+    const dialogs = await Message.findAll({
+        where: {
+            [Op.or]: [
+                { senderId: userId },
+                { receiverId: userId },
+            ],
+        },
+        order: [["createdAt", "DESC"]],
+        include: [{ model: User, as: "sender", attributes: ["id", "username", "avatarImage"] }],
+    });
+
+    const typedDialogs = dialogs as unknown as MessageWithSender[];
+
+    const uniqueChats: Record<number, any> = {};
+
+    for (const msg of typedDialogs) {
+        const otherId = msg.senderId === Number(userId) ? msg.receiverId : msg.senderId;
+
+        if (!uniqueChats[otherId]) {
+            uniqueChats[otherId] = {
+                userId: otherId,
+                username: msg.sender?.username || `user_${otherId}`,
+                avatarImage: msg.sender?.avatarImage || "",
+                lastMessage: msg.content,
+                lastMessageTime: msg.createdAt,
+            };
+        }
+    }
+
+    res.json(Object.values(uniqueChats));
+  } catch (error) {
+    console.error("Ошибка при получении диалогов:", error);
+    res.status(500).json({ message: "Ошибка сервера" });
+  }
+});
+
+export default router;
