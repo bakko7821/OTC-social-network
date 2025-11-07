@@ -1,32 +1,38 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useCallback } from "react";
 import { socket } from "../../socket";
-import { sendMessage } from "../../api/messages";
 import { SendIcon } from "../../assets/Icons";
 
-function MessageInputComponent({ receiverId }: { receiverId: number }) {
+interface Props {
+  receiverId: number;
+  // onNewMessage?: (msg: MessageRecord) => void;
+}
+
+function MessageInputComponent({ receiverId }: Props) {
   console.log("MessageInput mounted");
+
   const [content, setContent] = useState("");
   const isSendingRef = useRef(false);
 
-  const handleSend = async () => {
+  const handleSend = useCallback(() => {
     if (isSendingRef.current || !content.trim()) return;
     isSendingRef.current = true;
-    try {
-      const message = await sendMessage(receiverId, content.trim());
-      console.log("EMIT", message);
-      if (message) socket.emit("private_message", message);
-    } finally {
-      setContent("");
-      isSendingRef.current = false;
-    }
-  };
 
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter" && !e.shiftKey) {
-      e.preventDefault();
-      handleSend();
-    }
-  };
+    const msg = { receiverId, content: content.trim() };
+    socket.emit("private_message", msg);
+
+    setContent("");
+    isSendingRef.current = false;
+  }, [receiverId, content]);
+
+  const handleKeyDown = useCallback(
+    (e: React.KeyboardEvent<HTMLInputElement>) => {
+      if (e.key === "Enter" && !e.shiftKey) {
+        e.preventDefault();
+        handleSend();
+      }
+    },
+    [handleSend]
+  );
 
   return (
     <div className="messageInput flex between g8">

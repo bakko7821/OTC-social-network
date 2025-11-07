@@ -71,6 +71,8 @@ export default function Chats({ onSelect }: { onSelect: (userId: number) => void
         }
     }, []);
 
+    console.log("Chats render");
+
   return (
     <div>
         <ChatsHeader />

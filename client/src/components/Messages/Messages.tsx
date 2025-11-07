@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
 import MessageInput from "./MessageInput";
 import { socket } from "../../socket";
 import { MessageItem } from "./MessageItem";
@@ -6,62 +6,72 @@ import type { MessageRecord } from "../../types";
 import { getMessages } from "../../api/messages";
 
 export default function Messages({ receiverId }: { receiverId: number }) {
-    console.log("Messages mounted")
-    const [messages, setMessages] = useState<MessageRecord[]>([]);
+  console.log("Messages mounted");
+
+  const [messages, setMessages] = useState<MessageRecord[]>([]);
+  const currentUserId = Number(localStorage.getItem("userId"));
+  const isFetching = useRef(false);
+
+  const loadMessages = useCallback(async () => {
+    if (isFetching.current) return;
+    isFetching.current = true;
+    try {
+      const data = await getMessages(receiverId);
+      setMessages(data);
+    } catch (err) {
+      console.error("Ошибка загрузки сообщений:", err);
+    } finally {
+      isFetching.current = false;
+    }
+  }, [receiverId]);
+
+  useEffect(() => {
+    loadMessages();
+  }, [loadMessages]);
+
+  const handleMessage = useCallback(
+    (msg: MessageRecord) => {
+      if (msg.senderId === receiverId || msg.receiverId === receiverId) {
+        setMessages((prev) => {
+          if (prev.some((m) => m.id === msg.id)) return prev; // защита от дублей
+          return [...prev, msg];
+        });
+      }
+    },
+    [receiverId]
+  );
 
     useEffect(() => {
-        if (!receiverId) return;
-
-        let isMounted = true;
-
-        const loadMessages = async () => {
-        try {
-            const data = await getMessages(receiverId);
-            if (isMounted) setMessages(data);
-        } catch (err) {
-            console.error("Ошибка загрузки сообщений:", err);
-        }
-        };
-
-        loadMessages();
-
-        const handleMessage = (msg: MessageRecord) => {
-        // Показываем только если сообщение относится к этому чату
-        if (msg.senderId === receiverId || msg.receiverId === receiverId) {
-            setMessages((prev) => {
-            if (prev.some((m) => m.id === msg.id)) return prev; // защита от дублей
-            return [...prev, msg];
-            });
-        }
-        };
-
-        console.log("Добавляем слушатель для private_message");
         socket.on("private_message", handleMessage);
+        console.log("Добавлен слушатель для private_message");
 
         return () => {
-        isMounted = false;
-        console.log("Удаляем слушатель");
-        socket.off("private_message", handleMessage);
+            socket.off("private_message", handleMessage);
+            console.log("Удалён слушатель для private_message");
         };
-    }, [receiverId]);
+    }, [handleMessage]);
 
     console.log("Messages render, receiverId:", receiverId);
 
+    const messagesEndRef = useRef<HTMLDivElement | null>(null);
+
     useEffect(() => {
-        console.log("Messages useEffect executed");
-        return () => console.log("Messages unmounted");
-    }, []);
+        messagesEndRef.current?.scrollIntoView({ behavior: "auto" });
+    }, [messages]);
 
-    const currentUserId = Number(localStorage.getItem("userId"));
-
-    return (
-        <div className="messagesBox flex column ">
-            <div className="messagesContent flex column">
-                {messages.map((m) => (
-                    <MessageItem key={m.id} message={m} isOwn={m.senderId === currentUserId} />
+  return (
+    <div className="messagesBox flex column">
+        <div className="messagesContent">
+            {messages.map((m) => (
+                <MessageItem
+                    key={m.id}
+                    message={m}
+                    isOwn={m.senderId === currentUserId}
+                />
                 ))}
-            </div>
-            <MessageInput receiverId={receiverId} />
+            <div ref={messagesEndRef} />
         </div>
-    );
+      <MessageInput receiverId={receiverId}/>
+    </div>
+  );
 }

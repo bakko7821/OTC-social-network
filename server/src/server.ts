@@ -31,6 +31,7 @@ io.on("connection", (socket) => {
         content,
       });
 
+      // Отправляем только участникам диалога
       io.to(receiverId.toString()).emit("private_message", message);
       io.to(userId.toString()).emit("private_message", message);
     } catch (err) {

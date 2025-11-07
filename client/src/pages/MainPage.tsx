@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect, useCallback } from "react";
 import "../styles/index.scss";
 import "../styles/main_page.scss";
 import Chats from "../components/Chats/Chats";
@@ -83,6 +83,14 @@ export const MainPage = () => {
 
   console.log("MainPage render, selectedUserId:", selectedUserId);
 
+  useEffect(() => {
+    console.log("MainPage effect ran");
+  }, [chatWidth, selectedUserId]);
+
+  const handleSelectUser = useCallback((id: number | null) => {
+    setSelectedUserId(id);
+  }, []);
+
   return (
     <div ref={containerRef} className="page flex">
       <div
@@ -90,7 +98,7 @@ export const MainPage = () => {
         className={`chats flex column ${chatWidth === 68 ? "collapsed" : ""}`}
         style={{ width: chatWidth }}
       >
-        <Chats onSelect={setSelectedUserId} />
+        <Chats onSelect={handleSelectUser} />
       </div>
 
       <div ref={resizerRef} className="resizer"></div>
