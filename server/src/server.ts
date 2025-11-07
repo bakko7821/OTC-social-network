@@ -4,6 +4,8 @@ import User from "./models/User";
 import Message from "./models/Message";
 import { Server } from "socket.io";
 
+const onlineUsers = new Map<number, number>();
+
 (async () => {
   try {
     await sequelize.sync({ alter: true });
@@ -16,13 +18,24 @@ import { Server } from "socket.io";
 const PORT = process.env.PORT || 5000;
 
 io.on("connection", (socket) => {
-  const userId = socket.handshake.auth?.userId;
+  const userId = Number(socket.handshake.auth?.userId);
   if (!userId) return;
 
   console.log(`Пользователь ${userId} подключился`);
 
+  // добавляем или увеличиваем счетчик подключений
+  const connections = (onlineUsers.get(userId) || 0) + 1;
+  onlineUsers.set(userId, connections);
+
+  // если это первое подключение — ставим online = true
+  if (connections === 1) {
+    User.update({ online: true }, { where: { id: userId } });
+    console.log(`Пользователь ${userId} стал online`);
+  }
+
   socket.join(userId.toString());
 
+  // обработка личных сообщений
   socket.on("private_message", async ({ receiverId, content }) => {
     try {
       const message = await Message.create({
@@ -31,7 +44,6 @@ io.on("connection", (socket) => {
         content,
       });
 
-      // Отправляем только участникам диалога
       io.to(receiverId.toString()).emit("private_message", message);
       io.to(userId.toString()).emit("private_message", message);
     } catch (err) {
@@ -39,8 +51,18 @@ io.on("connection", (socket) => {
     }
   });
 
-  socket.on("disconnect", () => {
+  // обработка отключения
+  socket.on("disconnect", async () => {
     console.log(`Пользователь ${userId} отключился`);
+
+    const remaining = (onlineUsers.get(userId) || 1) - 1;
+    if (remaining <= 0) {
+      onlineUsers.delete(userId);
+      await User.update({ online: false }, { where: { id: userId } });
+      console.log(`Пользователь ${userId} стал offline`);
+    } else {
+      onlineUsers.set(userId, remaining);
+    }
   });
 });
 

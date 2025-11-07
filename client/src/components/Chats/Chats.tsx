@@ -19,50 +19,48 @@ export default function Chats({ onSelect }: { onSelect: (userId: number) => void
         const currentUserId = Number(localStorage.getItem("userId"));
 
         const handleIncoming = async (msg: SocketMessage) => {
-            const isMyMessage = msg.senderId === currentUserId;
-            const otherId = isMyMessage ? msg.receiverId : msg.senderId;
 
-            // пробуем найти уже существующий диалог
-            setDialogs((prev) => {
-            const existing = prev.find((d) => d.userId === otherId);
-            const messageText = isMyMessage ? `Вы: ${msg.content}` : msg.content;
+        const isMyMessage = msg.senderId === currentUserId;
 
-            if (existing) {
-                return prev.map((d) =>
-                d.userId === otherId
-                    ? { ...d, lastMessage: messageText, lastMessageTime: msg.createdAt }
-                    : d
-                );
-            } else {
-                // Если нет диалога — создаем временный с минимумом данных
-                const tempDialog: Dialog = {
-                userId: otherId,
-                username: isMyMessage
-                    ? msg.receiver?.username || `Пользователь ${otherId}`
-                    : msg.sender?.username || `Пользователь ${otherId}`,
-                avatarImage: isMyMessage
-                    ? msg.receiver?.avatarImage || ""
-                    : msg.sender?.avatarImage || "",
-                lastMessage: messageText,
-                lastMessageTime: msg.createdAt,
-                };
+        const otherId = isMyMessage ? msg.receiverId : msg.senderId;
 
-                return [tempDialog, ...prev];
-            }
-            });
+        const userFromMsg =
+        (msg.sender && msg.senderId === otherId && msg.sender) ||
+        (msg.receiver && msg.receiverId === otherId && msg.receiver) ||
+        undefined;
 
-            // если нет данных о пользователе, можно подгрузить их с API (пример ниже)
-            // if (!msg.receiver && !msg.sender) {
-            //   const user = await getUserById(otherId);
-            //   setDialogs((prev) =>
-            //     prev.map((d) =>
-            //       d.userId === otherId
-            //         ? { ...d, username: user.username, avatarImage: user.avatarImage }
-            //         : d
-            //     )
-            //   );
-            // }
+        const messageText = isMyMessage ? `Вы: ${msg.content}` : msg.content;
+
+        setDialogs((prev) => {
+        const existing = prev.find((d) => d.userId === otherId);
+
+        if (existing) {
+            return prev.map((d) =>
+            d.userId === otherId
+                ? {
+                    ...d,
+                    lastMessage: messageText,
+                    lastMessageTime: msg.createdAt,
+                    username: userFromMsg?.username ?? d.username,
+                    avatarImage: userFromMsg?.avatarImage ?? d.avatarImage,
+                }
+                : d
+            );
+        } else {
+            const usernameFallback = `Пользователь ${otherId}`;
+            const tempDialog: Dialog = {
+            userId: otherId,
+            username: (userFromMsg?.username) ?? usernameFallback,
+            avatarImage: (userFromMsg?.avatarImage) ?? "",
+            lastMessage: messageText,
+            lastMessageTime: msg.createdAt,
+            };
+
+            return [tempDialog, ...prev];
+        }
+        });
         };
+
 
         socket.on("private_message", handleIncoming);
 
@@ -78,13 +76,20 @@ export default function Chats({ onSelect }: { onSelect: (userId: number) => void
         <ChatsHeader />
         {dialogs.map((d) => (
         <div key={d.userId} onClick={() => onSelect(d.userId)} className="chatCard flex g8">
-            <img
-                src={d.avatarImage || defaultAvatar}
-                alt={d.username || "Пользователь"}
-            />
+            <div className="userAvatar flex g8">
+                <img
+                    src={d.avatarImage || defaultAvatar}
+                    alt={d.username || "Пользователь"}
+                />
+                {d.online && <span className="online-dot" />}
+            </div>
             <div className="chatCardInfo flex center column g4">
                 <div className="chatCardInfoHeader flex between">
-                    <span className="fullname">{d.username || "Без имени"}</span>
+                    <span className="fullname">
+                    {d.firstname || d.lastname
+                        ? `${d.firstname ?? ""} ${d.lastname ?? ""}`.trim()
+                        : d.username || "Без имени"}
+                    </span>
                     <span className="lastMessageDate">
                         {d.lastMessageTime ? new Date(d.lastMessageTime).toLocaleTimeString() : ""}
                     </span>
