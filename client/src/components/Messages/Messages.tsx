@@ -4,7 +4,7 @@ import { socket } from "../../socket";
 import { MessageItem } from "./MessageItem";
 import type { MessageRecord } from "../../types";
 import { getMessages } from "../../api/messages";
-import { MessageHeader } from "./MessageHeader";
+import { MessageHeader } from "./MessageHeader/MessageHeader";
 
 export default function Messages({ receiverId }: { receiverId: number }) {
   console.log("Messages mounted");

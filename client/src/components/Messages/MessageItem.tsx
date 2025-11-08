@@ -23,6 +23,7 @@ export const MessageItem: React.FC<MessageItemProps> = ({ message, isOwn }) => {
       }}
     >
       <span
+        className="flex center g8"
         style={{
           background: isOwn ? "#7799ff" : "var(--background-card-color)",
           color: "var(--text-color)",
@@ -32,9 +33,9 @@ export const MessageItem: React.FC<MessageItemProps> = ({ message, isOwn }) => {
         }}
       >
         {message.content}
+        <span className="messageTime">{time}</span>
+        <span className="messageStatus"></span>
       </span>
-      <span className="messageTime">{time}</span>
-      <span className="messageStatus"></span>
     </div>
   );
 };

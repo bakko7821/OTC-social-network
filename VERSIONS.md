@@ -432,3 +432,7 @@ client\src\styles\Skeletons.css
 # commit 18.34.8 
 
 - Создан и стилизован **MessageHeader.tsx**
+
+# commit 18.35.8
+
+- В **MessageHeader.tsx** - добавленны кнопки взаимодействия

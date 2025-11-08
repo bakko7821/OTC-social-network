@@ -43,3 +43,7 @@ export interface User {
   avatarImage: string;
   online: boolean;
 }
+
+export interface DropDownMenuProps {
+  onClose: () => void;
+}

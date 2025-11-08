@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
-import type { User } from "../../types";
+import type { User } from "../../../types";
 import axios, { AxiosError } from "axios";
-import { InfoIcon, MoreIcon, SearchIcon } from "../../assets/Icons";
+import { InfoIcon, MoreIcon, SearchIcon } from "../../../assets/Icons";
+import { MoreDropDownMenu } from "./MoreDropDownMenu";
+import { SearchInput } from "./SearchInput";
 
 interface Props {
   receiverId: number;
@@ -9,6 +11,9 @@ interface Props {
 
 export const MessageHeader = ({ receiverId }: Props) => {
     console.log("MessageHeader receiverId:", receiverId);
+    const [dropDownStatus, setDropDownStatus] = useState(false);
+    const [dropDownSearch, setDropDownSearch] = useState(false);
+    const [dropDownProfile, setDropDownProfile] = useState(false);
     const [ user, setUser ] = useState<User | null>(null)
     
     useEffect(() => {
@@ -25,7 +30,13 @@ export const MessageHeader = ({ receiverId }: Props) => {
 
         fetchUser();
     }, [receiverId])
-    
+
+    const handleCloseMenu = () => {
+        setDropDownStatus(false);
+        setDropDownSearch(false);
+        setDropDownProfile(false);
+    };
+
     return (
         <div className="messageHeader flex between">
             <div className="textBox flex column">
@@ -35,10 +46,24 @@ export const MessageHeader = ({ receiverId }: Props) => {
                 </span>
             </div>
             <nav className="flex">
-                <button><SearchIcon /></button>
-                <button><InfoIcon /></button>
-                <button><MoreIcon /></button>
+                <button onClick={() => {
+                        setDropDownSearch((prev) => !prev);
+                        }}>
+                    <SearchIcon /></button>
+                <button onClick={() => {
+                        setDropDownProfile((prev) => !prev);
+                        }}>
+                    <InfoIcon /></button>
+                <button onClick={() => {
+                        setDropDownStatus((prev) => !prev);
+                        }}>
+                    <MoreIcon />
+                </button>
             </nav>
+
+            {dropDownSearch && <SearchInput onClose={handleCloseMenu}/>}
+            {dropDownProfile && <MoreDropDownMenu />}
+            {dropDownStatus && <MoreDropDownMenu />}
         </div>
     )
 }

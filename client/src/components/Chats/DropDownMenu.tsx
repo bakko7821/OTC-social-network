@@ -4,11 +4,7 @@ import { CrossIcon, GroupIcon, LogOutIcon, PhoneIcon, ProfileIcon, SavedIcon, Se
 import { useEffect, useState } from "react";
 import axios, { AxiosError } from "axios";
 import defaultAvatar from "../../assets/images/58e8ff52eb97430e819064cf.png"
-import type { User } from "../../types";
-
-interface DropDownMenuProps {
-  onClose: () => void;
-}
+import type { DropDownMenuProps, User } from "../../types";
 
 export const DropDownMenu = ({ onClose }: DropDownMenuProps) => {
     const [user, setUser] = useState<User | null>(null);

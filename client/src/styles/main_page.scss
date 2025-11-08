@@ -105,11 +105,13 @@
             }
 
             .closeButton {
+                padding: 8px;
+                
                 svg {
                     max-width: none;
                     color: $text-color;
-                    width: 36px;
-                    height: 36px;
+                    width: 24px;
+                    height: 24px;
                 }
             }
         }
@@ -316,6 +318,7 @@
         }
 
         .messageHeader {
+            position: relative;
             -webkit-box-shadow: 0px 6px 8px 0px rgba(0, 0, 0, 0.2);
             -moz-box-shadow: 0px 6px 8px 0px rgba(0, 0, 0, 0.2);
             box-shadow: 0px 6px 8px 0px rgba(0, 0, 0, 0.2);
@@ -329,6 +332,7 @@
 
             .textBox {
                 .fullname {
+                    color: $text-color;
                     font-size: $rem1;
                     line-height: 1.5;
                     font-weight: 500;
@@ -354,6 +358,46 @@
 
                     svg {
                         cursor: pointer;
+                        width: 24px;
+                    }
+
+                    &:hover {
+                        color: $second-text-hover-color;
+                    }
+                }
+            }
+
+            .dropDownMenu.more {
+                position: absolute;
+                top: 100%;
+                right: 0px;
+                padding: 16px;
+                border-radius: 0px 0px 20px 20px;
+                width: 320px;
+                background-color: $background-card-color;
+            }
+
+            .searchInput {
+                position: absolute;
+                right: 88px;
+                background-color: $background-card-color;
+                
+                input {
+                    background-color: transparent;
+                    border: 2px $second-text-color solid;
+                    border-radius: 12px;
+                    padding: 8px;
+                    font-size: $rem1;
+                    line-height: 1.5;
+                    color: $second-text-color;
+                }
+
+                button {
+                    padding: 8px;
+                    color: $second-text-color;
+                    transition: all 0.5s;
+                    
+                    svg {
                         width: 24px;
                     }
 
