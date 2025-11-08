@@ -31,3 +31,15 @@ export interface Dialog {
   lastMessage: string;
   lastMessageTime: string;
 }
+
+export interface User {
+  id: number;
+  firstname: string;
+  lastname: string;
+  username: string;
+  email: string;
+  description: string;
+  headImage: string;
+  avatarImage: string;
+  online: boolean;
+}

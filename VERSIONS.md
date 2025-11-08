@@ -428,3 +428,7 @@ client\src\styles\Skeletons.css
 - Изменены типы **/client/src/types.ts**
 - Изменена отрисовка **/components/Chats/Chats.tsx**
 - Изменена отрисовка аватара
+
+# commit 18.34.8 
+
+- Создан и стилизован **MessageHeader.tsx**

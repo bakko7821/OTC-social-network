@@ -36,6 +36,7 @@
     }
 
     .dropDownMenu {
+        z-index: 999;
         position: absolute;
         top: 0;
         left: 0;
@@ -58,28 +59,19 @@
                 .userHeader {
                     align-items: center;
 
-                    .userAvatar {
-                        max-width: none;
-                        width: 48px;
-                        height: 48px;
-                        border-radius: 50%;
-
-                        img {
-                            width: 100%;
-                        }
-                    }
-
                     .textBox {
                         color: $text-color;
                         
                         .fullname {
                             white-space: nowrap;
                             font-size: $rem1;
+                            line-height: 1.5;
                             font-weight: 500;
                         }
 
                         .username {
                             font-size: $rem0_875;
+                            line-height: 1.5;
                             font-weight: 500;
                             color: $second-text-color;
                         }
@@ -92,14 +84,11 @@
                     color: $second-text-color; 
                     font-weight: 500;
                     line-height: 1.5;
-
                     display: -webkit-box;
                     -webkit-box-orient: vertical;
                     -webkit-line-clamp: 3;
-
                     overflow: hidden;
                     text-overflow: ellipsis;
-
                     white-space: normal;
                     word-break: break-word;
                 }
@@ -219,33 +208,6 @@
         background-color: $background-card-hover-color;
     }
 
-    .userAvatar {
-        flex-shrink: 0;
-        width: 48px;
-        height: 48px;
-        position: relative;
-        overflow: hidden;
-
-        img {
-            border-radius: 100%;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .online-dot {
-            border-radius: 100%;
-            bottom: 1px;
-            right: 1px;
-            position: absolute;
-            z-index: 10;
-            background-color: $main-color;
-            width: 12px;
-            height: 12px;
-        }
-
-    }
-
     .chatCardInfo {
         color: $text-color;
         align-items: start;
@@ -256,17 +218,21 @@
         }
 
         .fullname {
+            line-height: 1.5;
             font-size: $rem1;
             font-weight: 600;
         }
 
         .lastMessageDate {
             color: $second-text-color;
+            line-height: 1.5;
             font-size: $rem0_875;
             font-weight: 500;
         }
 
         .chatCardInfoContent {
+            color: $second-text-color;
+            line-height: 1.5;
             font-weight: 400;
             font-size: $rem0_875;
         }
@@ -306,12 +272,12 @@
     border-radius: 28px;
     width: 4px;
     height: 100%;
-    background: transparent;
+    background-color: $background-card-color;
     cursor: col-resize;
-    transition: background 0.2s;
+    transition: background-color 0.2s;
 
     &:hover {
-    background: $second-text-color;
+        background-color: $second-text-color;
     }
 }
 
@@ -349,6 +315,55 @@
             border-radius: 20px;
         }
 
+        .messageHeader {
+            -webkit-box-shadow: 0px 6px 8px 0px rgba(0, 0, 0, 0.2);
+            -moz-box-shadow: 0px 6px 8px 0px rgba(0, 0, 0, 0.2);
+            box-shadow: 0px 6px 8px 0px rgba(0, 0, 0, 0.2);
+            padding: 8px;
+            background-color: $background-card-color;
+            position: absolute;
+            align-items: center;
+            top: 0px;
+            left: 0px;
+            width: calc(100% - 8px);
+
+            .textBox {
+                .fullname {
+                    font-size: $rem1;
+                    line-height: 1.5;
+                    font-weight: 500;
+                }
+                
+                .onlineStatus {
+                    color: $second-text-color;
+                    font-size: $rem0_875;
+                    line-height: 1.5;
+                    font-weight: 500;
+
+                    &.active {
+                        color: $main-color;
+                    }
+                }
+            }
+
+            nav {
+                button {
+                    padding: 8px;
+                    color: $second-text-color;
+                    transition: all 0.5s;
+
+                    svg {
+                        cursor: pointer;
+                        width: 24px;
+                    }
+
+                    &:hover {
+                        color: $second-text-hover-color;
+                    }
+                }
+            }
+        }
+
         .messageInput {
             -webkit-box-shadow: 0px -6px 8px 0px rgba(0, 0, 0, 0.2);
             -moz-box-shadow: 0px -6px 8px 0px rgba(0, 0, 0, 0.2);
@@ -359,7 +374,6 @@
             bottom: 0px;
             left: 0px;
             width: calc(100% - 8px);
-            border-radius: 20px;
             
             input {
                 background-color: transparent;
@@ -385,5 +399,32 @@
                 }
             }
         }
+    }
+}
+
+.userAvatar {
+    flex-shrink: 0;
+    width: 48px;
+    height: 48px;
+    position: relative;
+    overflow: hidden;
+
+    img {
+        z-index: 2;
+        border-radius: 100%;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .online-dot {
+        border-radius: 100%;
+        bottom: 1px;
+        right: 1px;
+        position: absolute;
+        z-index: 3;
+        background-color: $main-color;
+        width: 12px;
+        height: 12px;
     }
 }

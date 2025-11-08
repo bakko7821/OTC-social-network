@@ -4,6 +4,7 @@ import { socket } from "../../socket";
 import { MessageItem } from "./MessageItem";
 import type { MessageRecord } from "../../types";
 import { getMessages } from "../../api/messages";
+import { MessageHeader } from "./MessageHeader";
 
 export default function Messages({ receiverId }: { receiverId: number }) {
   console.log("Messages mounted");
@@ -61,6 +62,7 @@ export default function Messages({ receiverId }: { receiverId: number }) {
 
   return (
     <div className="messagesBox flex column">
+      <MessageHeader receiverId={receiverId} />
         <div className="messagesContent">
             {messages.map((m) => (
                 <MessageItem

@@ -4,21 +4,10 @@ import { CrossIcon, GroupIcon, LogOutIcon, PhoneIcon, ProfileIcon, SavedIcon, Se
 import { useEffect, useState } from "react";
 import axios, { AxiosError } from "axios";
 import defaultAvatar from "../../assets/images/58e8ff52eb97430e819064cf.png"
+import type { User } from "../../types";
 
 interface DropDownMenuProps {
   onClose: () => void;
-}
-
-export interface User {
-    id: number;
-    firstname: string;
-    lastname: string;
-    username: string;
-    email: string;
-    description: string;
-    headImage: string;
-    avatarImage: string;
-    online: boolean;
 }
 
 export const DropDownMenu = ({ onClose }: DropDownMenuProps) => {
@@ -26,29 +15,29 @@ export const DropDownMenu = ({ onClose }: DropDownMenuProps) => {
     const navigate = useNavigate();
 
     useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (!token) {
-        navigate("/login");
-        return;
-    }
-
-    const fetchUser = async () => {
-        try {
-            const res = await axios.get<User>("http://localhost:5000/api/users/me", {
-                headers: {
-                Authorization: `Bearer ${token}`,
-                },
-            });
-
-            setUser(res.data);
-        } catch (err) {
-            const error = err as AxiosError<{ message?: string }>;
-            console.error(error.response?.data?.message || "Ошибка при получении данных пользователя");
-            navigate("/login"); // редирект, если токен невалидный
+        const token = localStorage.getItem("token");
+        if (!token) {
+            navigate("/login");
+            return;
         }
-    };
 
-    fetchUser();
+        const fetchUser = async () => {
+            try {
+                const res = await axios.get<User>("http://localhost:5000/api/users/me", {
+                    headers: {
+                    Authorization: `Bearer ${token}`,
+                    },
+                });
+
+                setUser(res.data);
+            } catch (err) {
+                const error = err as AxiosError<{ message?: string }>;
+                console.error(error.response?.data?.message || "Ошибка при получении данных пользователя");
+                navigate("/login"); // редирект, если токен невалидный
+            }
+        };
+
+        fetchUser();
     }, [navigate]);
 
     if (!user) return (
@@ -71,11 +60,12 @@ export const DropDownMenu = ({ onClose }: DropDownMenuProps) => {
             <div className="profileBox flex between g8">
                 <div className="user flex column g8">
                     <div className="userHeader flex g8">
-                        <div className="userAvatar flex center">
+                        <div className="userAvatar flex g8">
                             <img
-                                src={user.avatarImage ? `http://localhost:5000/${user.avatarImage}` : defaultAvatar}
-                                alt={user.username || "Avatar"}
+                                src={user.avatarImage || defaultAvatar}
+                                alt={user.username || "Пользователь"}
                             />
+                            {user.online && <span className="online-dot" />}
                         </div>
                         <div className="textBox flex column">
                             <p className="fullname">{user.firstname} {user.lastname}</p>

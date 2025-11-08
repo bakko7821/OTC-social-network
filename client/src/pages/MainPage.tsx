@@ -103,7 +103,7 @@ export const MainPage = () => {
 
       <div ref={resizerRef} className="resizer"></div>
 
-      <div className="messages flex column">
+      <div className="messages flex center column">
         {selectedUserId ? (
           <Messages receiverId={selectedUserId} />
         ) : (

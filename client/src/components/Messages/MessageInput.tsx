@@ -4,7 +4,6 @@ import { SendIcon } from "../../assets/Icons";
 
 interface Props {
   receiverId: number;
-  // onNewMessage?: (msg: MessageRecord) => void;
 }
 
 function MessageInputComponent({ receiverId }: Props) {

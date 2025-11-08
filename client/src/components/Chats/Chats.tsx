@@ -83,7 +83,7 @@ export default function Chats({ onSelect }: { onSelect: (userId: number) => void
                 />
                 {d.online && <span className="online-dot" />}
             </div>
-            <div className="chatCardInfo flex center column g4">
+            <div className="chatCardInfo flex center column">
                 <div className="chatCardInfoHeader flex between">
                     <span className="fullname">
                     {d.firstname || d.lastname
@@ -91,7 +91,9 @@ export default function Chats({ onSelect }: { onSelect: (userId: number) => void
                         : d.username || "Без имени"}
                     </span>
                     <span className="lastMessageDate">
-                        {d.lastMessageTime ? new Date(d.lastMessageTime).toLocaleTimeString() : ""}
+                        {d.lastMessageTime
+                            ? new Date(d.lastMessageTime).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
+                            : ""}
                     </span>
                 </div>
                 <span className="chatCardInfoContent">
