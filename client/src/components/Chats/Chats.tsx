@@ -2,10 +2,14 @@ import { useEffect, useState } from "react";
 import { ChatsHeader } from "./ChatsHeader";
 import { socket } from "../../socket";
 import { getDialogs } from "../../api/messages";
-import type { Dialog, SocketMessage } from "../../types";
+import type { Dialog, SocketMessage, User } from "../../types";
 import defaultAvatar from "../../assets/images/58e8ff52eb97430e819064cf.png"
 
-export default function Chats({ onSelect }: { onSelect: (userId: number) => void }) {
+interface ChatsProps {
+  onSelect: (user: User) => void;
+}
+
+export default function Chats({ onSelect }: ChatsProps) {
   const [dialogs, setDialogs] = useState<Dialog[]>([]);
 
     useEffect(() => {
@@ -47,13 +51,14 @@ export default function Chats({ onSelect }: { onSelect: (userId: number) => void
                 : d
             );
         } else {
-            const usernameFallback = `Пользователь ${otherId}`;
             const tempDialog: Dialog = {
-            userId: otherId,
-            username: (userFromMsg?.username) ?? usernameFallback,
-            avatarImage: (userFromMsg?.avatarImage) ?? "",
-            lastMessage: messageText,
-            lastMessageTime: msg.createdAt,
+                userId: otherId, // id того, с кем диалог
+                username: userFromMsg?.username ?? `Пользователь ${otherId}`,
+                firstname: userFromMsg?.firstname,
+                lastname: userFromMsg?.lastname,
+                avatarImage: userFromMsg?.avatarImage ?? "",
+                lastMessage: messageText,
+                lastMessageTime: msg.createdAt,
             };
 
             return [tempDialog, ...prev];
@@ -69,39 +74,81 @@ export default function Chats({ onSelect }: { onSelect: (userId: number) => void
         }
     }, []);
 
+    const handleSelect = (user: User) => {
+        console.log(user.username);
+        const newDialog: Dialog = {
+            userId: user.id,
+            username: user.username,
+            firstname: user.firstname,
+            lastname: user.lastname,
+            avatarImage: user.avatarImage,
+            online: user.online,
+            lastMessage: "",
+            lastMessageTime: new Date().toISOString(),
+        };
+
+        setDialogs((prev) => [newDialog, ...prev]); // добавляем в начало списка
+        onSelect(user); // пробрасываем наверх, если нужно
+    };
+
+
     console.log("Chats render");
 
   return (
     <div>
-        <ChatsHeader />
-        {dialogs.map((d) => (
-        <div key={d.userId} onClick={() => onSelect(d.userId)} className="chatCard flex g8">
-            <div className="userAvatar flex g8">
-                <img
+        <ChatsHeader onSelectUser={handleSelect} />
+        {dialogs
+            .slice() // создаём копию, чтобы не мутировать state напрямую
+            .sort((a, b) => {
+                const timeA = new Date(a.lastMessageTime).getTime();
+                const timeB = new Date(b.lastMessageTime).getTime();
+                return timeB - timeA;
+            })
+            .map((d) => (
+            <div 
+                key={d.userId} 
+                onClick={() =>
+                    onSelect({
+                    id: d.userId,
+                    username: d.username,
+                    firstname: d.firstname || "",
+                    lastname: d.lastname || "",
+                    avatarImage: d.avatarImage,
+                    email: "",
+                    description: "",
+                    headImage: "",
+                    online: d.online || false
+                    })
+                } 
+                className="chatCard flex g8"
+            >
+                <div className="userAvatar flex g8">
+                    <img
                     src={d.avatarImage || defaultAvatar}
                     alt={d.username || "Пользователь"}
-                />
-                {d.online && <span className="online-dot" />}
-            </div>
-            <div className="chatCardInfo flex center column">
-                <div className="chatCardInfoHeader flex between">
-                    <span className="fullname">
-                    {d.firstname || d.lastname
-                        ? `${d.firstname ?? ""} ${d.lastname ?? ""}`.trim()
-                        : d.username || "Без имени"}
-                    </span>
-                    <span className="lastMessageDate">
-                        {d.lastMessageTime
+                    />
+                    {d.online && <span className="online-dot" />}
+                </div>
+                <div className="chatCardInfo flex center column">
+                    <div className="chatCardInfoHeader flex between">
+                        <span className="fullname">
+                            {d.firstname || d.lastname
+                            ? `${d.firstname ?? ""} ${d.lastname ?? ""}`.trim()
+                            : d.username || "Без имени"}
+                        </span>
+                        <span className="lastMessageDate">
+                            {d.lastMessageTime
                             ? new Date(d.lastMessageTime).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
                             : ""}
+                        </span>
+                    </div>
+                    <span className="chatCardInfoContent">
+                        {d.lastMessage ? (d.lastMessage.length > 30 ? d.lastMessage.slice(0, 30) + "..." : d.lastMessage) : ""}
                     </span>
                 </div>
-                <span className="chatCardInfoContent">
-                    {d.lastMessage ? (d.lastMessage.length > 30 ? d.lastMessage.slice(0, 30) + "..." : d.lastMessage) : ""}
-                </span>
             </div>
-        </div>
         ))}
+
     </div>
   );
 }

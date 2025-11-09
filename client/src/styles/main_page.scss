@@ -3,10 +3,10 @@
 .chats {
   background: $background-card-color;
   height: 100%;
-  overflow: auto;
 
   .chatsHeader {
     width: 100%;
+    align-items: start;
     position: relative;
     padding: 16px;
 
@@ -25,17 +25,73 @@
         }
     }
 
-    .searchInput {
-        background-color: $background-color;
-        color: $second-text-color;
+    .searchBox {
+        position: relative;
         width: 100%;
-        padding: 8px 16px;
-        line-height: 1.5;
-        border-radius: 16px;
-        font-size: $rem1;
+        border-radius: 0px 12px 12px 12px;
+        // padding: 8px;
+        background-color: $background-color;
+
+        &.active {
+            border-radius: 0px 12px 0px 0px;
+        }
+
+        .searchInput {
+            font-size: $rem1;
+            line-height: 1.5;
+            border-radius: 12px;
+            padding: 8px;
+            background-color: $background-color;
+        }
+
+        .nullMessage {
+            text-align: start;
+            font-size: $rem1;
+            line-height: 1.5;
+            color: $second-text-color;
+            font-weight: 600;
+            width: 100%;
+            padding: 8px;
+        }
+
+        .searchResultBox {
+            background-color: $background-color;
+            width: 100%;
+            position: absolute;
+            top: 100%;
+            border-radius: 0px 0px 12px 12px;
+            overflow: hidden;
+
+            .searchResultCard {
+                align-items: center;
+                cursor: pointer;
+                background-color: transparent;
+                transition: all 0.4s;
+                padding: 16px;
+
+                &:hover {
+                    background-color: $background-card-hover-color;
+                }
+
+                .fullname {
+                    color: $text-color;
+                    font-size: $rem1;
+                    font-weight: 600;
+                    line-height: 1.5;
+                }
+
+                .username {
+                    color: $second-text-color;
+                    font-size: $rem0_875;
+                    font-weight: 500;
+                    line-height: 1.5;
+                }
+            }
+        }
     }
 
     .dropDownMenu {
+        overflow: hidden;
         z-index: 999;
         position: absolute;
         top: 0;
@@ -251,6 +307,7 @@
         }
 
         .dropDownMenu {
+            overflow: hidden;
             z-index: 2;
             width: 300px;
             height: 100%;
@@ -297,13 +354,9 @@
         .messagesContent {
             width: 100%;
             height: 100%;
-            padding: 8px;
+            padding: 72px 8px 8px 8px;
             padding-bottom: 60px;
             overflow-y: scroll;
-
-            .message {
-                width: fit-content;
-            }
         }
 
         .messagesContent::-webkit-scrollbar {
@@ -470,5 +523,53 @@
         background-color: $main-color;
         width: 12px;
         height: 12px;
+    }
+}
+
+.alertMessage {
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    z-index: 999;
+    background-color: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(6px);
+
+    .alertMessageContent {
+        background-color: $background-color;
+        padding: 32px;
+        border-radius: 44px;
+
+        .alertMessageText {
+            font-size: $rem2;
+            line-height: 1.4;
+            color: $text-color;
+            font-weight: 600;
+        }
+
+        button {
+            color: $main-color;
+            background-color: transparent;
+            padding: 8px 16px;
+            font-size: $rem1;
+            line-height: 1.5;
+            font-weight: 500;
+            transition: all 0.4s;
+            border-radius: 12px;
+
+            &:hover {
+                background-color: $background-card-hover-color;
+                
+            }
+        }
+
+        .confirmButton {
+            color: red;
+            
+            &:hover {
+                background-color: rgba($color: #ff7878, $alpha: 0.4);
+            }
+        }
     }
 }

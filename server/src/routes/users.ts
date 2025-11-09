@@ -1,6 +1,7 @@
 import express, { Request, Response } from "express";
 import authMiddleware, { AuthRequest } from "../middleware/authMiddleware";
 import User from "../models/User";
+import { Op } from "sequelize";
 
 const router = express.Router();
 
@@ -20,6 +21,32 @@ router.get("/me", authMiddleware, async (req: AuthRequest, res: Response) => {
     res.json(user);
   } catch (error) {
     console.error(error);
+    res.status(500).json({ message: "Ошибка сервера" });
+  }
+});
+
+router.get("/search", async (req, res) => {
+  const query = req.query.username;
+
+  if (!query || typeof query !== "string") {
+    return res.status(400).json({ message: "Некорректный запрос" });
+  }
+
+  const cleanedQuery = query.startsWith("@") ? query.slice(1) : query;
+
+  try {
+    const users = await User.findAll({
+      where: {
+        username: {
+          [Op.like]: `${cleanedQuery}%`
+        }
+      },
+      limit: 10,
+    });
+
+    res.json(users);
+  } catch (err) {
+    console.error("Ошибка при поиске пользователей:", err);
     res.status(500).json({ message: "Ошибка сервера" });
   }
 });

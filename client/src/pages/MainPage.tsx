@@ -3,10 +3,11 @@ import "../styles/index.scss";
 import "../styles/main_page.scss";
 import Chats from "../components/Chats/Chats";
 import Messages from "../components/Messages/Messages";
+import type { User } from "../types";
 
 export const MainPage = () => {
   console.log("Messages function called");
-  const [selectedUserId, setSelectedUserId] = useState<number | null>(null);
+  const [selectedUser, setSelectedUser] = useState<User | null>(null);
 
   const [chatWidth, setChatWidth] = useState(() => {
     const saved = localStorage.getItem("chatWidth");
@@ -81,14 +82,14 @@ export const MainPage = () => {
     };
   }, []);
 
-  console.log("MainPage render, selectedUserId:", selectedUserId);
+  console.log("MainPage render, selectedUserId:", selectedUser);
 
   useEffect(() => {
     console.log("MainPage effect ran");
-  }, [chatWidth, selectedUserId]);
+  }, [chatWidth, selectedUser?.id]);
 
-  const handleSelectUser = useCallback((id: number | null) => {
-    setSelectedUserId(id);
+  const handleSelectUser = useCallback((user: User) => {
+    setSelectedUser(user);
   }, []);
 
   return (
@@ -104,8 +105,8 @@ export const MainPage = () => {
       <div ref={resizerRef} className="resizer"></div>
 
       <div className="messages flex center column">
-        {selectedUserId ? (
-          <Messages receiverId={selectedUserId} />
+        {selectedUser ? (
+          <Messages receiverId={selectedUser.id} />
         ) : (
           <div>Выбери чат</div>
         )}

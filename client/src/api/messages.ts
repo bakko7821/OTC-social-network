@@ -59,6 +59,8 @@ export const deleteChat = async (receiverId: number) => {
     const res = await axios.delete(`http://localhost:5000/api/messages/dialogs/${receiverId}/${currentUserId}`)
     
     console.log(`Сообщения из чата ${currentUserId} и ${receiverId} - удалены!`)
+    window.location.reload();
+
     return res.data;
   } catch (err) {
     console.error("Ошибка при удалении сообщений:", err);

@@ -4,8 +4,13 @@ import "../../styles/index.scss";
 import "../../styles/main_page.scss";
 import { useState } from "react";
 import { DropDownMenu } from "./DropDownMenu";
+import type { User } from "../../types";
 
-export const ChatsHeader = () => {
+interface ChatsHeaderProps {
+  onSelectUser: (user: User) => void;
+}
+
+export const ChatsHeader = ({ onSelectUser }: ChatsHeaderProps) => {
   const [dropDownStatus, setDropDownStatus] = useState(false);
 
   const handleCloseMenu = () => {
@@ -24,7 +29,7 @@ export const ChatsHeader = () => {
       </button>
 
 
-      <SearchInput />
+      <SearchInput onSelectUser={onSelectUser} />
 
       {dropDownStatus && <DropDownMenu onClose={handleCloseMenu} />}
     </div>
