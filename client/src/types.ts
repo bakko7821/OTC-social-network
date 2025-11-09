@@ -47,3 +47,7 @@ export interface User {
 export interface DropDownMenuProps {
   onClose: () => void;
 }
+
+export interface Props {
+  receiverId: number;
+}

@@ -436,3 +436,14 @@ client\src\styles\Skeletons.css
 # commit 18.35.8
 
 - В **MessageHeader.tsx** - добавленны кнопки взаимодействия
+
+# commit 19.36.8
+
+### Серверная часть
+
+- Создан DELETE роут в **routes/messages.ts**
+
+### Клиентская часть
+
+- В **clients/api/messages.ts** - создана функция deleteChat, которая вызывает DELETE роут
+- В **MoreDropDownMenu.tsx** - добавлена кнопка удаления чата.

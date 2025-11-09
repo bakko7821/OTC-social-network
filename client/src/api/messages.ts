@@ -49,3 +49,19 @@ export const sendMessage = async (receiverId: number, content: string) => {
     return null;
   }
 };
+
+export const deleteChat = async (receiverId: number) => {
+  const currentUserId = Number(localStorage.getItem("userId"));
+  if (!currentUserId) return [];
+
+  try {
+    console.log(`Удаляем сообщения из чата ${currentUserId} и ${receiverId}.`)
+    const res = await axios.delete(`http://localhost:5000/api/messages/dialogs/${receiverId}/${currentUserId}`)
+    
+    console.log(`Сообщения из чата ${currentUserId} и ${receiverId} - удалены!`)
+    return res.data;
+  } catch (err) {
+    console.error("Ошибка при удалении сообщений:", err);
+    return [];
+  }
+}

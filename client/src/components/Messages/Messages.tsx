@@ -62,7 +62,7 @@ export default function Messages({ receiverId }: { receiverId: number }) {
 
   return (
     <div className="messagesBox flex column">
-      <MessageHeader receiverId={receiverId} />
+      <MessageHeader receiverId={receiverId}/>
         <div className="messagesContent">
             {messages.map((m) => (
                 <MessageItem

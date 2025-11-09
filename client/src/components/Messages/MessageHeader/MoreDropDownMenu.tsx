@@ -1,8 +1,10 @@
+import { deleteChat } from "../../../api/messages"
+import type { Props } from "../../../types"
 
-export const MoreDropDownMenu = () => {
+export const MoreDropDownMenu = ({ receiverId }: Props) => {
     return (
         <div className="more dropDownMenu">
-            <span>drop down menu</span>
+            <button onClick={() => deleteChat(receiverId)}>Delete Chat</button>
         </div>
     )
 }

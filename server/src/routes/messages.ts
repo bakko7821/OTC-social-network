@@ -192,4 +192,33 @@ router.get("/dialogs/:userId", async (req: Request, res: Response) => {
   }
 });
 
+router.delete("/dialogs/:receiverId/:senderId", async (req, res) => {
+  const id1 = Number(req.params.receiverId);
+  const id2 = Number(req.params.senderId);
+
+  if (isNaN(id1) || isNaN(id2)) {
+    return res.status(400).json({ message: "Некорректные параметры ID" });
+  }
+
+  try {
+    const deleted = await Message.destroy({
+      where: {
+        [Op.or]: [
+          { senderId: id1, receiverId: id2 },
+          { senderId: id2, receiverId: id1 }
+        ]
+      }
+    });
+
+    res.json({
+      success: true,
+      deletedCount: deleted,
+      message: `Удалено ${deleted} сообщений между пользователями ${id1} и ${id2}`
+    });
+  } catch (error) {
+    console.error("Ошибка при удалении диалогов:", error);
+    res.status(500).json({ message: "Ошибка сервера" });
+  }
+});
+
 export default router;
