@@ -357,6 +357,64 @@
             padding: 72px 8px 8px 8px;
             padding-bottom: 60px;
             overflow-y: scroll;
+
+            .messageItem {
+                margin-bottom: 6px;
+                position: relative;
+
+                .messageContent {
+                    align-items: end;
+                    font-size: $rem1;
+                    font-weight: 500;
+                    line-height: 1.5;
+                    color: $text-color;
+                    position: relative;
+                    max-width: 60%;
+                    padding: 8px 12px;
+
+                    .messageTime {
+                        line-height: 1.3;
+                        font-size: $rem0_875;
+                        color: $text-color;
+                        font-weight: 600;
+                    }
+                }
+
+                .messageDropDownMenu {
+                    position: fixed;
+                    background: var(--background-card-color);
+                    border: 1px solid var(--border-color);
+                    border-radius: 12px;
+                    overflow: hidden;
+                    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+                    z-index: 1000;
+                    min-width: 140px;
+
+                    .menuItem {
+                        color: $second-text-color;
+                        width: 100%;
+                        justify-content: start;
+                        align-items: center;
+                        font-size: $rem1;
+                        font-weight: 500;
+                        line-height: 1.5;
+                        background-color: $background-card-color;
+                        padding: 8px 16px;
+                        cursor: pointer;
+                        white-space: nowrap;
+                        transition: background-color 0.2s;
+
+                        &:hover {
+                            background-color: $background-card-hover-color;
+                        }
+
+                        svg {
+                            width: 24px;
+                            height: 24px;
+                        }
+                    }
+                }
+            }
         }
 
         .messagesContent::-webkit-scrollbar {

@@ -42,23 +42,32 @@ export default function Messages({ receiverId }: { receiverId: number }) {
     [receiverId]
   );
 
-    useEffect(() => {
-        socket.on("private_message", handleMessage);
-        console.log("Добавлен слушатель для private_message");
+  useEffect(() => {
+      socket.on("private_message", handleMessage);
+      console.log("Добавлен слушатель для private_message");
 
-        return () => {
-            socket.off("private_message", handleMessage);
-            console.log("Удалён слушатель для private_message");
-        };
-    }, [handleMessage]);
+      return () => {
+          socket.off("private_message", handleMessage);
+          console.log("Удалён слушатель для private_message");
+      };
+  }, [handleMessage]);
 
-    console.log("Messages render, receiverId:", receiverId);
+  console.log("Messages render, receiverId:", receiverId);
 
-    const messagesEndRef = useRef<HTMLDivElement | null>(null);
+  const messagesEndRef = useRef<HTMLDivElement | null>(null);
 
-    useEffect(() => {
-        messagesEndRef.current?.scrollIntoView({ behavior: "auto" });
-    }, [messages]);
+  useEffect(() => {
+      messagesEndRef.current?.scrollIntoView({ behavior: "auto" });
+  }, [messages]);
+
+  const handleDeleteMessage = async (id: number) => {
+    await fetch(`http://localhost:5000/api/messages/dialogs/${id}`, {
+      method: "DELETE",
+    });
+
+    // Удаляем сообщение из состояния, чтобы интерфейс сразу обновился
+    setMessages((prev) => prev.filter((m) => m.id !== id));
+  };
 
   return (
     <div className="messagesBox flex column">
@@ -69,6 +78,7 @@ export default function Messages({ receiverId }: { receiverId: number }) {
                     key={m.id}
                     message={m}
                     isOwn={m.senderId === currentUserId}
+                    onDelete={handleDeleteMessage}
                 />
                 ))}
             <div ref={messagesEndRef} />

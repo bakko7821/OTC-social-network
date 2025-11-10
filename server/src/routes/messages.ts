@@ -221,4 +221,27 @@ router.delete("/dialogs/:receiverId/:senderId", async (req, res) => {
   }
 });
 
+router.delete("/dialogs/:id", async (req, res) => {
+  try {
+    const id = Number(req.params.id);
+
+    if (isNaN(id)) {
+      return res.status(400).json({ message: "Некорректный параметр ID" });
+    }
+
+    const message = await Message.findByPk(id);
+
+    if (!message) {
+      return res.status(404).json({ message: "Сообщение не найдено" });
+    }
+
+    await message.destroy();
+
+    return res.json({ message: "Сообщение успешно удалено" });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: "Ошибка при удалении сообщения" });
+  }
+});
+
 export default router;
