@@ -1,52 +1,84 @@
-import React, { useRef, useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import { socket } from "../../socket";
-import { SendIcon } from "../../assets/Icons";
+import { CrossIcon, SendIcon } from "../../assets/Icons";
 
-interface Props {
+interface MessageInputProps {
   receiverId: number;
+  onSend: (content: string) => void;
+  editingMessage: { id: number; content: string } | null;
+  onSaveEdit: (id: number, newContent: string) => void;
+  onCancelEdit: () => void;
 }
 
-function MessageInputComponent({ receiverId }: Props) {
-  console.log("MessageInput mounted");
-
+export const MessageInput: React.FC<MessageInputProps> = ({
+  receiverId,
+  onSend,
+  editingMessage,
+  onSaveEdit,
+  onCancelEdit,
+}) => {
   const [content, setContent] = useState("");
-  const isSendingRef = useRef(false);
+  const [originalContent, setOriginalContent] = useState("");
 
-  const handleSend = useCallback(() => {
-    if (isSendingRef.current || !content.trim()) return;
-    isSendingRef.current = true;
+  useEffect(() => {
+    if (editingMessage) {
+      setContent(editingMessage.content);
+      setOriginalContent(editingMessage.content);
+    } else {
+      setContent("");
+      setOriginalContent("");
+    }
+  }, [editingMessage]);
 
-    const msg = { receiverId, content: content.trim() };
-    socket.emit("private_message", msg);
+  const handleSubmit = useCallback(() => {
+    if (!content.trim()) return;
+
+    if (editingMessage) {
+      onSaveEdit(editingMessage.id, content.trim());
+    } else {
+      onSend(content.trim());
+      socket.emit("private_message", { receiverId, content: content.trim() });
+    }
 
     setContent("");
-    isSendingRef.current = false;
-  }, [receiverId, content]);
+  }, [content, editingMessage, onSaveEdit, onSend, receiverId]);
 
   const handleKeyDown = useCallback(
     (e: React.KeyboardEvent<HTMLInputElement>) => {
       if (e.key === "Enter" && !e.shiftKey) {
         e.preventDefault();
-        handleSend();
+        handleSubmit();
       }
     },
-    [handleSend]
+    [handleSubmit]
   );
 
   return (
-    <div className="messageInput flex between g8">
-      <input
-        type="text"
-        value={content}
-        onChange={(e) => setContent(e.target.value)}
-        onKeyDown={handleKeyDown}
-        placeholder="Напишите сообщение..."
-      />
-      <button className="sendMessageButton flex center" onClick={handleSend}>
-        <SendIcon />
-      </button>
+    <div className="messageInputWrapper">
+      {editingMessage && (
+        <div className="editingBanner flex between">
+          <div className="contentBox flex column g4">
+            <span className="headerText">Редактируем сообщение:</span>
+            <span className="content">{originalContent}</span>
+          </div>
+          <button className="cancelButton" onClick={() => {
+            onCancelEdit();
+            setContent("");
+          }}><CrossIcon /></button>
+        </div>
+      )}
+      <div className="messageInput flex between g8">
+        <input
+          type="text"
+          value={content}
+          onChange={(e) => setContent(e.target.value)}
+          onKeyDown={handleKeyDown}
+          placeholder="Напишите сообщение..."
+        />
+        <button className="sendMessageButton flex center" onClick={handleSubmit}>
+          <SendIcon />
+        </button>
+      </div>
     </div>
   );
-}
-
-export default React.memo(MessageInputComponent);
+};

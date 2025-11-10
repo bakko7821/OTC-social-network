@@ -1,5 +1,11 @@
 @use './variables' as *;
 
+svg {
+    max-width: none;
+    width: 24px;
+    height: 24px;
+}
+
 .chats {
   background: $background-card-color;
   height: 100%;
@@ -162,13 +168,7 @@
 
             .closeButton {
                 padding: 8px;
-                
-                svg {
-                    max-width: none;
-                    color: $text-color;
-                    width: 24px;
-                    height: 24px;
-                }
+                color: $text-color;
             }
         }
 
@@ -188,11 +188,6 @@
 
                 &:hover {
                     background-color: $background-card-hover-color;
-                }
-
-                svg {
-                    width: 24px;
-                    height: 24px;
                 }
             }
         }
@@ -245,11 +240,6 @@
                 font-weight: 500;
                 line-height: 1.5;
                 color: $text-color;
-
-                svg {
-                    width: 24px;
-                    height: 24px;
-                }
             }
         }
     }
@@ -387,7 +377,7 @@
                     border-radius: 12px;
                     overflow: hidden;
                     box-shadow: 0 4px 8px rgba(0,0,0,0.15);
-                    z-index: 1000;
+                    z-index: 999;
                     min-width: 140px;
 
                     .menuItem {
@@ -406,11 +396,6 @@
 
                         &:hover {
                             background-color: $background-card-hover-color;
-                        }
-
-                        svg {
-                            width: 24px;
-                            height: 24px;
                         }
                     }
                 }
@@ -466,11 +451,7 @@
                     padding: 8px;
                     color: $second-text-color;
                     transition: all 0.5s;
-
-                    svg {
-                        cursor: pointer;
-                        width: 24px;
-                    }
+                    cursor: pointer;
 
                     &:hover {
                         color: $second-text-hover-color;
@@ -479,6 +460,7 @@
             }
 
             .dropDownMenu.more {
+                z-index: 999;
                 position: absolute;
                 top: 100%;
                 right: 0px;
@@ -507,10 +489,6 @@
                     padding: 8px;
                     color: $second-text-color;
                     transition: all 0.5s;
-                    
-                    svg {
-                        width: 24px;
-                    }
 
                     &:hover {
                         color: $second-text-hover-color;
@@ -519,38 +497,52 @@
             }
         }
 
-        .messageInput {
+        .messageInputWrapper {
             -webkit-box-shadow: 0px -6px 8px 0px rgba(0, 0, 0, 0.2);
             -moz-box-shadow: 0px -6px 8px 0px rgba(0, 0, 0, 0.2);
             box-shadow: 0px -6px 8px 0px rgba(0, 0, 0, 0.2);
-            padding: 8px;
             background-color: $background-card-color;
             position: absolute;
             bottom: 0px;
             left: 0px;
             width: calc(100% - 8px);
-            
-            input {
-                background-color: transparent;
-                width: 100%;
-                font-size: $rem1;
-                line-height: 1.5;
-                color: $text-color;
-            }
 
-            .sendMessageButton {
-                padding: 8px;
-                background-color: $main-color;
-                transition: all 0.4s;
-                border-radius: 12px;
+            .editingBanner {
+                padding: 8px 8px 12px 8px;
+                border-bottom: 2px $main-color solid;
 
-                &:hover {
-                    background-color: $main-hover-color;
+                .headerText {
+                    font-weight: 500;
+                    font-size: $rem0_875;
+                    line-height: 1.5;
+                    color: $main-color;
                 }
 
                 svg {
-                    width: 24px;
-                    height: 24px;
+                    color: $second-text-color;
+                }
+            }
+
+            .messageInput {
+                padding: 8px;
+            
+                input {
+                    background-color: transparent;
+                    width: 100%;
+                    font-size: $rem1;
+                    line-height: 1.5;
+                    color: $text-color;
+                }
+
+                .sendMessageButton {
+                    padding: 8px;
+                    background-color: $main-color;
+                    transition: all 0.4s;
+                    border-radius: 12px;
+
+                    &:hover {
+                        background-color: $main-hover-color;
+                    }
                 }
             }
         }

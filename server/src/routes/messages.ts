@@ -244,4 +244,33 @@ router.delete("/dialogs/:id", async (req, res) => {
   }
 });
 
+router.patch("/dialogs/:id", async (req, res) => {
+  try {
+    const id = Number(req.params.id);
+    const { content } = req.body;
+
+    if (isNaN(id)) {
+      return res.status(400).json({ message: "Некорректный ID сообщения" });
+    }
+
+    if (!content || typeof content !== "string") {
+      return res.status(400).json({ message: "Неверный контент сообщения" });
+    }
+
+    const message = await Message.findByPk(id);
+
+    if (!message) {
+      return res.status(404).json({ message: "Сообщение не найдено" });
+    }
+
+    message.content = content;
+    await message.save();
+
+    res.json(message);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Ошибка сервера при обновлении сообщения" });
+  }
+});
+
 export default router;

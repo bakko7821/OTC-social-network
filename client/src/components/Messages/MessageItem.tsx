@@ -11,9 +11,10 @@ interface MessageItemProps {
   };
   isOwn: boolean;
   onDelete: (id: number) => void;
+  onEdit: (message: { id: number; content: string }) => void;
 }
 
-export const MessageItem: React.FC<MessageItemProps> = ({ message, isOwn, onDelete }) => {
+export const MessageItem: React.FC<MessageItemProps> = ({ message, isOwn, onDelete, onEdit }) => {
   const [showConfirm, setShowConfirm] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -32,7 +33,7 @@ export const MessageItem: React.FC<MessageItemProps> = ({ message, isOwn, onDele
 
   const fetchDelete = async (id: number) => {
     try {
-      await onDelete(id); // вызываем родительский хендлер
+      await onDelete(id);
     } catch (error) {
       console.error("Ошибка при удалении:", error);
     }
@@ -62,6 +63,7 @@ export const MessageItem: React.FC<MessageItemProps> = ({ message, isOwn, onDele
     setMenuType("crud");
   };
 
+  // УБРАТЬ ПОСЛЕ СОЗДАНИЯ ВСЕХ ФУНКЦИЙ
   const handleAction = (action: string) => {
     if (action === "select") {
       console.log("select")
@@ -118,7 +120,7 @@ export const MessageItem: React.FC<MessageItemProps> = ({ message, isOwn, onDele
 
           {menuType === "crud" && (
             <>
-              <div className="menuItem flex g8" onClick={() => handleAction("edit")}>
+              <div className="menuItem flex g8" onClick={() => onEdit(message)}>
                 <EditIcon />
                 <span>Изменить</span>
               </div>
