@@ -67,12 +67,6 @@ export const MessageItem: React.FC<MessageItemProps> = ({ message, isOwn, onDele
   const handleAction = (action: string) => {
     if (action === "select") {
       console.log("select")
-    } else if (action === "edit") {
-      console.log("edit")
-    } else if (action === "delete") {
-      fetchDelete(message.id)
-    } else if (action === "copy") {
-      console.log("copy")
     } else {
       console.log("ELSE")
     }
