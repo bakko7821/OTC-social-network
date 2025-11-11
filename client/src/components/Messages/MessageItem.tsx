@@ -11,11 +11,12 @@ interface MessageItemProps {
   };
   isOwn: boolean;
   onDelete: (id: number) => void;
-  onEdit: (message: { id: number; content: string }) => void;
 }
 
-export const MessageItem: React.FC<MessageItemProps> = ({ message, isOwn, onDelete, onEdit }) => {
+export const MessageItem: React.FC<MessageItemProps> = ({ message, isOwn, onDelete }) => {
   const [showConfirm, setShowConfirm] = useState(false);
+  const [showNotification, setShowNotification] = useState(false);
+  const [notification, setNotification] = useState("")
   const [loading, setLoading] = useState(false);
 
   async function handleDelete() {
@@ -33,7 +34,7 @@ export const MessageItem: React.FC<MessageItemProps> = ({ message, isOwn, onDele
 
   const fetchDelete = async (id: number) => {
     try {
-      await onDelete(id);
+      await onDelete(id); // вызываем родительский хендлер
     } catch (error) {
       console.error("Ошибка при удалении:", error);
     }
@@ -63,7 +64,6 @@ export const MessageItem: React.FC<MessageItemProps> = ({ message, isOwn, onDele
     setMenuType("crud");
   };
 
-  // УБРАТЬ ПОСЛЕ СОЗДАНИЯ ВСЕХ ФУНКЦИЙ
   const handleAction = (action: string) => {
     if (action === "select") {
       console.log("select")
@@ -79,6 +79,13 @@ export const MessageItem: React.FC<MessageItemProps> = ({ message, isOwn, onDele
 
     setMenuType("none");
   };
+
+  const copyToClipboard = () => {
+    setNotification("Вы успешно скопировали сообщение.")
+    setShowNotification(true)
+
+    setTimeout(() => setShowNotification(false), 2000);
+  }
 
   return (
     <div
@@ -120,11 +127,11 @@ export const MessageItem: React.FC<MessageItemProps> = ({ message, isOwn, onDele
 
           {menuType === "crud" && (
             <>
-              <div className="menuItem flex g8" onClick={() => onEdit(message)}>
+              <div className="menuItem flex g8" onClick={() => handleAction("edit")}>
                 <EditIcon />
                 <span>Изменить</span>
               </div>
-              <div className="menuItem flex g8" onClick={() => handleAction("copy")}>
+              <div className="menuItem flex g8" onClick={() => copyToClipboard()}>
                 <CopyIcon />
                 <span>Копировать</span>
               </div>
@@ -163,6 +170,12 @@ export const MessageItem: React.FC<MessageItemProps> = ({ message, isOwn, onDele
                 </button>
             </div>
           </div>
+        </div>
+      )}
+
+      {showNotification && (
+        <div className="notificationMessage flex center">
+          <span className="notificationContent">{notification}</span>
         </div>
       )}
     </div>

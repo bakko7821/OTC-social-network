@@ -1,11 +1,5 @@
 @use './variables' as *;
 
-svg {
-    max-width: none;
-    width: 24px;
-    height: 24px;
-}
-
 .chats {
   background: $background-card-color;
   height: 100%;
@@ -168,7 +162,13 @@ svg {
 
             .closeButton {
                 padding: 8px;
-                color: $text-color;
+                
+                svg {
+                    max-width: none;
+                    color: $text-color;
+                    width: 24px;
+                    height: 24px;
+                }
             }
         }
 
@@ -188,6 +188,11 @@ svg {
 
                 &:hover {
                     background-color: $background-card-hover-color;
+                }
+
+                svg {
+                    width: 24px;
+                    height: 24px;
                 }
             }
         }
@@ -240,6 +245,11 @@ svg {
                 font-weight: 500;
                 line-height: 1.5;
                 color: $text-color;
+
+                svg {
+                    width: 24px;
+                    height: 24px;
+                }
             }
         }
     }
@@ -377,7 +387,7 @@ svg {
                     border-radius: 12px;
                     overflow: hidden;
                     box-shadow: 0 4px 8px rgba(0,0,0,0.15);
-                    z-index: 999;
+                    z-index: 1000;
                     min-width: 140px;
 
                     .menuItem {
@@ -396,6 +406,11 @@ svg {
 
                         &:hover {
                             background-color: $background-card-hover-color;
+                        }
+
+                        svg {
+                            width: 24px;
+                            height: 24px;
                         }
                     }
                 }
@@ -451,7 +466,11 @@ svg {
                     padding: 8px;
                     color: $second-text-color;
                     transition: all 0.5s;
-                    cursor: pointer;
+
+                    svg {
+                        cursor: pointer;
+                        width: 24px;
+                    }
 
                     &:hover {
                         color: $second-text-hover-color;
@@ -460,7 +479,6 @@ svg {
             }
 
             .dropDownMenu.more {
-                z-index: 999;
                 position: absolute;
                 top: 100%;
                 right: 0px;
@@ -489,6 +507,10 @@ svg {
                     padding: 8px;
                     color: $second-text-color;
                     transition: all 0.5s;
+                    
+                    svg {
+                        width: 24px;
+                    }
 
                     &:hover {
                         color: $second-text-hover-color;
@@ -497,52 +519,38 @@ svg {
             }
         }
 
-        .messageInputWrapper {
+        .messageInput {
             -webkit-box-shadow: 0px -6px 8px 0px rgba(0, 0, 0, 0.2);
             -moz-box-shadow: 0px -6px 8px 0px rgba(0, 0, 0, 0.2);
             box-shadow: 0px -6px 8px 0px rgba(0, 0, 0, 0.2);
+            padding: 8px;
             background-color: $background-card-color;
             position: absolute;
             bottom: 0px;
             left: 0px;
             width: calc(100% - 8px);
+            
+            input {
+                background-color: transparent;
+                width: 100%;
+                font-size: $rem1;
+                line-height: 1.5;
+                color: $text-color;
+            }
 
-            .editingBanner {
-                padding: 8px 8px 12px 8px;
-                border-bottom: 2px $main-color solid;
+            .sendMessageButton {
+                padding: 8px;
+                background-color: $main-color;
+                transition: all 0.4s;
+                border-radius: 12px;
 
-                .headerText {
-                    font-weight: 500;
-                    font-size: $rem0_875;
-                    line-height: 1.5;
-                    color: $main-color;
+                &:hover {
+                    background-color: $main-hover-color;
                 }
 
                 svg {
-                    color: $second-text-color;
-                }
-            }
-
-            .messageInput {
-                padding: 8px;
-            
-                input {
-                    background-color: transparent;
-                    width: 100%;
-                    font-size: $rem1;
-                    line-height: 1.5;
-                    color: $text-color;
-                }
-
-                .sendMessageButton {
-                    padding: 8px;
-                    background-color: $main-color;
-                    transition: all 0.4s;
-                    border-radius: 12px;
-
-                    &:hover {
-                        background-color: $main-hover-color;
-                    }
+                    width: 24px;
+                    height: 24px;
                 }
             }
         }
@@ -621,5 +629,26 @@ svg {
                 background-color: rgba($color: #ff7878, $alpha: 0.4);
             }
         }
+    }
+}
+
+.notificationMessage {
+    padding: 8px;
+    align-items: start;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    z-index: 999;
+
+    .notificationContent {
+        font-size: $rem1;
+        color: $text-color;
+        font-weight: 500;
+        line-height: 1.5;
+        padding: 12px;
+        border-radius: 20px;
+        background-color: $background-color;
     }
 }
