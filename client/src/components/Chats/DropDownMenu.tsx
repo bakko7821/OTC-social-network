@@ -58,8 +58,8 @@ export const DropDownMenu = ({ onClose }: DropDownMenuProps) => {
 
     return (
         <div className="dropDownMenu flex column">
-            <div className="profileBox flex between g8">
-                <div className="user flex column g8">
+            <div className="profileBox flex column g8">
+                <div className="user flex between g8">
                     <div className="userHeader flex g8">
                         <div className="userAvatar flex g8">
                             <img
@@ -73,15 +73,15 @@ export const DropDownMenu = ({ onClose }: DropDownMenuProps) => {
                             <p className="username">@{user.username}</p>
                         </div>
                     </div>
-                    {user.description ? (
-                        <p className="description">{user.description}</p>
-                    ) : (
-                        <button className="setDescriptionButton">Set Description</button>
-                    )}
+                    <button className="closeButton" onClick={onClose}>
+                        <CrossIcon />
+                    </button>
                 </div>
-                <button className="closeButton" onClick={onClose}>
-                    <CrossIcon />
-                </button>
+                {user.description ? (
+                    <p className="description">{user.description}</p>
+                ) : (
+                    <button className="setDescriptionButton">Set Description</button>
+                )}
             </div>
 
             <nav className="chatsHeaderNavigate flex column">

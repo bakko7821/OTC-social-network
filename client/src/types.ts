@@ -37,6 +37,7 @@ export interface User {
   firstname: string;
   lastname: string;
   username: string;
+  phoneNumber: string;
   email: string;
   description: string;
   headImage: string;

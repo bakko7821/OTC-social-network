@@ -17,10 +17,15 @@
         svg {
             width: 36px;
             height: 36px;
+            transition: all 0.5s;
         }
 
         &:hover {
             color: $second-text-hover-color;
+
+            svg {
+                transform: rotate(30deg);
+            }
         }
     }
 
@@ -104,11 +109,10 @@
         box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 
         .profileBox {
-            padding: 16px;
             align-items: start;
 
             .user {
-                height: 100%;
+                padding: 16px;
                 width: 100%;
 
                 .userHeader {
@@ -132,39 +136,50 @@
                         }
                     }
                 }
-
-               .description {
-                    width: 100%;
-                    font-size: $rem0_875;
-                    color: $second-text-color; 
-                    font-weight: 500;
-                    line-height: 1.5;
-                    display: -webkit-box;
-                    -webkit-box-orient: vertical;
-                    line-clamp: 3;
-                    overflow: hidden;
-                    text-overflow: ellipsis;
-                    white-space: normal;
-                    word-break: break-word;
-                }
-
-                .setDescriptionButton {
-                    text-align: start;
-                    color: $main-color;
-                    transition: all 0.4s;
-
-                    &:hover {
-                        color: $main-hover-color;
-                    }
-                }
             }
 
             .closeButton {
                 padding: 8px;
+                transition: all 0.5s;
                 
                 svg {
                     max-width: none;
                     color: $text-color;
+                    transition: all 0.5s;
+                }
+
+                &:hover {
+                    svg {
+                        transform: rotate(30deg);
+                    }
+                }
+            }
+
+            .description {
+                padding: 0px 16px 8px 16px;
+                width: 100%;
+                font-size: $rem0_875;
+                color: $second-text-color; 
+                font-weight: 400;
+                border-bottom: 1px $main-color solid;
+                margin-bottom: 16px;
+                line-height: 1.5;
+                display: -webkit-box;
+                -webkit-box-orient: vertical;
+                line-clamp: 3;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: normal;
+                word-break: break-word;
+            }
+
+            .setDescriptionButton {
+                text-align: start;
+                color: $main-color;
+                transition: all 0.4s;
+
+                &:hover {
+                    color: $main-hover-color;
                 }
             }
         }

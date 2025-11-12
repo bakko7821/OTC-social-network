@@ -114,10 +114,15 @@
 
                     svg {
                         cursor: pointer;
+                        transition: all 0.5s;
                     }
 
                     &:hover {
                         color: $second-text-hover-color;
+
+                        svg {
+                            transform: rotate(30deg);
+                        }
                     }
                 }
             }

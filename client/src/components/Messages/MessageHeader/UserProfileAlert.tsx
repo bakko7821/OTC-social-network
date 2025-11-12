@@ -53,7 +53,7 @@ export const UserProfileAlert = ({ receiverId, onClose }: UserProfileAlertProps)
                 {isEditing ? (
                     <EditProfileAlert user={user}/>
                 ) : (
-                    <div className="userInfoBox flex column g16 ">
+                    <div className="userInfoBox flex column g8 ">
                         <div className="userInfoHeader flex g16">
                             <div className="userAvatar flex center">
                                 <img

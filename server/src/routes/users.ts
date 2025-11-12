@@ -7,7 +7,7 @@ const router = express.Router();
 
 router.get("/me", authMiddleware, async (req: AuthRequest, res: Response) => {
   try {
-    const userId = (req.user as any)?.id; // если в токене храним id
+    const userId = (req.user as any)?.id;
     if (!userId) {
       return res.status(400).json({ message: "Некорректный токен" });
     }
@@ -19,9 +19,9 @@ router.get("/me", authMiddleware, async (req: AuthRequest, res: Response) => {
     }
 
     res.json(user);
-  } catch (error) {
+  } catch (error: unknown) {
     console.error(error);
-    res.status(500).json({ message: "Ошибка сервера" });
+    res.status(500).json({ message: "Ошибка при поиске информации о локальном пользователе." });
   }
 });
 
@@ -45,9 +45,9 @@ router.get("/search", async (req, res) => {
     });
 
     res.json(users);
-  } catch (err) {
-    console.error("Ошибка при поиске пользователей:", err);
-    res.status(500).json({ message: "Ошибка сервера" });
+  } catch (error: unknown) {
+    console.error(error);
+    res.status(500).json({ message: "Ошибка при поиске пользователей" });
   }
 });
 
@@ -61,13 +61,13 @@ router.get("/:id", async (req: Request, res: Response) => {
     const user = await User.findByPk(id)
 
     if (!user) {
-      return res.status(404).json({ message: "Пользователь не найден" });
+      return res.status(404).json({ message: "Пользователь не найден." });
     }
 
     res.json(user)
-  } catch (error) {
+  } catch (error: unknown) {
     console.error(error)
-    res.status(500).json({ message: "Ошибка сервера" });
+    res.status(500).json({ message: "Ошибка при получении пользователя по ID." });
   }
 })
 
@@ -76,8 +76,46 @@ router.get("/", async (req, res) => {
     const users = await User.findAll();
 
     res.json(users);
-  } catch (err) {
-    res.status(500).json({ message: "Ошибка при получении пользователей" });
+  } catch (error: unknown) {
+    console.error(error)
+    res.status(500).json({ message: "Ошибка при получении пользователей." });
+  }
+});
+
+router.put("/", authMiddleware, async (req: AuthRequest, res: Response) => {
+  try {
+    const userId = (req.user as any)?.id;
+    if (!userId) {
+      return res.status(400).json({ message: "Некорректный токен" });
+    }
+
+    const { fullname, description, phoneNumber, username } = req.body;
+
+    let firstname = fullname;
+    let lastname = "";
+    if (fullname.includes(" ")) {
+      const [first, ...rest] = fullname.split(" ");
+      firstname = first;
+      lastname = rest.join(" "); // всё после первого пробела
+    }
+
+    const updatedUser = await User.update(
+      {
+        firstname,
+        lastname,
+        description,
+        phoneNumber,
+        username,
+      },
+      { where: { id: userId }, returning: true }
+    );
+
+    const userAfterUpdate = updatedUser[1][0];
+
+    res.json({ user: userAfterUpdate });
+  } catch (error: unknown) {
+    console.error(error);
+    res.status(500).json({ message: "Ошибка при изменении информации о себе." });
   }
 });
 

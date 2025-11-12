@@ -1,0 +1,16 @@
+@keyframes rotate1080deg {
+    0% {
+        transform: rotate(0deg);
+        opacity: 1;
+    }
+
+    50% {
+        transform: rotate(1080deg);
+        opacity: 0.5;
+    }
+
+    100% {
+        transform: rotate(-1080deg);
+        opacity: 1;
+    }
+}

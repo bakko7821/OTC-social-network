@@ -1,4 +1,5 @@
 @use './variables' as *;
+@use './keyframes' as *;
 
 .userAvatar {
     flex-shrink: 0;
@@ -56,12 +57,15 @@
             font-size: $rem1;
             line-height: 1.5;
             font-weight: 500;
-            transition: all 0.4s;
+            transition: all 0.5s;
             border-radius: 12px;
 
             &:hover {
                 background-color: $background-card-hover-color;
-                
+
+                svg {
+                    transform: rotate(30deg);
+                }
             }
         }
 
@@ -108,11 +112,12 @@
 
     .userProfile {
         min-width: 320px;
-        padding: 16px;
         background-color: $background-color;
         border-radius: 28px;
+        overflow: hidden;
 
         .userProfileHeader {
+            padding: 16px;
             align-items: center;
 
             .backButton.none {
@@ -125,12 +130,14 @@
                 transition: all 0.5s;
                 
                 svg {
+                    transition: all 0.5s;
                     color: $second-text-color;
                 }
 
                 &:hover {
                     svg {
                         color: $second-text-hover-color;
+                        transform: rotate(30deg);
                     }
                 }
             }
@@ -145,7 +152,7 @@
 
         .userInfoHeader {
             border-bottom: 2px $main-color solid;
-            padding: 16px 0px;
+            padding: 16px;
 
             .fullname {
                 font-size: $rem1;
@@ -160,18 +167,26 @@
             line-height: 1.4;
             color: $second-text-color;
             font-weight: 500;
-            padding: 8px;
-            border-radius: 12px;
+            padding: 16px;
             width: 100%;
             transition: all 0.5s;
             background-color: transparent;
 
+            svg {
+                transition: all 0.5s;
+            }
+
             &:hover {
                 background-color: $background-card-hover-color;
+                
+                svg {
+                    transform: rotate(30deg);
+                }
             }
         }
 
         .moreInfo {
+            padding: 16px;
             width: 100%;
 
             svg {
@@ -199,6 +214,133 @@
                     color: $second-text-color;
                     font-weight: 500;
                     line-height: 1.5;
+                }
+            }
+        }
+
+        .editProfileAlert {
+            .editProfileHeader {
+                align-items: center;
+
+                .userAvatar {
+                    width: 64px;
+                    height: 64px;
+                    position: relative;
+                    overflow: hidden;
+                    cursor: pointer;
+                    transition: all 0.5s;
+
+                    img {
+                        width: 100%;
+                    }
+
+                    .uploadImageButton {
+                        display: none;
+                    }
+
+                    &:hover {
+
+                        .uploadImageButton {
+                            padding: 8px;
+                            background-color: rgba($color: #000000, $alpha: 0.5);
+                            border-radius: 100%;
+                            z-index: 99;
+                            display: flex;
+                            position: absolute;
+                            top: 50%;
+                            left: 50%;
+                            transform: translate(-50%, -50%);
+
+                            svg {
+                                path {
+                                    stroke {
+                                        color: #fff;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                .fullname {
+                    color: $text-color;
+                    font-size: $rem2;
+                    line-height: 1.3;
+                    font-weight: 500;
+                }
+            }
+
+            .descriptionInput {
+                color: $text-color;
+                padding: 16px;
+                background-color: transparent;
+            }
+
+            .descriptionBody {
+                padding: 16px;
+                color: $second-text-color;
+                font-size: $rem0_875;
+                line-height: 1.5;
+                font-weight: 300;
+                background-color: $background-card-color;
+            }
+
+            .editProfileMoreInfo {
+                .editProfileMoreCard {
+                    width: 100%;
+                    padding: 8px 16px;
+                    background-color: transparent;
+                    transition: all 0.5s;
+                    cursor: pointer;
+
+                    &:hover {
+                        background-color: $background-card-color;
+                        
+                        svg {
+                            transform: rotate(30deg);
+                        }
+                    }
+
+                    .bodyBox {
+                        svg {
+                            transition: all 0.5s;
+                            path {
+                                stroke: $second-text-color;
+                            }
+                        }
+
+                        .bodyText {
+                            font-size: $rem1;
+                            font-weight: 500;
+                            color: $second-text-color;
+                        }
+                    }
+
+                    input {
+                        padding: 8px;
+                        font-size: $rem1;
+                        color: $main-color;
+                        background-color: transparent;
+                        border-bottom: 1px $main-color solid;
+                        outline: none;
+                    }
+                }
+            }
+
+            .saveChangesButton {
+                width: 100%;
+                padding: 16px;
+                font-size: $rem1_5;
+                color: $text-color;
+                font-weight: 500;
+                transition: all 0.5s;
+                
+                &:hover {
+                    background-color: rgba($color: #09ff00, $alpha: 0.3);
+
+                    svg {
+                        animation: rotate1080deg 5s infinite;
+                    }
                 }
             }
         }

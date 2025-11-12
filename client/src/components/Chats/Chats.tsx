@@ -100,6 +100,7 @@ export default function Chats({ onSelect }: ChatsProps) {
             username: dialog.username || "",
             firstname: dialog.firstname || "",
             lastname: dialog.lastname || "",
+            phoneNumber: "",
             avatarImage: dialog.avatarImage,
             email: "",
             description: "",

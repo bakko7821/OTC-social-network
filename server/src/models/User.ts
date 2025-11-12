@@ -7,6 +7,7 @@ class User extends Model {
   public firstname!: string;
   public lastname!: string;
   public username!: string;
+  public phoneNumber!: string;
   public email!: string;
   public password!: string;
   public location!: string;
@@ -21,6 +22,7 @@ User.init(
     online: {type: DataTypes.BOOLEAN, allowNull: false, defaultValue: false},
     firstname: { type: DataTypes.STRING, allowNull: false },
     lastname: { type: DataTypes.STRING, allowNull: false },
+    phoneNumber: { type: DataTypes.STRING, allowNull: false, defaultValue: "" },
     location: { type: DataTypes.STRING, allowNull: false, defaultValue: "" },
     description: { type: DataTypes.STRING, allowNull: false, defaultValue: "" },
     headImage: { type: DataTypes.STRING, allowNull: false, defaultValue: "" },
