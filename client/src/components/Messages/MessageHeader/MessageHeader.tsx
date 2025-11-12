@@ -4,12 +4,13 @@ import axios, { AxiosError } from "axios";
 import { InfoIcon, MoreIcon, SearchIcon } from "../../../assets/Icons";
 import { MoreDropDownMenu } from "./MoreDropDownMenu";
 import { SearchInput } from "./SearchInput";
+import { UserProfileAlert } from "./UserProfileAlert";
 
 export const MessageHeader = ({ receiverId }: Props) => {
     console.log("MessageHeader receiverId:", receiverId);
     const [dropDownStatus, setDropDownStatus] = useState(false);
     const [dropDownSearch, setDropDownSearch] = useState(false);
-    // const [dropDownProfile, setDropDownProfile] = useState(false);
+    const [dropDownProfile, setDropDownProfile] = useState(false);
     const [ user, setUser ] = useState<User | null>(null)
     
     useEffect(() => {
@@ -30,7 +31,7 @@ export const MessageHeader = ({ receiverId }: Props) => {
     const handleCloseMenu = () => {
         setDropDownStatus(false);
         setDropDownSearch(false);
-        // setDropDownProfile(false);
+        setDropDownProfile(false);
     };
 
     return (
@@ -47,7 +48,7 @@ export const MessageHeader = ({ receiverId }: Props) => {
                         }}>
                     <SearchIcon /></button>
                 <button onClick={() => {
-                        // setDropDownProfile((prev) => !prev);
+                        setDropDownProfile((prev) => !prev);
                         }}>
                     <InfoIcon /></button>
                 <button onClick={() => {
@@ -58,7 +59,7 @@ export const MessageHeader = ({ receiverId }: Props) => {
             </nav>
 
             {dropDownSearch && <SearchInput onClose={handleCloseMenu}/>}
-            {/* {dropDownProfile && <MoreDropDownMenu />} */}
+            {dropDownProfile && <UserProfileAlert receiverId={receiverId} />}
             {dropDownStatus && <MoreDropDownMenu receiverId={receiverId} />}
         </div>
     )

@@ -4,6 +4,7 @@ import { socket } from "../../socket";
 import { getDialogs } from "../../api/messages";
 import type { Dialog, SocketMessage, User } from "../../types";
 import defaultAvatar from "../../assets/images/58e8ff52eb97430e819064cf.png"
+import "../../styles/chats.scss"
 
 interface ChatsProps {
   onSelect: (user: User) => void;
@@ -11,6 +12,7 @@ interface ChatsProps {
 
 export default function Chats({ onSelect }: ChatsProps) {
   const [dialogs, setDialogs] = useState<Dialog[]>([]);
+  const [activeChatId, setActiveChatId] = useState<number | null>(null);
 
     useEffect(() => {
         const loadDialogs = async () => {
@@ -91,6 +93,20 @@ export default function Chats({ onSelect }: ChatsProps) {
         onSelect(user); // пробрасываем наверх, если нужно
     };
 
+    const selectChat = (dialog: Dialog) => {
+        setActiveChatId(dialog.userId);
+        onSelect({
+            id: dialog.userId,
+            username: dialog.username || "",
+            firstname: dialog.firstname || "",
+            lastname: dialog.lastname || "",
+            avatarImage: dialog.avatarImage,
+            email: "",
+            description: "",
+            headImage: "",
+            online: dialog.online || false})
+    }
+
 
     console.log("Chats render");
 
@@ -108,19 +124,9 @@ export default function Chats({ onSelect }: ChatsProps) {
             <div 
                 key={d.userId} 
                 onClick={() =>
-                    onSelect({
-                    id: d.userId,
-                    username: d.username,
-                    firstname: d.firstname || "",
-                    lastname: d.lastname || "",
-                    avatarImage: d.avatarImage,
-                    email: "",
-                    description: "",
-                    headImage: "",
-                    online: d.online || false
-                    })
+                    selectChat(d)
                 } 
-                className="chatCard flex g8"
+                className={d.userId === activeChatId ? "chatCard active flex g8" : "chatCard flex g8"}
             >
                 <div className="userAvatar flex g8">
                     <img
