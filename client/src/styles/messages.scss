@@ -67,11 +67,6 @@
                         &:hover {
                             background-color: $background-card-hover-color;
                         }
-
-                        svg {
-                            width: 24px;
-                            height: 24px;
-                        }
                     }
                 }
             }
@@ -109,20 +104,9 @@
                     line-height: 1.5;
                     font-weight: 500;
                 }
-                
-                .onlineStatus {
-                    color: $second-text-color;
-                    font-size: $rem0_875;
-                    line-height: 1.5;
-                    font-weight: 500;
-
-                    &.active {
-                        color: $main-color;
-                    }
-                }
             }
 
-            nav {
+            .messageHeaderNavigate {
                 button {
                     padding: 8px;
                     color: $second-text-color;
@@ -130,7 +114,6 @@
 
                     svg {
                         cursor: pointer;
-                        width: 24px;
                     }
 
                     &:hover {
@@ -162,11 +145,6 @@
                     &:hover {
                         background-color: $background-card-hover-color;
                     }
-
-                    svg {
-                        width: 24px;
-                        height: 24px;
-                    }
                 }
             }
 
@@ -190,9 +168,6 @@
                     color: $second-text-color;
                     transition: all 0.5s;
                     
-                    svg {
-                        width: 24px;
-                    }
 
                     &:hover {
                         color: $second-text-hover-color;
@@ -230,10 +205,6 @@
                     background-color: $main-hover-color;
                 }
 
-                svg {
-                    width: 24px;
-                    height: 24px;
-                }
             }
         }
     }

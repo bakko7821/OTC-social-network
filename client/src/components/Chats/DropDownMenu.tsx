@@ -1,13 +1,15 @@
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { SwitchTheme } from "./SwitchTheme";
 import { CrossIcon, GroupIcon, LogOutIcon, PhoneIcon, ProfileIcon, SavedIcon, SettingIcon, UserIcon } from "../../assets/Icons";
 import { useEffect, useState } from "react";
 import axios, { AxiosError } from "axios";
 import defaultAvatar from "../../assets/images/58e8ff52eb97430e819064cf.png"
 import type { DropDownMenuProps, User } from "../../types";
+import { UserProfileAlert } from "../Messages/MessageHeader/UserProfileAlert";
 
 export const DropDownMenu = ({ onClose }: DropDownMenuProps) => {
     const [user, setUser] = useState<User | null>(null);
+    const [dropDownProfile ,setDropDownProfile] = useState(false)
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -44,12 +46,15 @@ export const DropDownMenu = ({ onClose }: DropDownMenuProps) => {
         </div>
     );
 
-
     function handleLogOut() {
         localStorage.removeItem("token")
         window.location.reload()
         navigate("/")
     }
+
+    const handleCloseMenu = () => {
+        setDropDownProfile(false);
+    };
 
     return (
         <div className="dropDownMenu flex column">
@@ -79,16 +84,18 @@ export const DropDownMenu = ({ onClose }: DropDownMenuProps) => {
                 </button>
             </div>
 
-            <nav className="flex column">
-            <Link to={""}><ProfileIcon /> My Profile</Link>
-            <Link to={""}><GroupIcon /> New Group</Link>
-            <Link to={""}><UserIcon /> Contacts</Link>
-            <Link to={""}><PhoneIcon /> Calls</Link>
-            <Link to={""}><SavedIcon /> Saved Message</Link>
-            <Link to={""}><SettingIcon /> Settings</Link>
-            <Link to={""} onClick={handleLogOut}><LogOutIcon /> Log Out</Link>
+            <nav className="chatsHeaderNavigate flex column">
+            <button className="dropDownMenuButton profile" onClick={() => {setDropDownProfile((prev) => !prev);}}><ProfileIcon/> My Profile</button>
+            <button className="dropDownMenuButton group"><GroupIcon /> New Group</button>
+            <button className="dropDownMenuButton contacts"><UserIcon /> Contacts</button>
+            <button className="dropDownMenuButton calls"><PhoneIcon /> Calls</button>
+            <button className="dropDownMenuButton saved"><SavedIcon /> Saved Message</button>
+            <button className="dropDownMenuButton settings"><SettingIcon /> Settings</button>
+            <button className="dropDownMenuButton logOut" onClick={handleLogOut}><LogOutIcon /> Log Out</button>
             <SwitchTheme />
             </nav>
+
+            {dropDownProfile && <UserProfileAlert receiverId={user.id} onClose={handleCloseMenu} />}
         </div>
     );
 };

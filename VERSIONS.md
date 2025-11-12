@@ -488,3 +488,8 @@ client\src\styles\Skeletons.css
 # commit 21.42.8
 
 - Заполнен контентом **UserProfileAlert.tsx**
+
+# commit 21.43.8
+
+- Создан **EditProfileAlert.tsx**
+- Добавлена кнопка изменения профиля

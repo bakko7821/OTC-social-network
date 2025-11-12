@@ -15,7 +15,6 @@
         transition: all 0.4s;
 
         svg {
-            max-width: none;
             width: 36px;
             height: 36px;
         }
@@ -166,14 +165,12 @@
                 svg {
                     max-width: none;
                     color: $text-color;
-                    width: 24px;
-                    height: 24px;
                 }
             }
         }
 
-        nav {
-            a {
+        .chatsHeaderNavigate {
+            button {
                 display: flex;
                 gap: 8px;
                 align-items: center;
@@ -188,11 +185,6 @@
 
                 &:hover {
                     background-color: $background-card-hover-color;
-                }
-
-                svg {
-                    width: 24px;
-                    height: 24px;
                 }
             }
         }
@@ -245,11 +237,6 @@
                 font-weight: 500;
                 line-height: 1.5;
                 color: $text-color;
-
-                svg {
-                    width: 24px;
-                    height: 24px;
-                }
             }
         }
     }

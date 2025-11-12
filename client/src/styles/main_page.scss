@@ -114,12 +114,24 @@
 
         .userProfileHeader {
             align-items: center;
+
+            .backButton.none {
+                display: none;
+            }
             
-            nav {
-                display: flex;
-                gap: 4px;
-                button {
-                    padding: 0 !important;
+            button {
+                background-color: transparent;
+                padding: 0 !important;
+                transition: all 0.5s;
+                
+                svg {
+                    color: $second-text-color;
+                }
+
+                &:hover {
+                    svg {
+                        color: $second-text-hover-color;
+                    }
                 }
             }
 
@@ -132,7 +144,31 @@
         }
 
         .userInfoHeader {
+            border-bottom: 2px $main-color solid;
             padding: 16px 0px;
+
+            .fullname {
+                font-size: $rem1;
+                color: $text-color;
+                font-weight: 500;
+            }
+        }
+
+        .editProfileButton {
+            justify-content: start;
+            font-size: $rem1_5;
+            line-height: 1.4;
+            color: $second-text-color;
+            font-weight: 500;
+            padding: 8px;
+            border-radius: 12px;
+            width: 100%;
+            transition: all 0.5s;
+            background-color: transparent;
+
+            &:hover {
+                background-color: $background-card-hover-color;
+            }
         }
 
         .moreInfo {
@@ -173,4 +209,21 @@
     font-size: $rem2;
     color: $text-color;
     font-weight: 600;
+}
+
+.onlineStatus {
+    color: $second-text-color;
+    font-size: $rem0_875;
+    line-height: 1.5;
+    font-weight: 500;
+
+    &.active {
+        color: $main-color;
+    }
+}
+
+svg {
+    max-width: none;
+    width: 24px;
+    height: 24px;
 }

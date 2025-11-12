@@ -42,7 +42,7 @@ export const MessageHeader = ({ receiverId }: Props) => {
                     {user?.online ? "В сети" : "Не в сети"}
                 </span>
             </div>
-            <nav className="flex">
+            <nav className="messageHeaderNavigate flex">
                 <button onClick={() => {
                         setDropDownSearch((prev) => !prev);
                         }}>
