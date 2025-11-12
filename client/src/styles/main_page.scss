@@ -107,12 +107,21 @@
     backdrop-filter: blur(6px);
 
     .userProfile {
+        min-width: 320px;
         padding: 16px;
         background-color: $background-color;
-        border-radius: 20px;
+        border-radius: 28px;
 
         .userProfileHeader {
             align-items: center;
+            
+            nav {
+                display: flex;
+                gap: 4px;
+                button {
+                    padding: 0 !important;
+                }
+            }
 
             span {
                 color: $second-text-color;
@@ -121,5 +130,47 @@
                 font-weight: 500;
             }
         }
+
+        .userInfoHeader {
+            padding: 16px 0px;
+        }
+
+        .moreInfo {
+            width: 100%;
+
+            svg {
+                width: 36px;
+                height: 36px;
+            }
+
+            .moreInfoCard {
+                gap: 4px;
+                width: 100%;
+
+                .phone, .username {
+                    font-size: $rem1;
+                    font-weight: 500;
+                    color: $text-color;
+                }
+
+                .username {
+                    cursor: pointer;
+                    color: $main-color;
+                }
+
+                .body {
+                    font-size: $rem0_875;
+                    color: $second-text-color;
+                    font-weight: 500;
+                    line-height: 1.5;
+                }
+            }
+        }
     }
+}
+
+.peakChatMessage {
+    font-size: $rem2;
+    color: $text-color;
+    font-weight: 600;
 }

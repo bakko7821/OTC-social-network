@@ -3,6 +3,7 @@ import { deleteChat } from "../../../api/messages";
 import type { Props } from "../../../types";
 
 import '../../../styles/main_page.scss'
+import { TrashIcon } from "../../../assets/Icons";
 
 export const MoreDropDownMenu = ({ receiverId }: Props) => {
   const [showConfirm, setShowConfirm] = useState(false);
@@ -17,7 +18,7 @@ export const MoreDropDownMenu = ({ receiverId }: Props) => {
 
   return (
     <div className="more dropDownMenu">
-      <button onClick={() => setShowConfirm(true)}>🗑 Delete Chat</button>
+      <button className="dropDownMenuButton delete flex g4" onClick={() => setShowConfirm(true)}><TrashIcon /> Очистить чат</button>
 
       {showConfirm && (
         <div className="alertMessage flex center">

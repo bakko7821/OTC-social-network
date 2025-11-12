@@ -484,3 +484,7 @@ client\src\styles\Skeletons.css
 - Стили для **Chats.tsx** перенесены в **chats.scss**
 - Создан **UserProfileAlert.tsx**
 - Создана механика изменения фона для активного(выбранного) диалога
+
+# commit 21.42.8
+
+- Заполнен контентом **UserProfileAlert.tsx**

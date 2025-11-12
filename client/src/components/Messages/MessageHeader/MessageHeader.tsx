@@ -59,7 +59,7 @@ export const MessageHeader = ({ receiverId }: Props) => {
             </nav>
 
             {dropDownSearch && <SearchInput onClose={handleCloseMenu}/>}
-            {dropDownProfile && <UserProfileAlert receiverId={receiverId} />}
+            {dropDownProfile && <UserProfileAlert receiverId={receiverId} onClose={handleCloseMenu} />}
             {dropDownStatus && <MoreDropDownMenu receiverId={receiverId} />}
         </div>
     )

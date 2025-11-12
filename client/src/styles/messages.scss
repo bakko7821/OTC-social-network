@@ -143,10 +143,31 @@
                 position: absolute;
                 top: 100%;
                 right: 0px;
-                padding: 16px;
+                padding: 8px;
                 border-radius: 0px 0px 20px 20px;
                 width: 320px;
                 background-color: $background-card-color;
+
+                .dropDownMenuButton {
+                    align-items: center;
+                    padding: 8px;
+                    font-size: $rem1;
+                    border-radius: 12px;
+                    font-weight: 500;
+                    background-color: transparent;
+                    color: $second-text-color;
+                    width: 100%;
+                    transition: all 0.5s;
+
+                    &:hover {
+                        background-color: $background-card-hover-color;
+                    }
+
+                    svg {
+                        width: 24px;
+                        height: 24px;
+                    }
+                }
             }
 
             .searchInput {

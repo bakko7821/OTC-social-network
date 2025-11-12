@@ -108,7 +108,7 @@ export const MainPage = () => {
         {selectedUser ? (
           <Messages receiverId={selectedUser.id} />
         ) : (
-          <div>Выбери чат</div>
+          <span className="peakChatMessage">Выберите чат, чтобы начать общение</span>
         )}
       </div>
     </div>
