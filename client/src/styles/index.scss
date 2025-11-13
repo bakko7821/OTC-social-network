@@ -42,6 +42,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+
 }
 
 #root {
@@ -51,7 +52,9 @@
 }
 
 body {
-    background-color: $background-color;
+  background-color: $background-color;
+  transition: background-color 0.5s;
+  transition: color 0.5s;
 }
 
 .page {
@@ -160,29 +163,12 @@ body {
   border-top: 3px solid $text-color;
 }
 
-@keyframes rotate-one {
-  0% {
-    transform: rotateX(35deg) rotateY(-45deg) rotateZ(0deg);
-  }
-  100% {
-    transform: rotateX(35deg) rotateY(-45deg) rotateZ(360deg);
-  }
+span, p, button {
+  transition: color 0.5s;
 }
 
-@keyframes rotate-two {
-  0% {
-    transform: rotateX(50deg) rotateY(10deg) rotateZ(0deg);
-  }
-  100% {
-    transform: rotateX(50deg) rotateY(10deg) rotateZ(360deg);
-  }
-}
-
-@keyframes rotate-three {
-  0% {
-    transform: rotateX(35deg) rotateY(55deg) rotateZ(0deg);
-  }
-  100% {
-    transform: rotateX(35deg) rotateY(55deg) rotateZ(360deg);
-  }
+.plug {
+  width: 100%;
+  height: 12px;
+  background-color: $background-card-color;
 }

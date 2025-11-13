@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { SwitchTheme } from "./SwitchTheme";
-import { CrossIcon, GroupIcon, LogOutIcon, PhoneIcon, ProfileIcon, SavedIcon, SettingIcon, UserIcon } from "../../assets/Icons";
+import { CrossIcon, LogOutIcon, ProfileIcon } from "../../assets/Icons";
 import { useEffect, useState } from "react";
 import axios, { AxiosError } from "axios";
 import defaultAvatar from "../../assets/images/58e8ff52eb97430e819064cf.png"
@@ -34,6 +34,8 @@ export const DropDownMenu = ({ onClose }: DropDownMenuProps) => {
                 navigate("/login"); // редирект, если токен невалидный
             }
         };
+
+        
 
         fetchUser();
     }, [navigate]);
@@ -73,7 +75,7 @@ export const DropDownMenu = ({ onClose }: DropDownMenuProps) => {
                             <p className="username">@{user.username}</p>
                         </div>
                     </div>
-                    <button className="closeButton" onClick={onClose}>
+                    <button className="closeButton flex center" onClick={onClose}>
                         <CrossIcon />
                     </button>
                 </div>
@@ -85,13 +87,8 @@ export const DropDownMenu = ({ onClose }: DropDownMenuProps) => {
             </div>
 
             <nav className="chatsHeaderNavigate flex column">
-            <button className="dropDownMenuButton profile" onClick={() => {setDropDownProfile((prev) => !prev);}}><ProfileIcon/> My Profile</button>
-            <button className="dropDownMenuButton group"><GroupIcon /> New Group</button>
-            <button className="dropDownMenuButton contacts"><UserIcon /> Contacts</button>
-            <button className="dropDownMenuButton calls"><PhoneIcon /> Calls</button>
-            <button className="dropDownMenuButton saved"><SavedIcon /> Saved Message</button>
-            <button className="dropDownMenuButton settings"><SettingIcon /> Settings</button>
-            <button className="dropDownMenuButton logOut" onClick={handleLogOut}><LogOutIcon /> Log Out</button>
+            <button className="dropDownMenuButton profile" onClick={() => {setDropDownProfile((prev) => !prev);}}><ProfileIcon/> Мой профиль</button>
+            <button className="dropDownMenuButton logOut" onClick={handleLogOut}><LogOutIcon /> Выйти из аккаунта</button>
             <SwitchTheme />
             </nav>
 

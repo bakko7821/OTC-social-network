@@ -2,12 +2,14 @@ import { useRef, useState, useEffect, useCallback } from "react";
 import "../styles/index.scss";
 import "../styles/main_page.scss";
 import Chats from "../components/Chats/Chats";
-import Messages from "../components/Messages/Messages";
+import { Messages } from "../components/Messages/Messages";
 import type { User } from "../types";
+import { UserProfile } from "../components/UserProfile";
 
 export const MainPage = () => {
   console.log("Messages function called");
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
+  const [isOpenProfile, setIsOpenProfile] = useState(false)
 
   const [chatWidth, setChatWidth] = useState(() => {
     const saved = localStorage.getItem("chatWidth");
@@ -92,6 +94,10 @@ export const MainPage = () => {
     setSelectedUser(user);
   }, []);
 
+  const handleCloseProfileMenu = () => {
+    setIsOpenProfile(false)
+  }
+
   return (
     <div ref={containerRef} className="page flex">
       <div
@@ -106,11 +112,14 @@ export const MainPage = () => {
 
       <div className="messages flex center column">
         {selectedUser ? (
-          <Messages receiverId={selectedUser.id} />
+          <Messages receiverId={selectedUser.id} onOpenProfile={() => setIsOpenProfile(true)}/>
         ) : (
           <span className="peakChatMessage">Выберите чат, чтобы начать общение</span>
         )}
       </div>
+      {isOpenProfile && (
+        <UserProfile user={selectedUser || null} onClose={handleCloseProfileMenu} />
+      )}
     </div>
   );
 };

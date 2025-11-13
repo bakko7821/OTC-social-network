@@ -4,6 +4,7 @@ import { type User, type DropDownMenuProps, type Props } from "../../../types"
 import axios from "axios";
 import defaultAvatar from "../../../assets/images/58e8ff52eb97430e819064cf.png"
 import { EditProfileAlert } from "../../EditProfileAlert";
+import { formatPhone } from "../../../utils/formatPhone";
 
 type UserProfileAlertProps = Props & DropDownMenuProps;
 
@@ -41,7 +42,7 @@ export const UserProfileAlert = ({ receiverId, onClose }: UserProfileAlertProps)
 
     return (
         <div className="userProfileAlert flex center">
-            <div className="userProfile flex column g16" key={receiverId}>
+            <div className="userProfile flex column" key={receiverId}>
                 <div className="userProfileHeader flex between">
                     <button className={isEditing ? "backButton flex center" : "backButton none flex center"} onClick={() => {setIsEditing((prev) => !prev)}}><BackIcon /></button>
                     <span>{isEditing ? "Edit Profile" : "User Info"}</span>
@@ -53,7 +54,7 @@ export const UserProfileAlert = ({ receiverId, onClose }: UserProfileAlertProps)
                 {isEditing ? (
                     <EditProfileAlert user={user} setUser={setUser}/>
                 ) : (
-                    <div className="userInfoBox flex column g8 ">
+                    <div className="userInfoBox flex column">
                         <div className="userInfoHeader flex g16">
                             <div className="userAvatar flex center">
                                 <img
@@ -68,14 +69,22 @@ export const UserProfileAlert = ({ receiverId, onClose }: UserProfileAlertProps)
                                 </span>
                             </div>
                         </div>
-                        {isAuth && <button className="editProfileButton flex center g8" onClick={() => {
-                            setIsEditing((prev) => !prev);
-                        }}><EditIcon /> Редактировать профиль</button>}
+                        <span className="plug"></span>
+                        {isAuth && <>
+                            <button className="editProfileButton flex center g8" onClick={() => {
+                                setIsEditing((prev) => !prev);
+                            }}><EditIcon /> Изменить профиль</button>
+                            <span className="plug"></span>
+                        </>}
                         <div className="moreInfo flex g16">
                             <Info2Icon />
                             <div className="moreInfoContent flex column g4">
+                                <div className="moreInfoCard bio flex column">
+                                    <span className="phone">{user?.description || "У пользователя отсутствует описание."}</span>
+                                    <span className="phone body">Bio</span>
+                                </div>
                                 <div className="moreInfoCard phone flex column">
-                                    <span className="phone">+ 0-000-000-00-00</span>
+                                    <span className="phone">{formatPhone(user?.phoneNumber || "") || "+0 000 000 00 00"}</span>
                                     <span className="phone body">Mobile</span>
                                 </div>
                                 <div className="moreInfoCard username flex column">

@@ -27,7 +27,6 @@
         position: relative;
         width: 100%;
         border-radius: 0px 12px 12px 12px;
-        // padding: 8px;
         background-color: $background-color;
 
         &.active {
@@ -95,18 +94,18 @@
         top: 0;
         left: 0;
         background-color: $background-card-color;
+        transition: background-color 0.5s;
         min-width: 300px;
         width: 100%;
         height: 100vh;
         padding: 8px 0;
-        border-radius: 8px;
         box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 
         .profileBox {
-            align-items: start;
             position: relative;
 
             .user {
+                align-items: start;
                 z-index: 3;
                 padding: 16px;
                 width: 100%;
@@ -139,7 +138,7 @@
                 transition: all 0.5s;
                 
                 svg {
-                    color: $text-color;
+                    color: $second-text-color;
                 }
 
                 &:hover {
@@ -150,15 +149,15 @@
             }
 
             .description {
-                padding: 0px 16px 8px 16px;
+                padding: 8px 16px;
                 width: 100%;
-                font-size: $rem0_875;
-                color: $second-text-color; 
+                font-size: $rem1;
+                background-color: $background-card-hover-color;
+                color: $text-color;
                 font-weight: 400;
-                border-bottom: 1px $main-color solid;
-                margin-bottom: 16px;
                 line-height: 1.5;
                 display: -webkit-box;
+                transition: all 0.5s;
                 -webkit-box-orient: vertical;
                 line-clamp: 3;
                 overflow: hidden;
@@ -168,13 +167,14 @@
             }
 
             .setDescriptionButton {
+                background-color: $background-card-hover-color;
                 width: 100%;
-                padding: 0px 16px 8px 16px;
-                border-bottom: 1px $main-color solid;
-                margin-bottom: 16px;
+                padding: 8px 16px;
                 text-align: start;
+                font-size: $rem1;
+                line-height: 1.5;
                 color: $main-color;
-                transition: all 0.4s;
+                transition: all 0.5s;
 
                 &:hover {
                     color: $main-hover-color;
@@ -183,6 +183,7 @@
         }
 
         .chatsHeaderNavigate {
+            padding: 8px 0px;
             button {
                 display: flex;
                 gap: 8px;
@@ -192,25 +193,50 @@
                 line-height: 1.5;
                 padding: 8px 16px;
                 text-decoration: none;
-                color: $text-color;
+                color: $second-text-color;
                 background-color: transparent;
-                transition: all 0.4s;
+                transition: all 0.5s;
+
+                svg {
+                    color: $second-text-color;
+                    transition: all 0.5s;
+                }
 
                 &:hover {
                     background-color: $background-card-hover-color;
+
+                    svg {
+                        transform: rotate(30deg) !important;
+                    }
                 }
+                
             }
         }
 
         .theme-toggle {
             width: 100%;
             padding: 8px 16px;
+            transition: all 0.5s;
             display: inline-flex;
             align-items: center;
             cursor: pointer;
             gap: 8px;
             font-family: sans-serif;
             user-select: none;
+
+            svg {
+                path {
+                    fill: $second-text-color;
+                }
+            }
+
+            &:hover {
+                background-color: $background-card-hover-color;
+
+                svg {
+                    transform: rotate(30deg);
+                }
+            }
 
             input {
                 display: none;
@@ -249,7 +275,7 @@
                 font-size: $rem1;
                 font-weight: 500;
                 line-height: 1.5;
-                color: $text-color;
+                color: $second-text-color;
             }
         }
     }

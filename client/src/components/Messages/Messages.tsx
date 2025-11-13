@@ -8,7 +8,12 @@ import { MessageHeader } from "./MessageHeader/MessageHeader";
 import "../../styles/messages.scss"
 import axios from "axios";
 
-export default function Messages({ receiverId }: { receiverId: number }) {
+export interface MessagesProps {
+  receiverId: number;
+  onOpenProfile: () => void;
+}
+
+export const Messages: React.FC<MessagesProps> = ({receiverId, onOpenProfile}) => {
   console.log("Messages mounted");
 
   const [messages, setMessages] = useState<MessageRecord[]>([]);
@@ -121,7 +126,7 @@ export default function Messages({ receiverId }: { receiverId: number }) {
 
   return (
     <div className="messagesBox flex column">
-      <MessageHeader receiverId={receiverId}/>
+      <MessageHeader receiverId={receiverId} onOpenProfile={onOpenProfile}/>
         <div className="messagesContent">
             {messages.map((m) => (
                 <MessageItem

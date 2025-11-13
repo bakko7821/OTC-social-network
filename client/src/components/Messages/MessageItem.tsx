@@ -16,6 +16,7 @@ export const MessageItem: React.FC<MessageItemProps> = ({ message, isOwn, onDele
   const [notification, setNotification] = useState("")
   const [loading, setLoading] = useState(false);
   const [isEditing, setIsEditing] = useState(false)
+  const [isMyMessage, setIsMyMessage ] = useState(false)
   const [editContent, setEditContent] = useState("")
 
   async function handleDelete() {
@@ -26,8 +27,6 @@ export const MessageItem: React.FC<MessageItemProps> = ({ message, isOwn, onDele
   }
 
   const handleEdit = () => {
-    if (message.senderId !== Number(localStorage.getItem("userId"))) return
-    
     setLoading(true)
     setIsEditing(true)
     setEditContent(message.content)
@@ -80,6 +79,8 @@ export const MessageItem: React.FC<MessageItemProps> = ({ message, isOwn, onDele
   }, []);
 
   const handleRightClickOutsideContent = (e: React.MouseEvent) => {
+    if (message.senderId !== Number(localStorage.getItem("userId"))) setIsMyMessage(true)
+
     e.preventDefault();
     e.stopPropagation();
     setMenuPosition({ x: e.clientX, y: e.clientY });
@@ -87,6 +88,8 @@ export const MessageItem: React.FC<MessageItemProps> = ({ message, isOwn, onDele
   };
 
   const handleRightClickInsideContent = (e: React.MouseEvent) => {
+    if (message.senderId !== Number(localStorage.getItem("userId"))) setIsMyMessage(true)
+
     e.preventDefault();
     e.stopPropagation();
     setMenuPosition({ x: e.clientX, y: e.clientY });
@@ -171,17 +174,21 @@ export const MessageItem: React.FC<MessageItemProps> = ({ message, isOwn, onDele
 
           {menuType === "crud" && (
             <>
-              <div className="menuItem flex g8" onClick={() => handleEdit()}>
-                <EditIcon />
-                <span>Изменить</span>
-              </div>
+              {!isMyMessage && (
+                <>
+                  <div className="menuItem flex g8" onClick={() => handleEdit()}>
+                    <EditIcon />
+                    <span>Изменить</span>
+                  </div>
+                  <div className="menuItem flex g8" onClick={() => setShowConfirm(true)}>
+                    <TrashIcon />
+                    <span>Удалить</span>
+                  </div>
+                </>
+              )}
               <div className="menuItem flex g8" onClick={() => copyToClipboard()}>
                 <CopyIcon />
                 <span>Копировать</span>
-              </div>
-              <div className="menuItem flex g8" onClick={() => setShowConfirm(true)}>
-                <TrashIcon />
-                <span>Удалить</span>
               </div>
               <div className="menuItem flex g8" onClick={() => handleAction("select")}>
                 <SelectIcon />

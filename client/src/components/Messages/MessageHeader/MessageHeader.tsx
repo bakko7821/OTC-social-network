@@ -1,16 +1,15 @@
 import { useEffect, useState } from "react";
-import type { Props, User } from "../../../types";
+import type { User } from "../../../types";
 import axios, { AxiosError } from "axios";
 import { InfoIcon, MoreIcon, SearchIcon } from "../../../assets/Icons";
 import { MoreDropDownMenu } from "./MoreDropDownMenu";
 import { SearchInput } from "./SearchInput";
-import { UserProfileAlert } from "./UserProfileAlert";
+import type { MessagesProps } from "../Messages";
 
-export const MessageHeader = ({ receiverId }: Props) => {
+export const MessageHeader: React.FC<MessagesProps> = ({receiverId, onOpenProfile}) => {
     console.log("MessageHeader receiverId:", receiverId);
     const [dropDownStatus, setDropDownStatus] = useState(false);
     const [dropDownSearch, setDropDownSearch] = useState(false);
-    const [dropDownProfile, setDropDownProfile] = useState(false);
     const [ user, setUser ] = useState<User | null>(null)
     
     useEffect(() => {
@@ -31,7 +30,6 @@ export const MessageHeader = ({ receiverId }: Props) => {
     const handleCloseMenu = () => {
         setDropDownStatus(false);
         setDropDownSearch(false);
-        setDropDownProfile(false);
     };
 
     return (
@@ -47,9 +45,7 @@ export const MessageHeader = ({ receiverId }: Props) => {
                         setDropDownSearch((prev) => !prev);
                         }}>
                     <SearchIcon /></button>
-                <button onClick={() => {
-                        setDropDownProfile((prev) => !prev);
-                        }}>
+                <button onClick={onOpenProfile}>
                     <InfoIcon /></button>
                 <button onClick={() => {
                         setDropDownStatus((prev) => !prev);
@@ -59,7 +55,6 @@ export const MessageHeader = ({ receiverId }: Props) => {
             </nav>
 
             {dropDownSearch && <SearchInput onClose={handleCloseMenu}/>}
-            {dropDownProfile && <UserProfileAlert receiverId={receiverId} onClose={handleCloseMenu} />}
             {dropDownStatus && <MoreDropDownMenu receiverId={receiverId} />}
         </div>
     )

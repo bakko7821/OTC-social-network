@@ -1,6 +1,6 @@
 import type { User } from "../types"
 import defaultAvatar from "../assets/images/58e8ff52eb97430e819064cf.png"
-import { AtIcon, DoneIcon, PhoneIcon, ProfileIcon, UploadIcon } from "../assets/Icons";
+import { AtIcon, PhoneIcon, ProfileIcon, SaveIcon, UploadIcon } from "../assets/Icons";
 import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 
@@ -98,7 +98,7 @@ export const EditProfileAlert = ({user, setUser }: EditProfileAlertProps) => {
     if (!user) return <div>No user found</div>;
 
     return (
-        <div className="editProfileAlert flex column g8">
+        <div className="editProfileAlert flex column">
             <div className="editProfileHeader flex column g8">
                 <div className="userAvatar flex center">
                     <img src={avatarPreview} alt={username} />
@@ -162,7 +162,7 @@ export const EditProfileAlert = ({user, setUser }: EditProfileAlertProps) => {
                         onChange={(e) => setUsername(e.target.value)}/>
                 </div>
             </div>
-            <button className="saveChangesButton flex center g4" onClick={handleSaveChanges}><DoneIcon /> Сохранить изменения</button>
+            <button className="saveChangesButton flex center g4" onClick={handleSaveChanges}><SaveIcon /> Сохранить изменения</button>
         </div>
     )
 }
