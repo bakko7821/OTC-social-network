@@ -1,29 +1,49 @@
 import React, { useState, useRef, useEffect } from "react";
 import dayjs from "dayjs";
-import { CopyIcon, EditIcon, SelectIcon, TrashIcon } from "../../assets/Icons";
+import { CopyIcon, DoneIcon, EditIcon, SelectIcon, TrashIcon } from "../../assets/Icons";
+import type { Message } from "../../types";
 
 interface MessageItemProps {
-  message: {
-    id: number;
-    senderId: number;
-    content: string;
-    createdAt: string;
-  };
+  message: Message;
   isOwn: boolean;
   onDelete: (id: number) => void;
+  onEdit: (message: Message, editContent: string) => void;
 }
 
-export const MessageItem: React.FC<MessageItemProps> = ({ message, isOwn, onDelete }) => {
+export const MessageItem: React.FC<MessageItemProps> = ({ message, isOwn, onDelete, onEdit }) => {
   const [showConfirm, setShowConfirm] = useState(false);
   const [showNotification, setShowNotification] = useState(false);
   const [notification, setNotification] = useState("")
   const [loading, setLoading] = useState(false);
+  const [isEditing, setIsEditing] = useState(false)
+  const [editContent, setEditContent] = useState("")
 
   async function handleDelete() {
     setLoading(true);
     await fetchDelete(message.id);
     setLoading(false);
     setShowConfirm(false);
+  }
+
+  const handleEdit = () => {
+    if (message.senderId !== Number(localStorage.getItem("userId"))) return
+    
+    setLoading(true)
+    setIsEditing(true)
+    setEditContent(message.content)
+    setLoading(false);
+  }
+
+  const copyToClipboard = () => {
+    setNotification("Вы успешно скопировали сообщение.")
+    setShowNotification(true)
+
+    setTimeout(() => setShowNotification(false), 2000);
+  }
+
+  async function handleSaveEdit() {
+    await fetchEdit(message, editContent)
+    setIsEditing(false)
   }
 
   const time = dayjs(message.createdAt).format("HH:mm");
@@ -35,10 +55,19 @@ export const MessageItem: React.FC<MessageItemProps> = ({ message, isOwn, onDele
   const fetchDelete = async (id: number) => {
     try {
       await onDelete(id); // вызываем родительский хендлер
-    } catch (error) {
+    } catch (error: unknown) {
       console.error("Ошибка при удалении:", error);
     }
   };
+
+  const fetchEdit = async (message: Message, editContent: string) => {
+    try {
+      console.log(`Меняем сообщение с ID: ${message.id}`)
+      await onEdit(message, editContent)
+    } catch (error: unknown) {
+      console.error("Ошибка при попытке редактирования:", error)
+    }
+  }
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
@@ -74,13 +103,6 @@ export const MessageItem: React.FC<MessageItemProps> = ({ message, isOwn, onDele
     setMenuType("none");
   };
 
-  const copyToClipboard = () => {
-    setNotification("Вы успешно скопировали сообщение.")
-    setShowNotification(true)
-
-    setTimeout(() => setShowNotification(false), 2000);
-  }
-
   return (
     <div
       className="messageItem flex"
@@ -89,19 +111,28 @@ export const MessageItem: React.FC<MessageItemProps> = ({ message, isOwn, onDele
         justifyContent: isOwn ? "flex-end" : "flex-start",
       }}
     >
-      <span
-        onContextMenu={handleRightClickInsideContent}
-        className="messageContent flex g8"
-        style={{
-          background: isOwn ? "#7799ff" : "var(--background-card-color)",
-          borderRadius: isOwn ? "12px 0px 12px 12px" : "0px 12px 12px 12px",
-        }}
-      >
-        {message.content}
-        <span className="messageTime">
-          {time}
-        </span>
-      </span>
+      <div
+          onContextMenu={handleRightClickInsideContent}
+          className="messageContent flex g8"
+          style={{
+            background: isOwn ? "#7799ff" : "var(--background-card-color)",
+            borderRadius: isOwn ? "12px 0px 12px 12px" : "0px 12px 12px 12px",
+          }}
+        >
+          {isEditing ? (
+            <>
+              <input className="editingInput" value={editContent} onChange={(e) => setEditContent(e.target.value)} type="text" />
+              <button className="saveEditingChangesButton" onClick={() => handleSaveEdit()}><DoneIcon /></button>
+            </>
+          ) : (
+            <>
+              <p>{message.content}</p>
+              <span className="messageTime">
+                {time}
+              </span>
+            </>
+          )}
+        </div>
 
       {menuType !== "none" && (
         <div
@@ -121,7 +152,7 @@ export const MessageItem: React.FC<MessageItemProps> = ({ message, isOwn, onDele
 
           {menuType === "crud" && (
             <>
-              <div className="menuItem flex g8" onClick={() => handleAction("edit")}>
+              <div className="menuItem flex g8" onClick={() => handleEdit()}>
                 <EditIcon />
                 <span>Изменить</span>
               </div>

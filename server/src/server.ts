@@ -2,16 +2,15 @@ import { io, server } from "./app";
 import { sequelize } from "./config/db";
 import User from "./models/User";
 import Message from "./models/Message";
-import { Server } from "socket.io";
 
 const onlineUsers = new Map<number, number>();
 
 (async () => {
   try {
     await sequelize.sync({ alter: true });
-    console.log("All models synchronized");
+    console.log("✅ All models synchronized");
   } catch (error) {
-    console.error("Database sync failed:", error);
+    console.error("❌ Database sync failed:", error);
   }
 })();
 
@@ -19,23 +18,27 @@ const PORT = process.env.PORT || 5000;
 
 io.on("connection", (socket) => {
   const userId = Number(socket.handshake.auth?.userId);
-  if (!userId) return;
+  if (!userId) {
+    console.log("⚠️ Подключение без userId, отключаем сокет");
+    socket.disconnect();
+    return;
+  }
 
-  console.log(`Пользователь ${userId} подключился`);
+  console.log(`🔌 Пользователь ${userId} подключился`);
 
-  // добавляем или увеличиваем счетчик подключений
+  // добавляем соединение
   const connections = (onlineUsers.get(userId) || 0) + 1;
   onlineUsers.set(userId, connections);
 
-  // если это первое подключение — ставим online = true
   if (connections === 1) {
     User.update({ online: true }, { where: { id: userId } });
-    console.log(`Пользователь ${userId} стал online`);
+    console.log(`🟢 Пользователь ${userId} стал online`);
   }
 
+  // подключаем к "комнате" по userId
   socket.join(userId.toString());
 
-  // обработка личных сообщений
+  // === 📩 ОБРАБОТКА ЛИЧНЫХ СООБЩЕНИЙ ===
   socket.on("private_message", async ({ receiverId, content }) => {
     try {
       const message = await Message.create({
@@ -44,6 +47,7 @@ io.on("connection", (socket) => {
         content,
       });
 
+      // отправляем обоим пользователям
       io.to(receiverId.toString()).emit("private_message", message);
       io.to(userId.toString()).emit("private_message", message);
     } catch (err) {
@@ -51,15 +55,42 @@ io.on("connection", (socket) => {
     }
   });
 
-  // обработка отключения
+  // === ✏️ ОБРАБОТКА РЕДАКТИРОВАНИЯ СООБЩЕНИЙ ===
+  socket.on("message_updated", async ({ id, content }) => {
+    try {
+      const message = await Message.findByPk(id);
+
+      if (!message) return console.warn(`Сообщение ${id} не найдено`);
+
+      // Проверяем, что редактирует владелец
+      if (message.senderId !== userId) {
+        console.warn(`⚠️ Пользователь ${userId} не может редактировать чужое сообщение`);
+        return;
+      }
+
+      // Обновляем сообщение
+      message.content = content;
+      await message.save();
+
+      // Отправляем обновление обоим участникам
+      io.to(message.senderId.toString()).emit("message_updated", message);
+      io.to(message.receiverId.toString()).emit("message_updated", message);
+
+      console.log(`✏️ Сообщение ${id} обновлено пользователем ${userId}`);
+    } catch (err) {
+      console.error("Ошибка при обновлении сообщения:", err);
+    }
+  });
+
+  // === 🔴 ОБРАБОТКА ОТКЛЮЧЕНИЯ ===
   socket.on("disconnect", async () => {
-    console.log(`Пользователь ${userId} отключился`);
+    console.log(`❌ Пользователь ${userId} отключился`);
 
     const remaining = (onlineUsers.get(userId) || 1) - 1;
     if (remaining <= 0) {
       onlineUsers.delete(userId);
       await User.update({ online: false }, { where: { id: userId } });
-      console.log(`Пользователь ${userId} стал offline`);
+      console.log(`⚫ Пользователь ${userId} стал offline`);
     } else {
       onlineUsers.set(userId, remaining);
     }
@@ -67,5 +98,5 @@ io.on("connection", (socket) => {
 });
 
 server.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+  console.log(`🚀 Server running on port ${PORT}`);
 });

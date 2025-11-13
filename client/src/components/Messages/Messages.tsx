@@ -2,10 +2,11 @@ import { useEffect, useState, useCallback, useRef } from "react";
 import MessageInput from "./MessageInput";
 import { socket } from "../../socket";
 import { MessageItem } from "./MessageItem";
-import type { MessageRecord } from "../../types";
+import type { Message, MessageRecord } from "../../types";
 import { getMessages } from "../../api/messages";
 import { MessageHeader } from "./MessageHeader/MessageHeader";
 import "../../styles/messages.scss"
+import axios from "axios";
 
 export default function Messages({ receiverId }: { receiverId: number }) {
   console.log("Messages mounted");
@@ -66,9 +67,57 @@ export default function Messages({ receiverId }: { receiverId: number }) {
       method: "DELETE",
     });
 
-    // Удаляем сообщение из состояния, чтобы интерфейс сразу обновился
     setMessages((prev) => prev.filter((m) => m.id !== id));
   };
+
+  const handleEditMessage = async (message: Message, editContent: string) => {
+    try {
+      const token = localStorage.getItem("token");
+      await axios.put(
+        `http://localhost:5000/api/messages/dialogs/${message.id}`,
+        { content: editContent },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      setMessages((prev) =>
+        prev.map((m) =>
+          m.id === message.id ? { ...m, content: editContent } : m
+        )
+      );
+
+      socket.emit("message_updated", {
+        id: message.id,
+        content: editContent,
+        receiverId: message.receiverId,
+        senderId: message.senderId,
+      });
+
+      console.log(`Сообщение с ID: ${message.id} изменено на "${editContent}"`);
+    } catch (error) {
+      console.error("Ошибка при изменении сообщения:", error);
+    }
+  };
+
+  useEffect(() => {
+    const handleUpdatedMessage = (updatedMsg: MessageRecord) => {
+      setMessages((prev) =>
+        prev.map((m) =>
+          m.id === updatedMsg.id ? { ...m, content: updatedMsg.content } : m
+        )
+      );
+    };
+
+    socket.on("message_updated", handleUpdatedMessage);
+
+    return () => {
+      socket.off("message_updated", handleUpdatedMessage);
+    };
+  }, []);
+
 
   return (
     <div className="messagesBox flex column">
@@ -80,6 +129,7 @@ export default function Messages({ receiverId }: { receiverId: number }) {
                     message={m}
                     isOwn={m.senderId === currentUserId}
                     onDelete={handleDeleteMessage}
+                    onEdit={handleEditMessage}
                 />
                 ))}
             <div ref={messagesEndRef} />

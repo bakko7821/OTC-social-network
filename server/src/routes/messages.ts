@@ -192,7 +192,7 @@ router.get("/dialogs/:userId", async (req: Request, res: Response) => {
   }
 });
 
-router.delete("/dialogs/:receiverId/:senderId", async (req, res) => {
+router.delete("/dialogs/:receiverId/:senderId", async (req: Request, res: Response) => {
   const id1 = Number(req.params.receiverId);
   const id2 = Number(req.params.senderId);
 
@@ -221,7 +221,7 @@ router.delete("/dialogs/:receiverId/:senderId", async (req, res) => {
   }
 });
 
-router.delete("/dialogs/:id", async (req, res) => {
+router.delete("/dialogs/:id", async (req: Request, res: Response) => {
   try {
     const id = Number(req.params.id);
 
@@ -243,5 +243,41 @@ router.delete("/dialogs/:id", async (req, res) => {
     return res.status(500).json({ message: "Ошибка при удалении сообщения" });
   }
 });
+
+router.put("/dialogs/:id", authMiddleware, async (req: AuthRequest, res: Response) => {
+  const userId = (req.user as any)?.id;
+  if (!userId) return res.status(401).json({ message: "Unauthorized" });
+  
+  try {
+    const id = Number(req.params.id);
+    const { content } = req.body;
+
+    if (isNaN(id)) {
+      return res.status(400).json({ message: "Некорректный параметр ID" });
+    }
+
+    if (!content || typeof content !== "string") {
+      return res.status(400).json({ message: "Поле 'content' обязательно и должно быть строкой" });
+    }
+
+    const message = await Message.findByPk(id)
+
+    if (!message) {
+      return res.status(404).json({ message: "Сообщение не найдено" });
+    }
+
+    message.content = content;
+
+    await message.save();
+
+    return res.json({
+      message: "Сообщение успешно изменено",
+      updatedMessage: message,
+    });
+  } catch (error: unknown) {
+    console.error(error)
+    return res.status(500).json({ message: "Ошибка при изменении сообщения" });
+  }
+})
 
 export default router;
