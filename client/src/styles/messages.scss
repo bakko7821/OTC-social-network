@@ -1,4 +1,5 @@
 @use './variables' as *;
+@use './keyframes' as *;
 
 .messages {
     width: 100%;
@@ -24,13 +25,51 @@
 
                 .messageContent {
                     align-items: end;
-                    font-size: $rem1;
-                    font-weight: 500;
-                    line-height: 1.5;
-                    color: $text-color;
                     position: relative;
                     max-width: 60%;
                     padding: 8px 12px;
+
+                    p {
+                        font-size: $rem1;
+                        font-weight: 500;
+                        line-height: 1.5;
+                        color: $text-color;
+                        margin: 0;
+                        word-break: break-word; // перенос слов при переполнении
+                        white-space: pre-wrap;  // сохраняет переносы и пробелы
+                        overflow-wrap: break-word; // дополнительная гарантия переноса
+                        width: 100%; // чтобы занимал всю доступную ширину
+                    }
+
+                    .editingInput {
+                        font-size: $rem1;
+                        font-weight: 500;
+                        line-height: 1.5;
+                        color: $text-color;
+                        background-color: transparent;
+                        border: none;
+                        outline: none;
+                        width: 100%;
+                        resize: none;
+                        overflow: hidden;
+                        font-family: inherit;
+                        box-sizing: border-box;
+                        word-break: break-word;
+                        white-space: pre-wrap;
+                        overflow-wrap: break-word;
+                        animation: flicker 2s infinite;
+                    }
+
+                    .saveEditingChangesButton {
+                        transition: all 0.5s;
+
+                        &:hover {
+                            svg {
+                                width: 24px;
+                                transform: rotate(30deg);
+                            }
+                        }
+                    }
 
                     .messageTime {
                         line-height: 1.3;

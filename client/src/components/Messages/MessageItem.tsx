@@ -103,6 +103,15 @@ export const MessageItem: React.FC<MessageItemProps> = ({ message, isOwn, onDele
     setMenuType("none");
   };
 
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+
+  useEffect(() => {
+    const textarea = textareaRef.current;
+    if (textarea) {
+      textarea.style.width = `${Math.max(textarea.value.length, 1)}ch`;
+    }
+  }, [editContent]);
+
   return (
     <div
       className="messageItem flex"
@@ -121,7 +130,17 @@ export const MessageItem: React.FC<MessageItemProps> = ({ message, isOwn, onDele
         >
           {isEditing ? (
             <>
-              <input className="editingInput" value={editContent} onChange={(e) => setEditContent(e.target.value)} type="text" />
+              <textarea
+                ref={textareaRef}
+                className="editingInput"
+                value={editContent}
+                onChange={(e) => setEditContent(e.target.value)}
+                onInput={(e) => {
+                  const target = e.target as HTMLTextAreaElement;
+                  target.style.height = "auto";
+                  target.style.height = `${target.scrollHeight}px`;
+                }}
+              />
               <button className="saveEditingChangesButton" onClick={() => handleSaveEdit()}><DoneIcon /></button>
             </>
           ) : (
