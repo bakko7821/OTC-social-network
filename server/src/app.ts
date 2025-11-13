@@ -8,6 +8,7 @@ import { connectDB } from "./config/db";
 import authRouters from "./routes/auth";
 import usersRouters from "./routes/users";
 import messagesRouters from "./routes/messages";
+import uploadRoutes from "./routes/upload";
 
 dotenv.config();
 
@@ -23,8 +24,8 @@ app.use(express.json());
 app.use("/api/auth", authRouters);
 app.use("/api/users", usersRouters);
 app.use("/api/messages", messagesRouters);
-app.use("/music", express.static(path.join(__dirname, "utils/music")));
-app.use("/upload", express.static(path.join(__dirname, "utils/upload")));
+app.use("/api/upload", uploadRoutes);
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 // Socket.IO обработчик
 io.on("connection", (socket) => {

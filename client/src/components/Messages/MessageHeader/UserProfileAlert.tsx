@@ -51,13 +51,13 @@ export const UserProfileAlert = ({ receiverId, onClose }: UserProfileAlertProps)
                     </nav>
                 </div>
                 {isEditing ? (
-                    <EditProfileAlert user={user}/>
+                    <EditProfileAlert user={user} setUser={setUser}/>
                 ) : (
                     <div className="userInfoBox flex column g8 ">
                         <div className="userInfoHeader flex g16">
                             <div className="userAvatar flex center">
                                 <img
-                                    src={user?.avatarImage || defaultAvatar}
+                                    src={user?.avatarImage ? `http://localhost:5000${user.avatarImage}` : defaultAvatar}
                                     alt={user?.username || "@default"}
                                 />
                             </div>

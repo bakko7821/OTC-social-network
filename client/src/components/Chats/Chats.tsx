@@ -131,7 +131,7 @@ export default function Chats({ onSelect }: ChatsProps) {
             >
                 <div className="userAvatar flex g8">
                     <img
-                    src={d.avatarImage || defaultAvatar}
+                    src={d?.avatarImage ? `http://localhost:5000${d.avatarImage}` : defaultAvatar}
                     alt={d.username || "Пользователь"}
                     />
                     {d.online && <span className="online-dot" />}

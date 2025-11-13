@@ -89,7 +89,7 @@ router.put("/", authMiddleware, async (req: AuthRequest, res: Response) => {
       return res.status(400).json({ message: "Некорректный токен" });
     }
 
-    const { fullname, description, phoneNumber, username } = req.body;
+    const { fullname, description, phoneNumber, username, avatarImage } = req.body;
 
     let firstname = fullname;
     let lastname = "";
@@ -99,18 +99,27 @@ router.put("/", authMiddleware, async (req: AuthRequest, res: Response) => {
       lastname = rest.join(" "); // всё после первого пробела
     }
 
-    const updatedUser = await User.update(
-      {
-        firstname,
-        lastname,
-        description,
-        phoneNumber,
-        username,
-      },
-      { where: { id: userId }, returning: true }
-    );
+    const updateData: any = {
+      firstname,
+      lastname,
+      description,
+      phoneNumber,
+      username,
+    };
 
-    const userAfterUpdate = updatedUser[1][0];
+    if (avatarImage && avatarImage.trim() !== "") {
+      updateData.avatarImage = avatarImage;
+    }
+
+    const [count, users] = await User.update(updateData, {
+      where: { id: userId },
+      returning: true,
+    });
+
+    if (count === 0) {
+      return res.status(404).json({ message: "Пользователь не найден" });
+    }
+    const userAfterUpdate = users[0];
 
     res.json({ user: userAfterUpdate });
   } catch (error: unknown) {

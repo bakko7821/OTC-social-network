@@ -64,7 +64,7 @@ export const SearchInput = ({ onSelectUser }: SearchInputProps) => {
                     <div key={user.id} className="searchResultCard flex g8" onClick={() => handleClick(user)}>
                         <div className="userAvatar flex g8">
                             <img
-                                src={user.avatarImage || defaultAvatar}
+                                src={user?.avatarImage ? `http://localhost:5000${user.avatarImage}` : defaultAvatar}
                                 alt={user.username || "Пользователь"}
                             />
                             {user.online && <span className="online-dot" />}

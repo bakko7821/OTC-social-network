@@ -6,19 +6,13 @@
 
   .chatsHeader {
     width: 100%;
-    align-items: start;
+    align-items: center;
     position: relative;
     padding: 16px;
 
     .dropDownMenuButton {
         color: $second-text-color;
         transition: all 0.4s;
-
-        svg {
-            width: 36px;
-            height: 36px;
-            transition: all 0.5s;
-        }
 
         &:hover {
             color: $second-text-hover-color;
@@ -110,8 +104,10 @@
 
         .profileBox {
             align-items: start;
+            position: relative;
 
             .user {
+                z-index: 3;
                 padding: 16px;
                 width: 100%;
 
@@ -143,9 +139,7 @@
                 transition: all 0.5s;
                 
                 svg {
-                    max-width: none;
                     color: $text-color;
-                    transition: all 0.5s;
                 }
 
                 &:hover {
@@ -174,6 +168,10 @@
             }
 
             .setDescriptionButton {
+                width: 100%;
+                padding: 0px 16px 8px 16px;
+                border-bottom: 1px $main-color solid;
+                margin-bottom: 16px;
                 text-align: start;
                 color: $main-color;
                 transition: all 0.4s;
@@ -311,6 +309,7 @@
 .chats.collapsed {
 
     .chatsHeader {
+        align-items: center;
         position: static;
         .searchInput {
             display: none;

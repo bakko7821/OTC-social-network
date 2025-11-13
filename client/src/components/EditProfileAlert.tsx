@@ -1,18 +1,23 @@
 import type { User } from "../types"
 import defaultAvatar from "../assets/images/58e8ff52eb97430e819064cf.png"
 import { AtIcon, DoneIcon, PhoneIcon, ProfileIcon, UploadIcon } from "../assets/Icons";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 
 interface EditProfileAlertProps {
   user: User | null;
+  setUser: (user: User) => void;
 }
 
-export const EditProfileAlert = ({user}: EditProfileAlertProps) => {
+export const EditProfileAlert = ({user, setUser }: EditProfileAlertProps) => {
     const [fullname, setFullname] = useState("")
     const [description, setDescription] = useState("")
     const [username, setUsername] = useState("")
     const [phoneNumber, setPhoneNumber] = useState("")
+    const [avatarPreview, setAvatarPreview] = useState(defaultAvatar);
+    const [serverAvatarFilePath, setServerAvatarFilePath] = useState("");
+
+    const fileInputRefAvatar = useRef<HTMLInputElement | null>(null);
 
     useEffect(() => {
         console.log(`Полное имя: ${fullname}`)
@@ -27,7 +32,39 @@ export const EditProfileAlert = ({user}: EditProfileAlertProps) => {
         setDescription(`${user?.description || ""}`)
         setUsername(`@${user?.username || ""}`)
         setPhoneNumber(`${user?.phoneNumber || ""}`)
-    }, [])
+        setAvatarPreview(user?.avatarImage ? `http://localhost:5000${user.avatarImage}` : defaultAvatar);
+    }, [user])
+
+    const handleAvatarFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (!file) return;
+
+        setAvatarPreview(URL.createObjectURL(file));
+
+        const formData = new FormData();
+        formData.append("avatar", file);
+
+        try {
+        const res = await axios.post("http://localhost:5000/api/upload/avatar", formData, {
+            headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+        });
+
+            console.log("Файл загружен:", res.data.path);
+            alert("Аватар успешно загружен!");
+            setServerAvatarFilePath(res.data.path)
+        } catch (error) {
+        console.error(error);
+        alert("Ошибка при загрузке файла");
+        }
+    };
+    
+
+    const handleUploadAvatarClick = () => {
+        fileInputRefAvatar.current?.click();
+    };
 
     const handleSaveChanges = async () => {
         const cleanedUsername = username.startsWith("@") ? username.slice(1) : username;
@@ -40,6 +77,7 @@ export const EditProfileAlert = ({user}: EditProfileAlertProps) => {
                 description,
                 username: cleanedUsername,
                 phoneNumber,
+                avatarImage: serverAvatarFilePath,
             },
             {
                 headers: {
@@ -48,8 +86,8 @@ export const EditProfileAlert = ({user}: EditProfileAlertProps) => {
             }
             );
 
-            console.log("Пользователь обновлён:", response.data.user);
             alert("Изменения сохранены!");
+            setUser(response.data.user);
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } catch (error: any) {
             console.error(error.response?.data?.message || error.message);
@@ -63,8 +101,15 @@ export const EditProfileAlert = ({user}: EditProfileAlertProps) => {
         <div className="editProfileAlert flex column g8">
             <div className="editProfileHeader flex column g8">
                 <div className="userAvatar flex center">
-                    <img src={user.avatarImage || defaultAvatar} alt={user.username || '@default'} />
-                    <button className="uploadImageButton"><UploadIcon /></button>
+                    <img src={avatarPreview} alt={username} />
+                    <button className="uploadImageButton" onClick={handleUploadAvatarClick}><UploadIcon /></button>
+                    <input
+                        type="file"
+                        ref={fileInputRefAvatar}
+                        accept="image/*"
+                        onChange={handleAvatarFileChange}
+                        style={{ display: "none" }}
+                    />
                 </div>
                 <div className="textBox flex column center">
                     <span className="fullname">{user.firstname || "Firstname"} {user.lastname || "Lastname"}</span>
