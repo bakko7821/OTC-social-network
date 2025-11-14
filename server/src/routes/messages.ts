@@ -7,11 +7,7 @@ import authMiddleware, { AuthRequest } from "../middleware/authMiddleware";
 import type { SocketMessage, Dialog } from "../types";
 
 interface MessageWithSender extends Message {
-  sender?: {
-    id: number;
-    username: string;
-    avatarImage: string;
-  };
+  sender?: User;
 }
 
 const router = express.Router();
@@ -23,19 +19,17 @@ router.get("/dialogs/me", authMiddleware, async (req: AuthRequest, res: Response
   try {
     const dialogs = await Message.findAll({
       where: {
-        [Op.or]: [{ senderId: userId }, { receiverId: userId }],
+        [Op.or]: [{ senderId: Number(userId) }, { receiverId: Number(userId) }],
       },
       order: [["createdAt", "DESC"]],
       include: [
         {
           model: User,
           as: "sender",
-          attributes: ["id", "username", "firstname", "lastname", "avatarImage", "online"],
         },
         {
           model: User,
           as: "receiver",
-          attributes: ["id", "username", "firstname", "lastname", "avatarImage", "online"],
         },
       ],
     }) as unknown as SocketMessage[];
@@ -49,12 +43,7 @@ router.get("/dialogs/me", authMiddleware, async (req: AuthRequest, res: Response
 
       if (!uniqueChats[otherId] && otherUser) {
         uniqueChats[otherId] = {
-          userId: otherUser.id,
-          username: otherUser.username || `user_${otherUser.id}`,
-          firstname: otherUser.firstname || "",
-          lastname: otherUser.lastname || "",
-          avatarImage: otherUser.avatarImage || "",
-          online: otherUser.online ?? false,
+          user: otherUser,
           lastMessage: msg.content,
           lastMessageTime: msg.createdAt,
         };
@@ -105,27 +94,6 @@ router.post("/", authMiddleware, async (req: AuthRequest, res: Response) => {
   }
 });
 
-router.get("/:userId/:receiverId", async (req: Request, res: Response) => {
-  const { userId, receiverId } = req.params;
-
-  try {
-    const messages = await Message.findAll({
-    where: {
-        [Op.or]: [
-            { senderId: userId, receiverId },
-            { senderId: receiverId, receiverId: userId },
-        ],
-    },
-      order: [["createdAt", "ASC"]],
-    });
-
-    res.json(messages);
-  } catch (error) {
-    console.error("Ошибка при получении сообщений:", error);
-    res.status(500).json({ message: "Ошибка сервера" });
-  }
-});
-
 router.get("/dialogs/:receiverId", authMiddleware, async (req: AuthRequest, res) => {
     const userId = req.user?.id;
     const receiverId = Number(req.params.receiverId);
@@ -159,8 +127,8 @@ router.get("/dialogs/:userId", async (req: Request, res: Response) => {
     const dialogs = await Message.findAll({
         where: {
             [Op.or]: [
-                { senderId: userId },
-                { receiverId: userId },
+                { senderId: Number(userId) },
+                { receiverId: Number(userId) },
             ],
         },
         order: [["createdAt", "DESC"]],
@@ -282,5 +250,28 @@ router.put("/dialogs/:id", authMiddleware, async (req: AuthRequest, res: Respons
     return res.status(500).json({ message: "Ошибка при изменении сообщения" });
   }
 })
+
+
+router.get("/:userId/:receiverId", async (req: Request, res: Response) => {
+  const { userId, receiverId } = req.params;
+
+  try {
+    const messages = await Message.findAll({
+    where: {
+        [Op.or]: [
+            { senderId: userId, receiverId },
+            { senderId: receiverId, receiverId: userId },
+        ],
+    },
+      order: [["createdAt", "ASC"]],
+    });
+
+    res.json(messages);
+  } catch (error) {
+    console.error("Ошибка при получении сообщений:", error);
+    res.status(500).json({ message: "Ошибка сервера" });
+  }
+});
+
 
 export default router;

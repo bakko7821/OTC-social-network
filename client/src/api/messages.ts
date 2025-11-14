@@ -12,21 +12,11 @@ export const getDialogs = async (): Promise<Dialog[]> => {
     );
 
     const raw = res.data;
+    console.log(raw);
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const normalized: Dialog[] = raw.map((item: any) => ({
-      user: {
-        id: item.userId,
-        firstname: item.firstname ?? "",
-        lastname: item.lastname ?? "",
-        username: item.username ?? "",
-        phoneNumber: item.phoneNumber ?? "",
-        email: item.email ?? "",
-        description: item.description ?? "",
-        headImage: item.headImage ?? "",
-        avatarImage: item.avatarImage ?? "",
-        online: item.online ?? false
-      },
+      user: item.user,
       lastMessage: item.lastMessage,
       lastMessageTime: item.lastMessageTime
     }));

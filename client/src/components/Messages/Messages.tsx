@@ -10,10 +10,11 @@ import axios from "axios";
 
 export interface MessagesProps {
   receiverId: number;
+  onCloseChat: () => void
   onOpenProfile: () => void;
 }
 
-export const Messages: React.FC<MessagesProps> = ({receiverId, onOpenProfile}) => {
+export const Messages: React.FC<MessagesProps> = ({receiverId, onCloseChat, onOpenProfile}) => {
   console.log("Messages mounted");
 
   const token = localStorage.getItem("token");
@@ -155,7 +156,7 @@ export const Messages: React.FC<MessagesProps> = ({receiverId, onOpenProfile}) =
 
   return (
     <div className="messagesBox flex column">
-      <MessageHeader receiverId={receiverId} onOpenProfile={onOpenProfile}/>
+      <MessageHeader receiverId={receiverId} onOpenProfile={onOpenProfile} onCloseChat={onCloseChat}/>
         <div className="messagesContent">
             {messages.map((m) => (
                 <MessageItem

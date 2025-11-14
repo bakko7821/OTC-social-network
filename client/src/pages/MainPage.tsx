@@ -11,6 +11,9 @@ export const MainPage = () => {
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const [isOpenProfile, setIsOpenProfile] = useState(false)
 
+  const [isActiveChats, setIsActiveChats] = useState(true)
+  const [isActiveMessages, setIsActiveMessages] = useState(true)
+
   const [chatWidth, setChatWidth] = useState(() => {
     const saved = localStorage.getItem("chatWidth");
     return saved ? parseInt(saved, 10) : 320;
@@ -92,17 +95,34 @@ export const MainPage = () => {
 
   const handleSelectUser = useCallback((user: User) => {
     setSelectedUser(user);
+    setIsActiveChats(false)
+    setIsActiveMessages(true)
   }, []);
 
   const handleCloseProfileMenu = () => {
     setIsOpenProfile(false)
+    setIsActiveMessages(false)
+    setIsActiveMessages(true)
+  }
+
+  const handleCloseMessages = () => {
+    setIsActiveMessages(false)
+    setIsActiveChats(true)
+  }
+
+  const handleOpenProfile = () => {
+    setIsActiveMessages(false)
+    setIsOpenProfile(true)
   }
 
   return (
     <div ref={containerRef} className="page flex">
       <div
         ref={leftPanelRef}
-        className={`chats flex column ${chatWidth === 68 ? "collapsed" : ""}`}
+        className={isActiveChats 
+          ? "chats active flex column" 
+          : `chats flex column ${chatWidth === 68 ? "collapsed" : ""}`
+        }
         style={{ width: chatWidth }}
       >
         <Chats onSelect={handleSelectUser} />
@@ -110,9 +130,11 @@ export const MainPage = () => {
 
       <div ref={resizerRef} className="resizer"></div>
 
-      <div className="messages flex center column">
+      <div className={isActiveMessages
+        ? "messages active flex center column"
+        : "messages flex center column"}>
         {selectedUser ? (
-          <Messages receiverId={selectedUser.id} onOpenProfile={() => setIsOpenProfile(true)}/>
+          <Messages receiverId={selectedUser.id} onCloseChat={handleCloseMessages} onOpenProfile={handleOpenProfile}/>
         ) : (
           <span className="peakChatMessage">Выберите чат, чтобы начать общение</span>
         )}

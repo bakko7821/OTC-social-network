@@ -5,6 +5,7 @@ import { getDialogs } from "../../api/messages";
 import type { Dialog, SocketMessage, User } from "../../types";
 import defaultAvatar from "../../assets/images/58e8ff52eb97430e819064cf.png"
 import "../../styles/chats.scss"
+import axios from "axios";
 
 interface ChatsProps {
   onSelect: (user: User) => void;
@@ -47,6 +48,17 @@ export default function Chats({ onSelect }: ChatsProps) {
         };
     }, []);
 
+    async function fetchUser(id:number) {
+        if (!id) return
+
+        try {
+            const res = axios.get(`http://localhost:5000/api/users/${id}`)
+            return (await res).data
+        } catch (error: unknown) {
+            console.error(error + "Не удалось выполнить запрос")
+        }
+    }
+
     useEffect(() => {
         const loadDialogs = async () => {
             const data = await getDialogs();
@@ -60,35 +72,32 @@ export default function Chats({ onSelect }: ChatsProps) {
             const otherId = isMyMessage ? msg.receiverId : msg.senderId;
 
             setDialogs(prev => {
-                const existingDialog = prev.find(d => d.user.id === otherId);
-                let userFromMsg: User;
-
-                if (!existingDialog) {
-                    return prev;
-                } else {
-                    userFromMsg = existingDialog.user;
-                }
-
-                const messageText = msg.content;
-
-                if (existingDialog) {
-                    return prev.map(d =>
-                        d.user.id === otherId
-                            ? {
-                                ...d,
-                                lastMessage: messageText,
-                                lastMessageTime: msg.createdAt
-                            }
-                            : d
-                    );
-                } else {
-                    return [{
-                        user: userFromMsg,
-                        lastMessage: messageText,
-                        lastMessageTime: msg.createdAt
-                    }, ...prev];
-                }
+                const existing = prev.find(d => d.user.id === otherId);
+                if (existing) return prev; // только обновим ниже
+                return prev;
             });
+
+            const existing = dialogs.find(d => d.user.id === otherId);
+            if (!existing) {
+                const userFromMsg = await fetchUser(otherId);
+                setDialogs(prev => [{
+                    user: userFromMsg,
+                    lastMessage: msg.content,
+                    lastMessageTime: msg.createdAt
+                }, ...prev]);
+            }
+
+            setDialogs(prev =>
+                prev.map(d =>
+                    d.user.id === otherId
+                        ? {
+                            ...d,
+                            lastMessage: msg.content,
+                            lastMessageTime: msg.createdAt
+                        }
+                        : d
+                )
+            );
         };
 
 

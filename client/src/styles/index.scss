@@ -172,3 +172,39 @@ span, p, button {
   height: 12px;
   background-color: $background-card-color;
 }
+
+@media (max-width: 500px) {
+  .chats {
+    display: none;
+  }
+
+  .chats.active {
+    display: flex;
+    width: 100vw;
+  }
+
+  .messages {
+    display: none;
+  }
+
+  .messages.active {
+    display: flex;
+    width: 100vw;
+
+    .messagesBox .messageHeader .backButton {
+      display: flex !important;
+
+      &:hover {
+        svg {
+          transform: rotate(30deg);
+        }
+      }
+    }
+  }
+
+  .userProfile {
+    max-width: none !important;
+    width: 100vw;
+  }
+
+}

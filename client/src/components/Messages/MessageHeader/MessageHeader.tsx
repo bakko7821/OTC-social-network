@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import type { User } from "../../../types";
 import axios, { AxiosError } from "axios";
-import { InfoIcon, MoreIcon, SearchIcon } from "../../../assets/Icons";
+import { BackIcon, InfoIcon, MoreIcon, SearchIcon } from "../../../assets/Icons";
 import { MoreDropDownMenu } from "./MoreDropDownMenu";
 import { SearchInput } from "./SearchInput";
 import type { MessagesProps } from "../Messages";
 import { socket } from "../../../socket"; // импорт твоего socket
 
-export const MessageHeader: React.FC<MessagesProps> = ({ receiverId, onOpenProfile }) => {
+export const MessageHeader: React.FC<MessagesProps> = ({ receiverId, onCloseChat, onOpenProfile }) => {
     const [dropDownStatus, setDropDownStatus] = useState(false);
     const [dropDownSearch, setDropDownSearch] = useState(false);
     const [user, setUser] = useState<User | null>(null);
@@ -56,11 +56,14 @@ export const MessageHeader: React.FC<MessagesProps> = ({ receiverId, onOpenProfi
 
     return (
         <div className="messageHeader flex between">
-            <div className="textBox flex column">
-                <span className="fullname">{user?.firstname} {user?.lastname}</span>
-                <span className={user?.online ? "onlineStatus active" : "onlineStatus"}>
-                    {user?.online ? "В сети" : "Не в сети"}
-                </span>
+            <div className="leftBox flex center g8">
+                <button className="backButton" onClick={onCloseChat}><BackIcon /></button>
+                <div className="textBox flex column">
+                    <span className="fullname">{user?.firstname} {user?.lastname}</span>
+                    <span className={user?.online ? "onlineStatus active" : "onlineStatus"}>
+                        {user?.online ? "В сети" : "Не в сети"}
+                    </span>
+                </div>
             </div>
             <nav className="messageHeaderNavigate flex">
                 <button onClick={() => setDropDownSearch(prev => !prev)}><SearchIcon /></button>
