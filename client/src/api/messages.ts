@@ -1,5 +1,5 @@
 import axios from "axios";
-import type { Dialog } from "../types";
+import type { Dialog } from "../utils/types";
 
 export const getDialogs = async (): Promise<Dialog[]> => {
   const token = localStorage.getItem("token");

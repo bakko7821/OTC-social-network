@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import dayjs from "dayjs";
 import { CopyIcon, DoneIcon, EditIcon, SelectIcon, TrashIcon } from "../../assets/Icons";
-import type { Message } from "../../types";
+import type { Message } from "../../utils/types";
 
 interface MessageItemProps {
   message: Message;
@@ -53,7 +53,7 @@ export const MessageItem: React.FC<MessageItemProps> = ({ message, isOwn, onDele
 
   const fetchDelete = async (message: Message) => {
     try {
-      await onDelete(message); // вызываем родительский хендлер
+      await onDelete(message);
     } catch (error: unknown) {
       console.error("Ошибка при удалении:", error);
     }

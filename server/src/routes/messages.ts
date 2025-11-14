@@ -67,13 +67,12 @@ router.post("/", authMiddleware, async (req: AuthRequest, res: Response) => {
     if (!receiverId || !content)
       return res.status(400).json({ message: "receiverId и content обязательны" });
 
-    // Проверка на дубликат за последние 5 секунд
     const recent = await Message.findOne({
       where: {
         senderId,
         receiverId,
         content,
-        createdAt: { [Op.gte]: new Date(Date.now() - 5000) }, // 5 секунд
+        createdAt: { [Op.gte]: new Date(Date.now() - 5000) },
       },
     });
 

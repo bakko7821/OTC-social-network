@@ -96,7 +96,7 @@ router.put("/", authMiddleware, async (req: AuthRequest, res: Response) => {
     if (fullname.includes(" ")) {
       const [first, ...rest] = fullname.split(" ");
       firstname = first;
-      lastname = rest.join(" "); // всё после первого пробела
+      lastname = rest.join(" ");
     }
 
     const updateData: any = {

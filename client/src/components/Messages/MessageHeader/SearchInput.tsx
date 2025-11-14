@@ -1,5 +1,5 @@
 import { CrossIcon, SearchIcon } from "../../../assets/Icons"
-import type { DropDownMenuProps } from "../../../types"
+import type { DropDownMenuProps } from "../../../utils/types"
 
 export const SearchInput = ({ onClose }: DropDownMenuProps) => {
     return (

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { ChatsHeader } from "./ChatsHeader";
 import { socket } from "../../socket";
 import { getDialogs } from "../../api/messages";
-import type { Dialog, SocketMessage, User } from "../../types";
+import type { Dialog, SocketMessage, User } from "../../utils/types";
 import defaultAvatar from "../../assets/images/58e8ff52eb97430e819064cf.png"
 import "../../styles/chats.scss"
 import axios from "axios";
@@ -71,41 +71,38 @@ export default function Chats({ onSelect }: ChatsProps) {
             const isMyMessage = msg.senderId === currentUserId;
             const otherId = isMyMessage ? msg.receiverId : msg.senderId;
 
+            const userFromMsg = await fetchUser(otherId);
+
             setDialogs(prev => {
                 const existing = prev.find(d => d.user.id === otherId);
-                if (existing) return prev; // только обновим ниже
-                return prev;
-            });
 
-            const existing = dialogs.find(d => d.user.id === otherId);
-            if (!existing) {
-                const userFromMsg = await fetchUser(otherId);
-                setDialogs(prev => [{
+                if (existing) {
+                    return prev.map(d =>
+                        d.user.id === otherId
+                            ? {
+                                ...d,
+                                lastMessage: msg.content,
+                                lastMessageTime: msg.createdAt
+                            }
+                            : d
+                    );
+                }
+
+                const newDialog: Dialog = {
                     user: userFromMsg,
                     lastMessage: msg.content,
-                    lastMessageTime: msg.createdAt
-                }, ...prev]);
-            }
+                    lastMessageTime: msg.createdAt,
+                };
 
-            setDialogs(prev =>
-                prev.map(d =>
-                    d.user.id === otherId
-                        ? {
-                            ...d,
-                            lastMessage: msg.content,
-                            lastMessageTime: msg.createdAt
-                        }
-                        : d
-                )
-            );
+                return [newDialog, ...prev];
+            });
         };
-
 
         socket.on("private_message", handleIncoming);
 
         return () => {
             socket.off("private_message", handleIncoming);
-        }
+        };
     }, []);
 
     const handleSelect = (user: User) => {

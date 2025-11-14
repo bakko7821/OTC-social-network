@@ -4,7 +4,7 @@ import "../../styles/index.scss";
 import "../../styles/main_page.scss";
 import { useState } from "react";
 import { DropDownMenu } from "./DropDownMenu";
-import type { User } from "../../types";
+import type { User } from "../../utils/types";
 
 interface ChatsHeaderProps {
   onSelectUser: (user: User) => void;

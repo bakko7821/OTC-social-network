@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import '../../styles/main_page.scss'
-import type { User } from "../../types"
+import type { User } from "../../utils/types"
 import axios from "axios";
 import defaultAvatar from "../../assets/images/58e8ff52eb97430e819064cf.png"
 

@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import "../../styles/index.scss";
 import "../../styles/main_page.scss";
 import { NightIcon } from "../../assets/Icons";
-import { applyTheme } from "../../theme";
+import { applyTheme } from "../../utils/theme";
 
 export const SwitchTheme = () => {
   const [isDark, setIsDark] = useState(() => localStorage.getItem("theme") === "dark");

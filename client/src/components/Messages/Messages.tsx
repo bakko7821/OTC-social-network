@@ -2,7 +2,7 @@ import { useEffect, useState, useCallback, useRef } from "react";
 import MessageInput from "./MessageInput";
 import { socket } from "../../socket";
 import { MessageItem } from "./MessageItem";
-import type { Message, MessageRecord } from "../../types";
+import type { Message, MessageRecord } from "../../utils/types";
 import { getMessages } from "../../api/messages";
 import { MessageHeader } from "./MessageHeader/MessageHeader";
 import "../../styles/messages.scss"
@@ -44,7 +44,7 @@ export const Messages: React.FC<MessagesProps> = ({receiverId, onCloseChat, onOp
     (msg: MessageRecord) => {
       if (msg.senderId === receiverId || msg.receiverId === receiverId) {
         setMessages((prev) => {
-          if (prev.some((m) => m.id === msg.id)) return prev; // защита от дублей
+          if (prev.some((m) => m.id === msg.id)) return prev;
           return [...prev, msg];
         });
       }
@@ -79,14 +79,12 @@ export const Messages: React.FC<MessagesProps> = ({receiverId, onCloseChat, onOp
         },
       });
 
-      // Эмитим событие, сервер удалит и разошлёт другим
       socket.emit("message_deleted", {
         id: message.id,
         senderId: message.senderId,
         receiverId: message.receiverId
       });
 
-      // Можно сразу удалить локально, чтобы быстрее обновилось UI
       setMessages(prev => prev.filter(m => m.id !== message.id));
 
     } catch (err) {

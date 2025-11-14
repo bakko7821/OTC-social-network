@@ -30,7 +30,6 @@ export default function RegisterPage() : JSX.Element {
 
       setMessage(res.data.message || "Регистрация успешна!");
 
-      // автоматически логиним пользователя
       const loginRes = await axios.post("http://localhost:5000/api/auth/login", {
         username,
         password,
@@ -41,7 +40,7 @@ export default function RegisterPage() : JSX.Element {
       localStorage.setItem("userId", user.id.toString());
 
       setMessage(loginRes.data.message || "Успешный вход!");
-      window.location.href = "/"; // перенаправляем на главную
+      window.location.href = "/";
 
     } catch (err) {
       const error = err as AxiosError<ApiError>;

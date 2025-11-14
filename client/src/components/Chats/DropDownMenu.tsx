@@ -4,7 +4,7 @@ import { CrossIcon, LogOutIcon, ProfileIcon } from "../../assets/Icons";
 import { useEffect, useState } from "react";
 import axios, { AxiosError } from "axios";
 import defaultAvatar from "../../assets/images/58e8ff52eb97430e819064cf.png"
-import type { DropDownMenuProps, User } from "../../types";
+import type { DropDownMenuProps, User } from "../../utils/types";
 import { UserProfileAlert } from "../Messages/MessageHeader/UserProfileAlert";
 
 export const DropDownMenu = ({ onClose }: DropDownMenuProps) => {
@@ -31,7 +31,7 @@ export const DropDownMenu = ({ onClose }: DropDownMenuProps) => {
             } catch (err) {
                 const error = err as AxiosError<{ message?: string }>;
                 console.error(error.response?.data?.message || "Ошибка при получении данных пользователя");
-                navigate("/login"); // редирект, если токен невалидный
+                navigate("/login"); 
             }
         };
 

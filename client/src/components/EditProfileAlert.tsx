@@ -1,4 +1,4 @@
-import type { User } from "../types"
+import type { User } from "../utils/types"
 import defaultAvatar from "../assets/images/58e8ff52eb97430e819064cf.png"
 import { AtIcon, PhoneIcon, ProfileIcon, SaveIcon, UploadIcon } from "../assets/Icons";
 import { useEffect, useRef, useState } from "react";

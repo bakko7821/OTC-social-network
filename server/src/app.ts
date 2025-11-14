@@ -27,7 +27,6 @@ app.use("/api/messages", messagesRouters);
 app.use("/api/upload", uploadRoutes);
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
-// Socket.IO обработчик
 io.on("connection", (socket) => {
   console.log("User connected:", socket.id);
   socket.on("message", (data) => {

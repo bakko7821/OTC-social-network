@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { deleteChat } from "../../../api/messages";
-import type { Props } from "../../../types";
+import type { Props } from "../../../utils/types";
 
 import '../../../styles/main_page.scss'
 import { ProfileIcon, TrashIcon } from "../../../assets/Icons";

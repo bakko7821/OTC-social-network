@@ -1,18 +1,17 @@
 import { useEffect, useState } from "react";
-import type { User } from "../../../types";
+import type { User } from "../../../utils/types";
 import axios, { AxiosError } from "axios";
 import { BackIcon, InfoIcon, MoreIcon, SearchIcon } from "../../../assets/Icons";
 import { MoreDropDownMenu } from "./MoreDropDownMenu";
 import { SearchInput } from "./SearchInput";
 import type { MessagesProps } from "../Messages";
-import { socket } from "../../../socket"; // импорт твоего socket
+import { socket } from "../../../socket";
 
 export const MessageHeader: React.FC<MessagesProps> = ({ receiverId, onCloseChat, onOpenProfile }) => {
     const [dropDownStatus, setDropDownStatus] = useState(false);
     const [dropDownSearch, setDropDownSearch] = useState(false);
     const [user, setUser] = useState<User | null>(null);
 
-    // загрузка пользователя один раз
     useEffect(() => {
         const fetchUser = async () => {
             try {
@@ -26,7 +25,6 @@ export const MessageHeader: React.FC<MessagesProps> = ({ receiverId, onCloseChat
         fetchUser();
     }, [receiverId]);
 
-    // подписка на live обновление онлайн-статуса
     useEffect(() => {
         const handleUserOnline = ({ userId }: { userId: number }) => {
             if (userId === receiverId) {

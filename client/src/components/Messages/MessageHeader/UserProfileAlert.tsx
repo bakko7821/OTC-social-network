@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { BackIcon, CrossIcon, EditIcon, Info2Icon, MoreIcon } from "../../../assets/Icons"
-import { type User, type DropDownMenuProps, type Props } from "../../../types"
+import { type User, type DropDownMenuProps, type Props } from "../../../utils/types"
 import axios from "axios";
 import defaultAvatar from "../../../assets/images/58e8ff52eb97430e819064cf.png"
 import { EditProfileAlert } from "../../EditProfileAlert";

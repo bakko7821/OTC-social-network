@@ -13,8 +13,6 @@ export const useAuthValue = (): AuthContextType => {
       return;
     }
 
-    // можно сделать проверку через API
-    // например axios.get("/api/auth/me")...
     setIsAuth(true);
     setLoading(false);
   }, []);

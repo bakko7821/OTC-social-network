@@ -21,7 +21,6 @@ const authMiddleware = (req: AuthRequest, res: Response, next: NextFunction): vo
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET as string) as JwtPayload;
 
-    // предполагаем, что токен содержит поле id
     req.user = {
       id: decoded.id as number,
       username: decoded.username as string | undefined,

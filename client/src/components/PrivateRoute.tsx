@@ -9,8 +9,8 @@ interface PrivateRouteProps {
 export const PrivateRoute = ({ children }: PrivateRouteProps) => {
   const { isAuth, loading } = useAuth();
 
-  if (loading) return null; // пока идет проверка токена — ничего не рендерим
-  if (!isAuth) return <Navigate to="/login" replace />; // если не авторизован — редирект
+  if (loading) return null;
+  if (!isAuth) return <Navigate to="/login" replace />;
 
-  return children; // если авторизован — отрисовываем компонент
+  return children;
 };

@@ -23,22 +23,20 @@ io.on("connection", (socket) => {
     return;
   }
 
-  console.log(`🔌 Пользователь ${userId} подключился`);
+  console.log(`Пользователь ${userId} подключился`);
 
   const connections = (onlineUsers.get(userId) || 0) + 1;
   onlineUsers.set(userId, connections);
 
   if (connections === 1) {
     User.update({ online: true }, { where: { id: userId } });
-    console.log(`🟢 Пользователь ${userId} стал online`);
+    console.log(`Пользователь ${userId} стал online`);
 
-    // 🔹 уведомляем всех остальных клиентов, что пользователь онлайн
     socket.broadcast.emit("user_online", { userId });
   }
 
   socket.join(userId.toString());
 
-  // === 📩 ОБРАБОТКА ЛИЧНЫХ СООБЩЕНИЙ ===
   socket.on("private_message", async ({ receiverId, content }) => {
       const message = await Message.create({
           senderId: userId,
@@ -59,28 +57,24 @@ io.on("connection", (socket) => {
       io.to(userId.toString()).emit("private_message", enrichedMessage);
   });
 
-  // === ✏️ ОБРАБОТКА РЕДАКТИРОВАНИЯ СООБЩЕНИЙ ===
   socket.on("message_updated", async ({ id, content }) => {
     try {
       const message = await Message.findByPk(id);
 
       if (!message) return console.warn(`Сообщение ${id} не найдено`);
 
-      // Проверяем, что редактирует владелец
       if (message.senderId !== userId) {
-        console.warn(`⚠️ Пользователь ${userId} не может редактировать чужое сообщение`);
+        console.warn(`Пользователь ${userId} не может редактировать чужое сообщение`);
         return;
       }
 
-      // Обновляем сообщение
       message.content = content;
       await message.save();
 
-      // Отправляем обновление обоим участникам
       io.to(message.senderId.toString()).emit("message_updated", message);
       io.to(message.receiverId.toString()).emit("message_updated", message);
 
-      console.log(`✏️ Сообщение ${id} обновлено пользователем ${userId}`);
+      console.log(`Сообщение ${id} обновлено пользователем ${userId}`);
     } catch (err) {
       console.error("Ошибка при обновлении сообщения:", err);
     }
@@ -98,17 +92,15 @@ io.on("connection", (socket) => {
     }
   });
 
-  // === 🔴 ОБРАБОТКА ОТКЛЮЧЕНИЯ ===
   socket.on("disconnect", async () => {
-    console.log(`❌ Пользователь ${userId} отключился`);
+    console.log(`Пользователь ${userId} отключился`);
 
     const remaining = (onlineUsers.get(userId) || 1) - 1;
     if (remaining <= 0) {
       onlineUsers.delete(userId);
       await User.update({ online: false }, { where: { id: userId } });
-      console.log(`⚫ Пользователь ${userId} стал offline`);
+      console.log(`Пользователь ${userId} стал offline`);
 
-      // 🔹 уведомляем всех остальных клиентов, что пользователь оффлайн
       socket.broadcast.emit("user_offline", { userId });
     } else {
       onlineUsers.set(userId, remaining);
@@ -117,5 +109,5 @@ io.on("connection", (socket) => {
 });
 
 server.listen(PORT, () => {
-  console.log(`🚀 Server running on port ${PORT}`);
+  console.log(`Server running on port ${PORT}`);
 });

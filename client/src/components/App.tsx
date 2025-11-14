@@ -1,8 +1,6 @@
-// src/App.tsx
 import { Routes, Route } from "react-router-dom";
 import { MainPage } from "../pages/MainPage";import { AuthProvider } from "../providers/AuthProviders";
 import { PrivateRoute } from "./PrivateRoute";
-import ProfilePage from "../pages/ProfilePage";
 import LoginPage from "../pages/LoginPage";
 import RegisterPage from "../pages/RegisterPage";
 ;
@@ -16,14 +14,6 @@ export default function App() {
           element={
             <PrivateRoute>
               <MainPage />
-            </PrivateRoute>
-          }
-        />
-        <Route
-          path="/profile"
-          element={
-            <PrivateRoute>
-              <ProfilePage />
             </PrivateRoute>
           }
         />

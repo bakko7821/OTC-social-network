@@ -3,7 +3,7 @@ import "../styles/index.scss";
 import "../styles/main_page.scss";
 import Chats from "../components/Chats/Chats";
 import { Messages } from "../components/Messages/Messages";
-import type { User } from "../types";
+import type { User } from "../utils/types";
 import { UserProfile } from "../components/UserProfile";
 
 export const MainPage = () => {
@@ -12,7 +12,7 @@ export const MainPage = () => {
   const [isOpenProfile, setIsOpenProfile] = useState(false)
 
   const [isActiveChats, setIsActiveChats] = useState(true)
-  const [isActiveMessages, setIsActiveMessages] = useState(true)
+  const [isActiveMessages, setIsActiveMessages] = useState(false)
 
   const [chatWidth, setChatWidth] = useState(() => {
     const saved = localStorage.getItem("chatWidth");
