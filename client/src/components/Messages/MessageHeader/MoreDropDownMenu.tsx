@@ -3,10 +3,12 @@ import { deleteChat } from "../../../api/messages";
 import type { Props } from "../../../types";
 
 import '../../../styles/main_page.scss'
-import { TrashIcon } from "../../../assets/Icons";
+import { ProfileIcon, TrashIcon } from "../../../assets/Icons";
+import { UserProfileAlert } from "./UserProfileAlert";
 
 export const MoreDropDownMenu = ({ receiverId }: Props) => {
   const [showConfirm, setShowConfirm] = useState(false);
+  const [dropDownProfile, setDropDownProfile] = useState(false);
   const [loading, setLoading] = useState(false);
 
   async function handleDelete() {
@@ -16,8 +18,13 @@ export const MoreDropDownMenu = ({ receiverId }: Props) => {
     setShowConfirm(false);
   }
 
+  const handleCloseMenu = () => {
+      setDropDownProfile(false);
+  };
+
   return (
     <div className="more dropDownMenu">
+      <button className="dropDownMenuButton profile flex g4" onClick={() => setDropDownProfile(true)}><ProfileIcon /> Показать профиль</button>
       <button className="dropDownMenuButton delete flex g4" onClick={() => setShowConfirm(true)}><TrashIcon /> Очистить чат</button>
 
       {showConfirm && (
@@ -44,6 +51,8 @@ export const MoreDropDownMenu = ({ receiverId }: Props) => {
           </div>
         </div>
       )}
+
+      {dropDownProfile && <UserProfileAlert receiverId={receiverId} onClose={handleCloseMenu} />}
     </div>
   );
 };

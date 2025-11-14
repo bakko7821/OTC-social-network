@@ -6,7 +6,7 @@ import type { Message } from "../../types";
 interface MessageItemProps {
   message: Message;
   isOwn: boolean;
-  onDelete: (id: number) => void;
+  onDelete: (message: Message) => void;
   onEdit: (message: Message, editContent: string) => void;
 }
 
@@ -21,7 +21,7 @@ export const MessageItem: React.FC<MessageItemProps> = ({ message, isOwn, onDele
 
   async function handleDelete() {
     setLoading(true);
-    await fetchDelete(message.id);
+    await fetchDelete(message);
     setLoading(false);
     setShowConfirm(false);
   }
@@ -51,9 +51,9 @@ export const MessageItem: React.FC<MessageItemProps> = ({ message, isOwn, onDele
   const [menuPosition, setMenuPosition] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
   const menuRef = useRef<HTMLDivElement | null>(null);
 
-  const fetchDelete = async (id: number) => {
+  const fetchDelete = async (message: Message) => {
     try {
-      await onDelete(id); // вызываем родительский хендлер
+      await onDelete(message); // вызываем родительский хендлер
     } catch (error: unknown) {
       console.error("Ошибка при удалении:", error);
     }

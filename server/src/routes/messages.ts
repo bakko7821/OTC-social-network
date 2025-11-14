@@ -221,7 +221,10 @@ router.delete("/dialogs/:receiverId/:senderId", async (req: Request, res: Respon
   }
 });
 
-router.delete("/dialogs/:id", async (req: Request, res: Response) => {
+router.delete("/dialogs/:id", authMiddleware, async (req: AuthRequest, res: Response) => {
+  const userId = (req.user as any)?.id;
+  if (!userId) return res.status(401).json({ message: "Unauthorized" });
+  
   try {
     const id = Number(req.params.id);
 

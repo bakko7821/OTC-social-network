@@ -113,6 +113,7 @@
 
 .userProfile {
     min-width: 320px;
+    max-width: 430px;
     background-color: $background-color;
     border-radius: 28px;
     overflow: hidden;
@@ -220,7 +221,6 @@
             background-color: transparent;
             align-items: center;
             transition: all 0.5s;
-            cursor: pointer;
 
             .userAvatar {
                 width: 64px;

@@ -38,14 +38,23 @@ export const UserProfile: React.FC<UserProfileProps> = ({user, onClose}) =>{
                 <div className="moreInfo flex g16">
                     <Info2Icon />
                     <div className="moreInfoContent flex column g4">
-                        <div className="moreInfoCard bio flex column">
-                            <span className="phone">{user?.description || "У пользователя отсутствует описание."}</span>
-                            <span className="phone body">Bio</span>
-                        </div>
-                        <div className="moreInfoCard phone flex column">
-                            <span className="phone">{formatPhone(user?.phoneNumber || "") || "+0 000 000 00 00"}</span>
-                            <span className="phone body">Mobile</span>
-                        </div>
+                        {user?.description ? (
+                            <div className="moreInfoCard bio flex column">
+                                <span className="phone">{user.description}</span>
+                                <span className="phone body">Bio</span>
+                            </div>
+                        ) : (
+                            <div className="moreInfoCard bio flex column">
+                                <span className="phone">У пользователя отсутствует описание.</span>
+                                <span className="phone body">Bio</span>
+                            </div>
+                        )}
+                        {user?.phoneNumber ? (
+                            <div className="moreInfoCard phone flex column">
+                                <span className="phone">{formatPhone(user.phoneNumber)}</span>
+                                <span className="phone body">Mobile</span>
+                            </div>
+                        ) : null}
                         <div className="moreInfoCard username flex column">
                             <span className="username" onClick={() => navigator.clipboard.writeText(`@${user?.username}`)}>@{user?.username}</span>
                             <span className="username body">Username</span>

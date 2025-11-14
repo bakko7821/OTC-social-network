@@ -6,11 +6,32 @@ export const getDialogs = async (): Promise<Dialog[]> => {
   if (!token) return [];
 
   try {
-    const res = await axios.get<Dialog[]>(
+    const res = await axios.get(
       "http://localhost:5000/api/messages/dialogs/me",
       { headers: { Authorization: `Bearer ${token}` } }
     );
-    return res.data;
+
+    const raw = res.data;
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const normalized: Dialog[] = raw.map((item: any) => ({
+      user: {
+        id: item.userId,
+        firstname: item.firstname ?? "",
+        lastname: item.lastname ?? "",
+        username: item.username ?? "",
+        phoneNumber: item.phoneNumber ?? "",
+        email: item.email ?? "",
+        description: item.description ?? "",
+        headImage: item.headImage ?? "",
+        avatarImage: item.avatarImage ?? "",
+        online: item.online ?? false
+      },
+      lastMessage: item.lastMessage,
+      lastMessageTime: item.lastMessageTime
+    }));
+
+    return normalized;
   } catch (err) {
     console.error("Ошибка при получении диалогов:", err);
     return [];

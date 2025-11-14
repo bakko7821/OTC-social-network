@@ -11,8 +11,41 @@ interface ChatsProps {
 }
 
 export default function Chats({ onSelect }: ChatsProps) {
-  const [dialogs, setDialogs] = useState<Dialog[]>([]);
-  const [activeChatId, setActiveChatId] = useState<number | null>(null);
+    const currentUserId = Number(localStorage.getItem("userId"))
+    console.log(currentUserId)
+
+    const [dialogs, setDialogs] = useState<Dialog[]>([]);
+    const [activeChatId, setActiveChatId] = useState<number | null>(null);
+
+    useEffect(() => {
+        const handleUserOnline = ({ userId }: { userId: number }) => {
+            setDialogs(prev =>
+            prev.map(d =>
+                d.user.id === userId
+                ? { ...d, user: { ...d.user, online: true } }
+                : d
+            )
+            );
+        };
+
+        const handleUserOffline = ({ userId }: { userId: number }) => {
+            setDialogs(prev =>
+            prev.map(d =>
+                d.user.id === userId
+                ? { ...d, user: { ...d.user, online: false } }
+                : d
+            )
+            );
+        };
+
+        socket.on("user_online", handleUserOnline);
+        socket.on("user_offline", handleUserOffline);
+
+        return () => {
+            socket.off("user_online", handleUserOnline);
+            socket.off("user_offline", handleUserOffline);
+        };
+    }, []);
 
     useEffect(() => {
         const loadDialogs = async () => {
@@ -22,50 +55,40 @@ export default function Chats({ onSelect }: ChatsProps) {
 
         loadDialogs();
 
-        const currentUserId = Number(localStorage.getItem("userId"));
-
         const handleIncoming = async (msg: SocketMessage) => {
+            const isMyMessage = msg.senderId === currentUserId;
+            const otherId = isMyMessage ? msg.receiverId : msg.senderId;
 
-        const isMyMessage = msg.senderId === currentUserId;
+            setDialogs(prev => {
+                const existingDialog = prev.find(d => d.user.id === otherId);
+                let userFromMsg: User;
 
-        const otherId = isMyMessage ? msg.receiverId : msg.senderId;
-
-        const userFromMsg =
-        (msg.sender && msg.senderId === otherId && msg.sender) ||
-        (msg.receiver && msg.receiverId === otherId && msg.receiver) ||
-        undefined;
-
-        const messageText = isMyMessage ? `Вы: ${msg.content}` : msg.content;
-
-        setDialogs((prev) => {
-        const existing = prev.find((d) => d.userId === otherId);
-
-        if (existing) {
-            return prev.map((d) =>
-            d.userId === otherId
-                ? {
-                    ...d,
-                    lastMessage: messageText,
-                    lastMessageTime: msg.createdAt,
-                    username: userFromMsg?.username ?? d.username,
-                    avatarImage: userFromMsg?.avatarImage ?? d.avatarImage,
+                if (!existingDialog) {
+                    return prev;
+                } else {
+                    userFromMsg = existingDialog.user;
                 }
-                : d
-            );
-        } else {
-            const tempDialog: Dialog = {
-                userId: otherId, // id того, с кем диалог
-                username: userFromMsg?.username ?? `Пользователь ${otherId}`,
-                firstname: userFromMsg?.firstname,
-                lastname: userFromMsg?.lastname,
-                avatarImage: userFromMsg?.avatarImage ?? "",
-                lastMessage: messageText,
-                lastMessageTime: msg.createdAt,
-            };
 
-            return [tempDialog, ...prev];
-        }
-        });
+                const messageText = msg.content;
+
+                if (existingDialog) {
+                    return prev.map(d =>
+                        d.user.id === otherId
+                            ? {
+                                ...d,
+                                lastMessage: messageText,
+                                lastMessageTime: msg.createdAt
+                            }
+                            : d
+                    );
+                } else {
+                    return [{
+                        user: userFromMsg,
+                        lastMessage: messageText,
+                        lastMessageTime: msg.createdAt
+                    }, ...prev];
+                }
+            });
         };
 
 
@@ -77,85 +100,75 @@ export default function Chats({ onSelect }: ChatsProps) {
     }, []);
 
     const handleSelect = (user: User) => {
-        console.log(user.username);
         const newDialog: Dialog = {
-            userId: user.id,
-            username: user.username,
-            firstname: user.firstname,
-            lastname: user.lastname,
-            avatarImage: user.avatarImage,
-            online: user.online,
+            user,
             lastMessage: "",
             lastMessageTime: new Date().toISOString(),
         };
 
-        setDialogs((prev) => [newDialog, ...prev]); // добавляем в начало списка
-        onSelect(user); // пробрасываем наверх, если нужно
+        setDialogs((prev) => [newDialog, ...prev]);
+        onSelect(user);
     };
 
     const selectChat = (dialog: Dialog) => {
-        setActiveChatId(dialog.userId);
-        onSelect({
-            id: dialog.userId,
-            username: dialog.username || "",
-            firstname: dialog.firstname || "",
-            lastname: dialog.lastname || "",
-            phoneNumber: "",
-            avatarImage: dialog.avatarImage,
-            email: "",
-            description: "",
-            headImage: "",
-            online: dialog.online || false})
-    }
+        setActiveChatId(dialog.user.id);
 
+        onSelect(dialog.user);
+    };
 
     console.log("Chats render");
+    console.log(dialogs)
 
   return (
-    <div>
+    <>
         <ChatsHeader onSelectUser={handleSelect} />
         {dialogs
-            .slice() // создаём копию, чтобы не мутировать state напрямую
+            .slice()
             .sort((a, b) => {
                 const timeA = new Date(a.lastMessageTime).getTime();
                 const timeB = new Date(b.lastMessageTime).getTime();
                 return timeB - timeA;
             })
-            .map((d) => (
-            <div 
-                key={d.userId} 
-                onClick={() =>
-                    selectChat(d)
-                } 
-                className={d.userId === activeChatId ? "chatCard active flex g8" : "chatCard flex g8"}
-            >
-                <div className="userAvatar flex g8">
-                    <img
-                    src={d?.avatarImage ? `http://localhost:5000${d.avatarImage}` : defaultAvatar}
-                    alt={d.username || "Пользователь"}
-                    />
-                    {d.online && <span className="online-dot" />}
-                </div>
-                <div className="chatCardInfo flex center column">
-                    <div className="chatCardInfoHeader flex between">
-                        <span className="fullname">
-                            {d.firstname || d.lastname
-                            ? `${d.firstname ?? ""} ${d.lastname ?? ""}`.trim()
-                            : d.username || "Без имени"}
-                        </span>
-                        <span className="lastMessageDate">
-                            {d.lastMessageTime
-                            ? new Date(d.lastMessageTime).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
-                            : ""}
+            .map((d) => {
+            if (!d.user) return null;
+            return (
+                <div 
+                    key={d.user.id} 
+                    onClick={() =>
+                        selectChat(d)
+                    } 
+                    className={d.user.id === activeChatId ? "chatCard active flex g8" : "chatCard flex g8"}
+                >
+                    <div className="userAvatar flex g8">
+                        <img
+                        src={d.user.avatarImage ? `http://localhost:5000${d.user.avatarImage}` : defaultAvatar}
+                        alt={d.user.username || "Пользователь"}
+                        />
+                        {d.user.online && <span className="online-dot" />}
+                    </div>
+                    <div className="chatCardInfo flex center column">
+                        <div className="chatCardInfoHeader flex between">
+                            <span className="fullname">
+                                {d.user.firstname || d.user.lastname
+                                ? `${d.user.firstname ?? ""} ${d.user.lastname ?? ""}`.trim()
+                                : d.user.username || "Без имени"}
+                            </span>
+                            <span className="lastMessageDate">
+                                {d.lastMessageTime
+                                ? new Date(d.lastMessageTime).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
+                                : ""}
+                            </span>
+                        </div>
+                        <span className="chatCardInfoContent">
+                            {d.lastMessage
+                                ? (d.user.id === currentUserId ? `Вы: ${d.lastMessage}` : d.lastMessage)
+                                : ""}
                         </span>
                     </div>
-                    <span className="chatCardInfoContent">
-                        {d.lastMessage ? (d.lastMessage.length > 30 ? d.lastMessage.slice(0, 30) + "..." : d.lastMessage) : ""}
-                    </span>
                 </div>
-            </div>
-        ))}
+            )
+        })}
 
-    </div>
+    </>
   );
 }

@@ -16,6 +16,8 @@ export interface MessagesProps {
 export const Messages: React.FC<MessagesProps> = ({receiverId, onOpenProfile}) => {
   console.log("Messages mounted");
 
+  const token = localStorage.getItem("token");
+
   const [messages, setMessages] = useState<MessageRecord[]>([]);
   const currentUserId = Number(localStorage.getItem("userId"));
   const isFetching = useRef(false);
@@ -66,18 +68,33 @@ export const Messages: React.FC<MessagesProps> = ({receiverId, onOpenProfile}) =
   useEffect(() => {
       messagesEndRef.current?.scrollIntoView({ behavior: "auto" });
   }, [messages]);
+  
+  const handleDeleteMessage = async (message: Message) => {
+    try {
+      await fetch(`http://localhost:5000/api/messages/dialogs/${message.id}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
-  const handleDeleteMessage = async (id: number) => {
-    await fetch(`http://localhost:5000/api/messages/dialogs/${id}`, {
-      method: "DELETE",
-    });
+      // Эмитим событие, сервер удалит и разошлёт другим
+      socket.emit("message_deleted", {
+        id: message.id,
+        senderId: message.senderId,
+        receiverId: message.receiverId
+      });
 
-    setMessages((prev) => prev.filter((m) => m.id !== id));
+      // Можно сразу удалить локально, чтобы быстрее обновилось UI
+      setMessages(prev => prev.filter(m => m.id !== message.id));
+
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   const handleEditMessage = async (message: Message, editContent: string) => {
     try {
-      const token = localStorage.getItem("token");
       await axios.put(
         `http://localhost:5000/api/messages/dialogs/${message.id}`,
         { content: editContent },
@@ -122,6 +139,18 @@ export const Messages: React.FC<MessagesProps> = ({receiverId, onOpenProfile}) =
       socket.off("message_updated", handleUpdatedMessage);
     };
   }, []);
+
+  useEffect(() => {
+    const handleDeletedMessage = (deletedId: number) => {
+      setMessages(prev => prev.filter(m => m.id !== deletedId));
+    };
+    
+    socket.on("message_deleted", handleDeletedMessage);
+
+    return () => {
+      socket.off("message_deleted", handleDeletedMessage);
+    };
+}, []);
 
 
   return (

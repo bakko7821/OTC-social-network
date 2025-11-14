@@ -112,7 +112,7 @@ export const EditProfileAlert = ({user, setUser }: EditProfileAlertProps) => {
                     />
                 </div>
                 <div className="textBox flex column center">
-                    <span className="fullname">{user.firstname || "Firstname"} {user.lastname || "Lastname"}</span>
+                    <span className="fullname">{user.firstname || ""} {user.lastname || ""}</span>
                     <span className={user.online ? "onlineStatus active" : "onlineStatus"}>
                         {user.online ? "В сети" : "Не в сети"}
                     </span>

@@ -19,40 +19,44 @@ const PORT = process.env.PORT || 5000;
 io.on("connection", (socket) => {
   const userId = Number(socket.handshake.auth?.userId);
   if (!userId) {
-    console.log("⚠️ Подключение без userId, отключаем сокет");
     socket.disconnect();
     return;
   }
 
   console.log(`🔌 Пользователь ${userId} подключился`);
 
-  // добавляем соединение
   const connections = (onlineUsers.get(userId) || 0) + 1;
   onlineUsers.set(userId, connections);
 
   if (connections === 1) {
     User.update({ online: true }, { where: { id: userId } });
     console.log(`🟢 Пользователь ${userId} стал online`);
+
+    // 🔹 уведомляем всех остальных клиентов, что пользователь онлайн
+    socket.broadcast.emit("user_online", { userId });
   }
 
-  // подключаем к "комнате" по userId
   socket.join(userId.toString());
 
   // === 📩 ОБРАБОТКА ЛИЧНЫХ СООБЩЕНИЙ ===
   socket.on("private_message", async ({ receiverId, content }) => {
-    try {
       const message = await Message.create({
-        senderId: userId,
-        receiverId,
-        content,
+          senderId: userId,
+          receiverId,
+          content,
       });
 
-      // отправляем обоим пользователям
-      io.to(receiverId.toString()).emit("private_message", message);
-      io.to(userId.toString()).emit("private_message", message);
-    } catch (err) {
-      console.error("Ошибка при отправке сообщения:", err);
-    }
+      const sender = await User.findByPk(userId);
+      const receiver = await User.findByPk(receiverId);
+
+      const enrichedMessage = {
+          ...message.toJSON(),
+          sender,
+          receiver
+      };
+
+      io.to(receiverId.toString()).emit("private_message", enrichedMessage);
+      io.to(userId.toString()).emit("private_message", enrichedMessage);
   });
 
   // === ✏️ ОБРАБОТКА РЕДАКТИРОВАНИЯ СООБЩЕНИЙ ===
@@ -82,6 +86,18 @@ io.on("connection", (socket) => {
     }
   });
 
+  socket.on("message_deleted", async ({ id, senderId, receiverId }) => {
+    try {
+
+      io.to(senderId.toString()).emit("message_deleted", id);
+      io.to(receiverId.toString()).emit("message_deleted", id);
+
+      console.log(`Сообщение ${id} удалено`);
+    } catch (err) {
+      console.error("Ошибка при удалении сообщения:", err);
+    }
+  });
+
   // === 🔴 ОБРАБОТКА ОТКЛЮЧЕНИЯ ===
   socket.on("disconnect", async () => {
     console.log(`❌ Пользователь ${userId} отключился`);
@@ -91,6 +107,9 @@ io.on("connection", (socket) => {
       onlineUsers.delete(userId);
       await User.update({ online: false }, { where: { id: userId } });
       console.log(`⚫ Пользователь ${userId} стал offline`);
+
+      // 🔹 уведомляем всех остальных клиентов, что пользователь оффлайн
+      socket.broadcast.emit("user_offline", { userId });
     } else {
       onlineUsers.set(userId, remaining);
     }

@@ -52,6 +52,7 @@
         }
 
         .searchResultBox {
+            z-index: 99;
             background-color: $background-color;
             width: 100%;
             position: absolute;
