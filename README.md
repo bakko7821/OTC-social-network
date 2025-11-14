@@ -45,7 +45,8 @@
 - Загрузка аватара через Multer  
 - Предпросмотр обновлений
 
-![preview](screenshots/editProfile.gif)
+![preview](screenshots/editProfile1.gif)
+![preview](screenshots/editProfile2.gif)
 
 ### 💬 Реальные диалоги  
 - Обмен сообщениями в реальном времени через Socket.IO  
